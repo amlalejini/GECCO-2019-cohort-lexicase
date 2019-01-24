@@ -1,0 +1,2156 @@
+train_input_1,train_output_1
+.,"words of length 1: 1
+number of sentences: 1
+average sentence length: 1.0"
+!,"words of length 1: 1
+number of sentences: 1
+average sentence length: 1.0"
+?,"words of length 1: 1
+number of sentences: 1
+average sentence length: 1.0"
+	.,"words of length 1: 1
+number of sentences: 1
+average sentence length: 1.0"
+"
+!","words of length 1: 1
+number of sentences: 1
+average sentence length: 1.0"
+ ?,"words of length 1: 1
+number of sentences: 1
+average sentence length: 1.0"
+.#,"words of length 1: 0
+words of length 2: 1
+number of sentences: 1
+average sentence length: 1.0"
+"A.
+","words of length 1: 0
+words of length 2: 1
+number of sentences: 1
+average sentence length: 1.0"
+"! 
+","words of length 1: 1
+number of sentences: 1
+average sentence length: 1.0"
+"?	
+","words of length 1: 1
+number of sentences: 1
+average sentence length: 1.0"
+"
+?
+","words of length 1: 1
+number of sentences: 1
+average sentence length: 1.0"
+.!?.!?,"words of length 1: 0
+words of length 2: 0
+words of length 3: 0
+words of length 4: 0
+words of length 5: 0
+words of length 6: 1
+number of sentences: 6
+average sentence length: 0.1666666667"
+.txt,"words of length 1: 0
+words of length 2: 0
+words of length 3: 0
+words of length 4: 1
+number of sentences: 1
+average sentence length: 1.0"
+!RACECAR!,"words of length 1: 0
+words of length 2: 0
+words of length 3: 0
+words of length 4: 0
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 1
+number of sentences: 2
+average sentence length: 0.5"
+www.google.com,"words of length 1: 0
+words of length 2: 0
+words of length 3: 0
+words of length 4: 0
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 1
+number of sentences: 2
+average sentence length: 0.5"
+Pirate basketball? Envelope WARS!,"words of length 1: 0
+words of length 2: 0
+words of length 3: 0
+words of length 4: 0
+words of length 5: 1
+words of length 6: 1
+words of length 7: 0
+words of length 8: 1
+words of length 9: 0
+words of length 10: 0
+words of length 11: 1
+number of sentences: 2
+average sentence length: 2.0"
+.hello there wo.RLD,"words of length 1: 0
+words of length 2: 0
+words of length 3: 0
+words of length 4: 0
+words of length 5: 1
+words of length 6: 2
+number of sentences: 2
+average sentence length: 1.5"
+out. at. the. plate.,"words of length 1: 0
+words of length 2: 0
+words of length 3: 1
+words of length 4: 2
+words of length 5: 0
+words of length 6: 1
+number of sentences: 4
+average sentence length: 1.0"
+nap time on planets!,"words of length 1: 0
+words of length 2: 1
+words of length 3: 1
+words of length 4: 1
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 1
+number of sentences: 1
+average sentence length: 4.0"
+supercalifragilisticexpialidocious?,"words of length 1: 0
+words of length 2: 0
+words of length 3: 0
+words of length 4: 0
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 0
+words of length 15: 0
+words of length 16: 0
+words of length 17: 0
+words of length 18: 0
+words of length 19: 0
+words of length 20: 0
+words of length 21: 0
+words of length 22: 0
+words of length 23: 0
+words of length 24: 0
+words of length 25: 0
+words of length 26: 0
+words of length 27: 0
+words of length 28: 0
+words of length 29: 0
+words of length 30: 0
+words of length 31: 0
+words of length 32: 0
+words of length 33: 0
+words of length 34: 0
+words of length 35: 1
+number of sentences: 1
+average sentence length: 1.0"
+"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.","words of length 1: 1
+number of sentences: 1
+average sentence length: 1.0"
+===================================================================================================?,"words of length 1: 0
+words of length 2: 0
+words of length 3: 0
+words of length 4: 0
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 0
+words of length 15: 0
+words of length 16: 0
+words of length 17: 0
+words of length 18: 0
+words of length 19: 0
+words of length 20: 0
+words of length 21: 0
+words of length 22: 0
+words of length 23: 0
+words of length 24: 0
+words of length 25: 0
+words of length 26: 0
+words of length 27: 0
+words of length 28: 0
+words of length 29: 0
+words of length 30: 0
+words of length 31: 0
+words of length 32: 0
+words of length 33: 0
+words of length 34: 0
+words of length 35: 0
+words of length 36: 0
+words of length 37: 0
+words of length 38: 0
+words of length 39: 0
+words of length 40: 0
+words of length 41: 0
+words of length 42: 0
+words of length 43: 0
+words of length 44: 0
+words of length 45: 0
+words of length 46: 0
+words of length 47: 0
+words of length 48: 0
+words of length 49: 0
+words of length 50: 0
+words of length 51: 0
+words of length 52: 0
+words of length 53: 0
+words of length 54: 0
+words of length 55: 0
+words of length 56: 0
+words of length 57: 0
+words of length 58: 0
+words of length 59: 0
+words of length 60: 0
+words of length 61: 0
+words of length 62: 0
+words of length 63: 0
+words of length 64: 0
+words of length 65: 0
+words of length 66: 0
+words of length 67: 0
+words of length 68: 0
+words of length 69: 0
+words of length 70: 0
+words of length 71: 0
+words of length 72: 0
+words of length 73: 0
+words of length 74: 0
+words of length 75: 0
+words of length 76: 0
+words of length 77: 0
+words of length 78: 0
+words of length 79: 0
+words of length 80: 0
+words of length 81: 0
+words of length 82: 0
+words of length 83: 0
+words of length 84: 0
+words of length 85: 0
+words of length 86: 0
+words of length 87: 0
+words of length 88: 0
+words of length 89: 0
+words of length 90: 0
+words of length 91: 0
+words of length 92: 0
+words of length 93: 0
+words of length 94: 0
+words of length 95: 0
+words of length 96: 0
+words of length 97: 0
+words of length 98: 0
+words of length 99: 0
+words of length 100: 1
+number of sentences: 1
+average sentence length: 1.0"
+!                                                                                                   ,"words of length 1: 1
+number of sentences: 1
+average sentence length: 1.0"
+.hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh,"words of length 1: 0
+words of length 2: 0
+words of length 3: 0
+words of length 4: 0
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 0
+words of length 15: 0
+words of length 16: 0
+words of length 17: 0
+words of length 18: 0
+words of length 19: 0
+words of length 20: 0
+words of length 21: 0
+words of length 22: 0
+words of length 23: 0
+words of length 24: 0
+words of length 25: 0
+words of length 26: 0
+words of length 27: 0
+words of length 28: 0
+words of length 29: 0
+words of length 30: 0
+words of length 31: 0
+words of length 32: 0
+words of length 33: 0
+words of length 34: 0
+words of length 35: 0
+words of length 36: 0
+words of length 37: 0
+words of length 38: 0
+words of length 39: 0
+words of length 40: 0
+words of length 41: 0
+words of length 42: 0
+words of length 43: 0
+words of length 44: 0
+words of length 45: 0
+words of length 46: 0
+words of length 47: 0
+words of length 48: 0
+words of length 49: 0
+words of length 50: 0
+words of length 51: 0
+words of length 52: 0
+words of length 53: 0
+words of length 54: 0
+words of length 55: 0
+words of length 56: 0
+words of length 57: 0
+words of length 58: 0
+words of length 59: 0
+words of length 60: 0
+words of length 61: 0
+words of length 62: 0
+words of length 63: 0
+words of length 64: 0
+words of length 65: 0
+words of length 66: 0
+words of length 67: 0
+words of length 68: 0
+words of length 69: 0
+words of length 70: 0
+words of length 71: 0
+words of length 72: 0
+words of length 73: 0
+words of length 74: 0
+words of length 75: 0
+words of length 76: 0
+words of length 77: 0
+words of length 78: 0
+words of length 79: 0
+words of length 80: 0
+words of length 81: 0
+words of length 82: 0
+words of length 83: 0
+words of length 84: 0
+words of length 85: 0
+words of length 86: 0
+words of length 87: 0
+words of length 88: 0
+words of length 89: 0
+words of length 90: 0
+words of length 91: 0
+words of length 92: 0
+words of length 93: 0
+words of length 94: 0
+words of length 95: 0
+words of length 96: 0
+words of length 97: 0
+words of length 98: 0
+words of length 99: 0
+words of length 100: 1
+number of sentences: 1
+average sentence length: 1.0"
+																																																																																																			?,"words of length 1: 1
+number of sentences: 1
+average sentence length: 1.0"
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@!,"words of length 1: 0
+words of length 2: 0
+words of length 3: 0
+words of length 4: 0
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 0
+words of length 15: 0
+words of length 16: 0
+words of length 17: 0
+words of length 18: 0
+words of length 19: 0
+words of length 20: 0
+words of length 21: 0
+words of length 22: 0
+words of length 23: 0
+words of length 24: 0
+words of length 25: 0
+words of length 26: 0
+words of length 27: 0
+words of length 28: 0
+words of length 29: 0
+words of length 30: 0
+words of length 31: 0
+words of length 32: 0
+words of length 33: 0
+words of length 34: 0
+words of length 35: 0
+words of length 36: 0
+words of length 37: 0
+words of length 38: 0
+words of length 39: 0
+words of length 40: 0
+words of length 41: 0
+words of length 42: 0
+words of length 43: 0
+words of length 44: 0
+words of length 45: 0
+words of length 46: 0
+words of length 47: 0
+words of length 48: 0
+words of length 49: 0
+words of length 50: 0
+words of length 51: 0
+words of length 52: 0
+words of length 53: 0
+words of length 54: 0
+words of length 55: 0
+words of length 56: 0
+words of length 57: 0
+words of length 58: 0
+words of length 59: 0
+words of length 60: 0
+words of length 61: 0
+words of length 62: 0
+words of length 63: 0
+words of length 64: 0
+words of length 65: 0
+words of length 66: 0
+words of length 67: 0
+words of length 68: 0
+words of length 69: 0
+words of length 70: 0
+words of length 71: 0
+words of length 72: 0
+words of length 73: 0
+words of length 74: 0
+words of length 75: 0
+words of length 76: 0
+words of length 77: 0
+words of length 78: 0
+words of length 79: 0
+words of length 80: 0
+words of length 81: 0
+words of length 82: 0
+words of length 83: 0
+words of length 84: 0
+words of length 85: 0
+words of length 86: 0
+words of length 87: 0
+words of length 88: 0
+words of length 89: 0
+words of length 90: 0
+words of length 91: 0
+words of length 92: 0
+words of length 93: 0
+words of length 94: 0
+words of length 95: 0
+words of length 96: 0
+words of length 97: 0
+words of length 98: 0
+words of length 99: 0
+words of length 100: 1
+number of sentences: 1
+average sentence length: 1.0"
+....................................................................................................,"words of length 1: 0
+words of length 2: 0
+words of length 3: 0
+words of length 4: 0
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 0
+words of length 15: 0
+words of length 16: 0
+words of length 17: 0
+words of length 18: 0
+words of length 19: 0
+words of length 20: 0
+words of length 21: 0
+words of length 22: 0
+words of length 23: 0
+words of length 24: 0
+words of length 25: 0
+words of length 26: 0
+words of length 27: 0
+words of length 28: 0
+words of length 29: 0
+words of length 30: 0
+words of length 31: 0
+words of length 32: 0
+words of length 33: 0
+words of length 34: 0
+words of length 35: 0
+words of length 36: 0
+words of length 37: 0
+words of length 38: 0
+words of length 39: 0
+words of length 40: 0
+words of length 41: 0
+words of length 42: 0
+words of length 43: 0
+words of length 44: 0
+words of length 45: 0
+words of length 46: 0
+words of length 47: 0
+words of length 48: 0
+words of length 49: 0
+words of length 50: 0
+words of length 51: 0
+words of length 52: 0
+words of length 53: 0
+words of length 54: 0
+words of length 55: 0
+words of length 56: 0
+words of length 57: 0
+words of length 58: 0
+words of length 59: 0
+words of length 60: 0
+words of length 61: 0
+words of length 62: 0
+words of length 63: 0
+words of length 64: 0
+words of length 65: 0
+words of length 66: 0
+words of length 67: 0
+words of length 68: 0
+words of length 69: 0
+words of length 70: 0
+words of length 71: 0
+words of length 72: 0
+words of length 73: 0
+words of length 74: 0
+words of length 75: 0
+words of length 76: 0
+words of length 77: 0
+words of length 78: 0
+words of length 79: 0
+words of length 80: 0
+words of length 81: 0
+words of length 82: 0
+words of length 83: 0
+words of length 84: 0
+words of length 85: 0
+words of length 86: 0
+words of length 87: 0
+words of length 88: 0
+words of length 89: 0
+words of length 90: 0
+words of length 91: 0
+words of length 92: 0
+words of length 93: 0
+words of length 94: 0
+words of length 95: 0
+words of length 96: 0
+words of length 97: 0
+words of length 98: 0
+words of length 99: 0
+words of length 100: 1
+number of sentences: 100
+average sentence length: 0.01"
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!,"words of length 1: 0
+words of length 2: 0
+words of length 3: 0
+words of length 4: 0
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 0
+words of length 15: 0
+words of length 16: 0
+words of length 17: 0
+words of length 18: 0
+words of length 19: 0
+words of length 20: 0
+words of length 21: 0
+words of length 22: 0
+words of length 23: 0
+words of length 24: 0
+words of length 25: 0
+words of length 26: 0
+words of length 27: 0
+words of length 28: 0
+words of length 29: 0
+words of length 30: 0
+words of length 31: 0
+words of length 32: 0
+words of length 33: 0
+words of length 34: 0
+words of length 35: 0
+words of length 36: 0
+words of length 37: 0
+words of length 38: 0
+words of length 39: 0
+words of length 40: 0
+words of length 41: 0
+words of length 42: 0
+words of length 43: 0
+words of length 44: 0
+words of length 45: 0
+words of length 46: 0
+words of length 47: 0
+words of length 48: 0
+words of length 49: 0
+words of length 50: 0
+words of length 51: 0
+words of length 52: 0
+words of length 53: 0
+words of length 54: 0
+words of length 55: 0
+words of length 56: 0
+words of length 57: 0
+words of length 58: 0
+words of length 59: 0
+words of length 60: 0
+words of length 61: 0
+words of length 62: 0
+words of length 63: 0
+words of length 64: 0
+words of length 65: 0
+words of length 66: 0
+words of length 67: 0
+words of length 68: 0
+words of length 69: 0
+words of length 70: 0
+words of length 71: 0
+words of length 72: 0
+words of length 73: 0
+words of length 74: 0
+words of length 75: 0
+words of length 76: 0
+words of length 77: 0
+words of length 78: 0
+words of length 79: 0
+words of length 80: 0
+words of length 81: 0
+words of length 82: 0
+words of length 83: 0
+words of length 84: 0
+words of length 85: 0
+words of length 86: 0
+words of length 87: 0
+words of length 88: 0
+words of length 89: 0
+words of length 90: 0
+words of length 91: 0
+words of length 92: 0
+words of length 93: 0
+words of length 94: 0
+words of length 95: 0
+words of length 96: 0
+words of length 97: 0
+words of length 98: 0
+words of length 99: 0
+words of length 100: 1
+number of sentences: 100
+average sentence length: 0.01"
+????????????????????????????????????????????????????????????????????????????????????????????????????,"words of length 1: 0
+words of length 2: 0
+words of length 3: 0
+words of length 4: 0
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 0
+words of length 15: 0
+words of length 16: 0
+words of length 17: 0
+words of length 18: 0
+words of length 19: 0
+words of length 20: 0
+words of length 21: 0
+words of length 22: 0
+words of length 23: 0
+words of length 24: 0
+words of length 25: 0
+words of length 26: 0
+words of length 27: 0
+words of length 28: 0
+words of length 29: 0
+words of length 30: 0
+words of length 31: 0
+words of length 32: 0
+words of length 33: 0
+words of length 34: 0
+words of length 35: 0
+words of length 36: 0
+words of length 37: 0
+words of length 38: 0
+words of length 39: 0
+words of length 40: 0
+words of length 41: 0
+words of length 42: 0
+words of length 43: 0
+words of length 44: 0
+words of length 45: 0
+words of length 46: 0
+words of length 47: 0
+words of length 48: 0
+words of length 49: 0
+words of length 50: 0
+words of length 51: 0
+words of length 52: 0
+words of length 53: 0
+words of length 54: 0
+words of length 55: 0
+words of length 56: 0
+words of length 57: 0
+words of length 58: 0
+words of length 59: 0
+words of length 60: 0
+words of length 61: 0
+words of length 62: 0
+words of length 63: 0
+words of length 64: 0
+words of length 65: 0
+words of length 66: 0
+words of length 67: 0
+words of length 68: 0
+words of length 69: 0
+words of length 70: 0
+words of length 71: 0
+words of length 72: 0
+words of length 73: 0
+words of length 74: 0
+words of length 75: 0
+words of length 76: 0
+words of length 77: 0
+words of length 78: 0
+words of length 79: 0
+words of length 80: 0
+words of length 81: 0
+words of length 82: 0
+words of length 83: 0
+words of length 84: 0
+words of length 85: 0
+words of length 86: 0
+words of length 87: 0
+words of length 88: 0
+words of length 89: 0
+words of length 90: 0
+words of length 91: 0
+words of length 92: 0
+words of length 93: 0
+words of length 94: 0
+words of length 95: 0
+words of length 96: 0
+words of length 97: 0
+words of length 98: 0
+words of length 99: 0
+words of length 100: 1
+number of sentences: 100
+average sentence length: 0.01"
+".
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+","words of length 1: 50
+number of sentences: 50
+average sentence length: 1.0"
+"?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?
+
+?","words of length 1: 34
+number of sentences: 34
+average sentence length: 1.0"
+"!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!D
+!","words of length 1: 1
+words of length 2: 33
+number of sentences: 34
+average sentence length: 1.0"
+! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ,"words of length 1: 50
+number of sentences: 50
+average sentence length: 1.0"
+.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	.	,"words of length 1: 50
+number of sentences: 50
+average sentence length: 1.0"
+"?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ?
+y ","words of length 1: 50
+number of sentences: 25
+average sentence length: 2.0"
+5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!5!,"words of length 1: 0
+words of length 2: 0
+words of length 3: 0
+words of length 4: 0
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 0
+words of length 15: 0
+words of length 16: 0
+words of length 17: 0
+words of length 18: 0
+words of length 19: 0
+words of length 20: 0
+words of length 21: 0
+words of length 22: 0
+words of length 23: 0
+words of length 24: 0
+words of length 25: 0
+words of length 26: 0
+words of length 27: 0
+words of length 28: 0
+words of length 29: 0
+words of length 30: 0
+words of length 31: 0
+words of length 32: 0
+words of length 33: 0
+words of length 34: 0
+words of length 35: 0
+words of length 36: 0
+words of length 37: 0
+words of length 38: 0
+words of length 39: 0
+words of length 40: 0
+words of length 41: 0
+words of length 42: 0
+words of length 43: 0
+words of length 44: 0
+words of length 45: 0
+words of length 46: 0
+words of length 47: 0
+words of length 48: 0
+words of length 49: 0
+words of length 50: 0
+words of length 51: 0
+words of length 52: 0
+words of length 53: 0
+words of length 54: 0
+words of length 55: 0
+words of length 56: 0
+words of length 57: 0
+words of length 58: 0
+words of length 59: 0
+words of length 60: 0
+words of length 61: 0
+words of length 62: 0
+words of length 63: 0
+words of length 64: 0
+words of length 65: 0
+words of length 66: 0
+words of length 67: 0
+words of length 68: 0
+words of length 69: 0
+words of length 70: 0
+words of length 71: 0
+words of length 72: 0
+words of length 73: 0
+words of length 74: 0
+words of length 75: 0
+words of length 76: 0
+words of length 77: 0
+words of length 78: 0
+words of length 79: 0
+words of length 80: 0
+words of length 81: 0
+words of length 82: 0
+words of length 83: 0
+words of length 84: 0
+words of length 85: 0
+words of length 86: 0
+words of length 87: 0
+words of length 88: 0
+words of length 89: 0
+words of length 90: 0
+words of length 91: 0
+words of length 92: 0
+words of length 93: 0
+words of length 94: 0
+words of length 95: 0
+words of length 96: 0
+words of length 97: 0
+words of length 98: 0
+words of length 99: 0
+words of length 100: 1
+number of sentences: 50
+average sentence length: 0.02"
+" M	
+
+l .]k  %rG	\}8r 
+k  UZ!  L4G 
+.w
+ Ej+ uf2e >O	l?R 9`z?<?\.","words of length 1: 3
+words of length 2: 2
+words of length 3: 6
+words of length 4: 2
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 1
+number of sentences: 7
+average sentence length: 2.0"
+"
+h?.`m
+F !Z fZVl.!J H!@
+q?/=S|","words of length 1: 1
+words of length 2: 1
+words of length 3: 1
+words of length 4: 0
+words of length 5: 1
+words of length 6: 1
+words of length 7: 1
+number of sentences: 7
+average sentence length: 0.8571428571"
+"?nW2!a '	 n1.hirp`s  lH)!? 7bJ/ ?;.VU) v(1]9""a.7  HX]Or=r
+jh9""?`;r sQ \  {) j!""s :.
+X?  L[8 ","words of length 1: 2
+words of length 2: 4
+words of length 3: 1
+words of length 4: 2
+words of length 5: 1
+words of length 6: 2
+words of length 7: 1
+words of length 8: 1
+words of length 9: 2
+number of sentences: 12
+average sentence length: 1.3333333333"
+"V
+uE) l6. b~rQ 	 H +p","words of length 1: 2
+words of length 2: 1
+words of length 3: 2
+words of length 4: 1
+number of sentences: 1
+average sentence length: 6.0"
+"Q ;!4 C 
+x1+.^i
+vD+","words of length 1: 2
+words of length 2: 0
+words of length 3: 2
+words of length 4: 0
+words of length 5: 0
+words of length 6: 1
+number of sentences: 2
+average sentence length: 2.5"
+"o.
+l 
+N6!C ? m
+ 3o@1Q
+\DG J-`! .
+_  (N.G*J).rJ""b
+ !?\M? >}YnFf) .V9TZI","words of length 1: 5
+words of length 2: 1
+words of length 3: 1
+words of length 4: 2
+words of length 5: 2
+words of length 6: 1
+words of length 7: 1
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 1
+number of sentences: 11
+average sentence length: 1.2727272727"
+?.  qWc$ 8  z2!Yg+ .!?j:)|V  DAv r2,"words of length 1: 1
+words of length 2: 2
+words of length 3: 1
+words of length 4: 1
+words of length 5: 0
+words of length 6: 1
+words of length 7: 0
+words of length 8: 1
+number of sentences: 6
+average sentence length: 1.1666666667"
+"Jm34
+_""Xz{t[   [!Sn@4  SN~ 1z$eJ}:? }oNRGK|.
+. 4 ,y\^.6!.=9!d u` \!!0
+K(!3","words of length 1: 2
+words of length 2: 1
+words of length 3: 1
+words of length 4: 3
+words of length 5: 0
+words of length 6: 1
+words of length 7: 1
+words of length 8: 2
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 1
+number of sentences: 11
+average sentence length: 1.0909090909"
+"/TxWVP6A@ 4idO T""# %f?ihf
+ T?ri!Pn   ;!&?^^	J  8 ! .  |jX@.?o7^..?w +z p {2zmX5","words of length 1: 5
+words of length 2: 1
+words of length 3: 1
+words of length 4: 1
+words of length 5: 0
+words of length 6: 3
+words of length 7: 1
+words of length 8: 0
+words of length 9: 1
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 1
+number of sentences: 12
+average sentence length: 1.1666666667"
+" q} 	 ^ !&9oiC
+ 	I4GS8p.?&h
+su .TFR +4  + =
+5IU5*	jV*y","words of length 1: 3
+words of length 2: 3
+words of length 3: 0
+words of length 4: 2
+words of length 5: 1
+words of length 6: 1
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 1
+number of sentences: 4
+average sentence length: 2.75"
+" !n 
+  v?","words of length 1: 0
+words of length 2: 2
+number of sentences: 2
+average sentence length: 1.0"
+"G )N \sIE   P::*:	/	 0.)<. !?7!LPb!ifb6:.sB 	-!mX  
+[=u""< p7 [Z.!A>  ","words of length 1: 2
+words of length 2: 2
+words of length 3: 0
+words of length 4: 2
+words of length 5: 3
+words of length 6: 1
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 0
+words of length 15: 0
+words of length 16: 1
+number of sentences: 10
+average sentence length: 1.1"
+"=^)l`k&N? ;	 +G
+yh3
+?BE. +h2uI  hX-Z N. |=
+5t S Wb. ~ o
+h
+ f
+","words of length 1: 6
+words of length 2: 4
+words of length 3: 2
+words of length 4: 2
+words of length 5: 1
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 1
+number of sentences: 5
+average sentence length: 3.2"
+" 3*(`
+  C  ?KBF&%uTw	p a- 4X!W4w?f V.c(?! F![Z(x 6*m/  &cI *N	[vHR]#abg2!,:?
+ !","words of length 1: 3
+words of length 2: 2
+words of length 3: 1
+words of length 4: 2
+words of length 5: 0
+words of length 6: 2
+words of length 7: 0
+words of length 8: 1
+words of length 9: 1
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 1
+number of sentences: 10
+average sentence length: 1.3"
+"a%
+!.!$NU
+!!>V6y1?.q. Q0`L).L  n;cRsVg
+>,& ","words of length 1: 0
+words of length 2: 1
+words of length 3: 1
+words of length 4: 0
+words of length 5: 0
+words of length 6: 1
+words of length 7: 2
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 1
+number of sentences: 9
+average sentence length: 0.6666666667"
+?O? L^}35,"words of length 1: 0
+words of length 2: 0
+words of length 3: 1
+words of length 4: 0
+words of length 5: 1
+number of sentences: 2
+average sentence length: 1.0"
+""" , A
+^r tLl {# rMT b[>WN^I
+
+*g\D|oZ@O&WJm/J`c?N
+m?2!S+rLx}Qhr!D)t5	 zD`?zF","words of length 1: 3
+words of length 2: 2
+words of length 3: 2
+words of length 4: 0
+words of length 5: 0
+words of length 6: 1
+words of length 7: 1
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 0
+words of length 15: 0
+words of length 16: 0
+words of length 17: 0
+words of length 18: 1
+words of length 19: 1
+number of sentences: 5
+average sentence length: 2.2"
+"s
+ ?.
+  !
+0
+?!Ej!D ?!!4  ; /hm)""
+D6!.?:@ )>?  Gv!  !&(7  .m9]  _`!.?48&7VN W>zM
+| p7O ","words of length 1: 5
+words of length 2: 1
+words of length 3: 3
+words of length 4: 4
+words of length 5: 1
+words of length 6: 1
+words of length 7: 1
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 1
+number of sentences: 19
+average sentence length: 0.8947368421"
+"q n.M/$!GAVp.4-%!m -!!.4qvI 4TQ? 
+m o  >Jyx cy  rd-A
+T9zj?4)?uS!d.du<h`tka-{+8.!3bz# ","words of length 1: 3
+words of length 2: 1
+words of length 3: 0
+words of length 4: 3
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 1
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 0
+words of length 15: 0
+words of length 16: 1
+words of length 17: 0
+words of length 18: 0
+words of length 19: 0
+words of length 20: 0
+words of length 21: 0
+words of length 22: 0
+words of length 23: 0
+words of length 24: 0
+words of length 25: 0
+words of length 26: 0
+words of length 27: 0
+words of length 28: 0
+words of length 29: 0
+words of length 30: 0
+words of length 31: 1
+number of sentences: 14
+average sentence length: 0.7142857143"
+"  wTk{D
+a64	3f  zL6v
+. P!","words of length 1: 1
+words of length 2: 2
+words of length 3: 1
+words of length 4: 1
+words of length 5: 1
+number of sentences: 2
+average sentence length: 3.0"
+"Y>	` Dr/+x@ %zaN3e)o.+{/` !$.U(  q mg 
+Kn?)Y?   w~9ZK ?  $ g7    x x?r1=  +#.B;
+W  2Q,
+ ","words of length 1: 6
+words of length 2: 3
+words of length 3: 1
+words of length 4: 0
+words of length 5: 4
+words of length 6: 2
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 1
+number of sentences: 8
+average sentence length: 2.125"
+"
+ln#
+5e*CaVb
+V1=!!Dp.# O
+T","words of length 1: 2
+words of length 2: 0
+words of length 3: 1
+words of length 4: 0
+words of length 5: 0
+words of length 6: 0
+words of length 7: 1
+words of length 8: 0
+words of length 9: 1
+number of sentences: 3
+average sentence length: 1.6666666667"
+"h_C  !ZJ16>[~!N
+~ n [U
+? .","words of length 1: 4
+words of length 2: 1
+words of length 3: 1
+words of length 4: 0
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 1
+number of sentences: 4
+average sentence length: 1.75"
+"S?S1L .*$W ?! H"" UH CY w	YGr%- N~
+","words of length 1: 1
+words of length 2: 5
+words of length 3: 0
+words of length 4: 1
+words of length 5: 2
+number of sentences: 4
+average sentence length: 2.25"
+".U' 
+<w^w '
+4 S_7|h4uTb ~A;..@?!. 
+cm  z3!	","words of length 1: 2
+words of length 2: 1
+words of length 3: 2
+words of length 4: 1
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 2
+number of sentences: 7
+average sentence length: 1.1428571429"
+{pdW.. ,"words of length 1: 0
+words of length 2: 0
+words of length 3: 0
+words of length 4: 0
+words of length 5: 0
+words of length 6: 1
+number of sentences: 2
+average sentence length: 0.5"
+"  }? ?UBm2mcH F.E}VG# O?uj k:   |P U? .] n/
+!?Iz{e K^(B *w  5d1:xd >lxzGY+5Y9!%V6 qs! ^
+?LC^=","words of length 1: 1
+words of length 2: 7
+words of length 3: 1
+words of length 4: 2
+words of length 5: 1
+words of length 6: 2
+words of length 7: 1
+words of length 8: 1
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 1
+number of sentences: 11
+average sentence length: 1.5454545455"
+"g#8p??JG;_0c:?[ gl[ @ $!qz; iQ r6#EP.5nj
+,L^g2 lJ <] xq3","words of length 1: 1
+words of length 2: 3
+words of length 3: 2
+words of length 4: 0
+words of length 5: 2
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 1
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 0
+words of length 15: 1
+number of sentences: 5
+average sentence length: 2.0"
+"M 'w  .b:= 0 G!%B
+7J> 	_quF*:&-A?P ?>
+ QZIEeH #8?yk+r  ??ci?. ""o{V40  !#O..  E6 .]&L !
+ 3. / ","words of length 1: 4
+words of length 2: 4
+words of length 3: 1
+words of length 4: 3
+words of length 5: 1
+words of length 6: 3
+words of length 7: 1
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 1
+number of sentences: 15
+average sentence length: 1.2"
+" I;z  ..Ra(wBh;3B=!
+#? !$	F{ Y?    !5.0.? tX !l,eRG 8 =r.?4Prr_.ET !y Fz kTD.
+: ","words of length 1: 2
+words of length 2: 7
+words of length 3: 1
+words of length 4: 1
+words of length 5: 0
+words of length 6: 2
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 1
+words of length 13: 1
+number of sentences: 16
+average sentence length: 0.9375"
+.}V?OKdG#.=UT&W.&,"words of length 1: 0
+words of length 2: 0
+words of length 3: 0
+words of length 4: 0
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 0
+words of length 15: 0
+words of length 16: 0
+words of length 17: 1
+number of sentences: 4
+average sentence length: 0.25"
+"LK(
+
+; 
+H1@ k J5 .#;A8N ? m\?V ??I=.G	CI= ? m!2w;Y  ` vA""8c","words of length 1: 5
+words of length 2: 1
+words of length 3: 3
+words of length 4: 1
+words of length 5: 1
+words of length 6: 3
+number of sentences: 8
+average sentence length: 1.75"
+"r]T!ysng  	""^cm0sCkS  Dqh? e 
+.?=Qe??Y 
+ 2 88 ?1A$xhM	x H! Z&0L 2V !
+
+# &^
+
+
+?Z ","words of length 1: 5
+words of length 2: 5
+words of length 3: 0
+words of length 4: 2
+words of length 5: 0
+words of length 6: 0
+words of length 7: 1
+words of length 8: 2
+words of length 9: 1
+number of sentences: 10
+average sentence length: 1.6"
+"L e ? . Xt
+h
+.
+[ q4?v""	 ??E5?","words of length 1: 7
+words of length 2: 1
+words of length 3: 0
+words of length 4: 0
+words of length 5: 2
+number of sentences: 7
+average sentence length: 1.4285714286"
+"5'?V@z{k	A*(Ry=_.O]
+*# we	K 
+kt.!`Ab[.X!?(2 n'
+ T? )  ?D2Z","words of length 1: 2
+words of length 2: 4
+words of length 3: 0
+words of length 4: 1
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 1
+words of length 9: 0
+words of length 10: 1
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 1
+number of sentences: 9
+average sentence length: 1.1111111111"
+"; Zq?o>tp_x?@tc Nr R. 5I6!X|!\d+m	
+\:Z .qf EW1.m
+0L R?x ?!a ( ! \z_4b","words of length 1: 3
+words of length 2: 3
+words of length 3: 4
+words of length 4: 0
+words of length 5: 2
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 1
+words of length 12: 0
+words of length 13: 1
+number of sentences: 11
+average sentence length: 1.2727272727"
+~0*j^#c! S,"words of length 1: 1
+words of length 2: 0
+words of length 3: 0
+words of length 4: 0
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 1
+number of sentences: 1
+average sentence length: 2.0"
+"nQ[Ss   Wx P
+	F
+\g ?ZA`>}|?o!#_FA
+ L &A4! p.+!oK_;bY]Xv~
+3YS~P ?{S0W!<.w  T  om k  9 Zk3V	=. :","words of length 1: 7
+words of length 2: 4
+words of length 3: 0
+words of length 4: 2
+words of length 5: 2
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 1
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 2
+number of sentences: 10
+average sentence length: 1.8"
+"z.	 
+ $xE!m #fe,,5V.9
+` {
+v^ o]? N?a5!O?!
+ Vj","words of length 1: 2
+words of length 2: 3
+words of length 3: 1
+words of length 4: 0
+words of length 5: 1
+words of length 6: 0
+words of length 7: 0
+words of length 8: 1
+words of length 9: 1
+number of sentences: 8
+average sentence length: 1.125"
+" )>f5;8+ -o
+ %Ej}
+j?ateW Rg.#  0  ! }E w TC 5cB?
+","words of length 1: 3
+words of length 2: 3
+words of length 3: 0
+words of length 4: 3
+words of length 5: 0
+words of length 6: 1
+words of length 7: 1
+number of sentences: 4
+average sentence length: 2.75"
+" ?}@D
+???[hol zs.?xy {4 V.iY;yuVSv Vl B_ 
+rcG j.@5 ?r ^	
+S9U U! 
+:.
+?!}GVVVm
+-.]
+","words of length 1: 1
+words of length 2: 6
+words of length 3: 3
+words of length 4: 2
+words of length 5: 0
+words of length 6: 1
+words of length 7: 1
+words of length 8: 1
+words of length 9: 0
+words of length 10: 1
+number of sentences: 14
+average sentence length: 1.1428571429"
+? ,"words of length 1: 1
+number of sentences: 1
+average sentence length: 1.0"
+"vP ?n
+ l-6,'@vck V$
+.?  Wwg 2&. ?D !%# ?@~!5?!.! .IM E =OB8 U'GMb, TfTR$~&ze\L!#!D~?p3/V K2O) ","words of length 1: 1
+words of length 2: 5
+words of length 3: 4
+words of length 4: 2
+words of length 5: 0
+words of length 6: 1
+words of length 7: 0
+words of length 8: 0
+words of length 9: 2
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 0
+words of length 15: 0
+words of length 16: 0
+words of length 17: 0
+words of length 18: 0
+words of length 19: 0
+words of length 20: 0
+words of length 21: 1
+number of sentences: 16
+average sentence length: 1.0"
+"ca	 z>amok\ ?{ h. ![
+?!S?'! 8YRaP^e#f5JF.K <GVS B7l$?DQ !","words of length 1: 1
+words of length 2: 4
+words of length 3: 0
+words of length 4: 1
+words of length 5: 0
+words of length 6: 1
+words of length 7: 2
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 1
+number of sentences: 10
+average sentence length: 1.0"
+".fn/
+z$.'N
+\ E3Lr.
+,)o K
+@ oC . A 
+.P n? ! .>	 %}.Ab>  (
+9?7W Z?>BaK` Xs Vmc.@  B{v.:","words of length 1: 7
+words of length 2: 5
+words of length 3: 1
+words of length 4: 2
+words of length 5: 4
+words of length 6: 1
+words of length 7: 1
+number of sentences: 13
+average sentence length: 1.6153846154"
+" #c>en_
+mUV~K mbb
+hj^e Y 
+4(l  V |h? iUg ]  m?  t~%,2/8MiuQ:y#P|iiq|  
+B
+.?6B??M
+F^
+yBLOPV
+@j^t","words of length 1: 4
+words of length 2: 2
+words of length 3: 4
+words of length 4: 2
+words of length 5: 1
+words of length 6: 2
+words of length 7: 1
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 0
+words of length 15: 0
+words of length 16: 0
+words of length 17: 0
+words of length 18: 0
+words of length 19: 0
+words of length 20: 1
+number of sentences: 6
+average sentence length: 2.8333333333"
+"	 T  ?q  3-.	r
+w n0
+  [ <#Bwv
+J!v?nB/<@ zF!z#{ >  Dh#s:J %IUB	sJ0I
+?!.kp	J/
+Y
+ 7s<\}! VG. ,r~   { 7","words of length 1: 8
+words of length 2: 3
+words of length 3: 3
+words of length 4: 2
+words of length 5: 2
+words of length 6: 3
+words of length 7: 0
+words of length 8: 0
+words of length 9: 1
+number of sentences: 10
+average sentence length: 2.2"
+"T /yjWI M
+ ^PVYt 
+J$:
+
+H Alhs
+
+wf~89 }    g Y9:AkS?M
+!  +) z e>mT sAc.+&7 &( 
+	?,\3U3)L?_3","words of length 1: 7
+words of length 2: 2
+words of length 3: 1
+words of length 4: 2
+words of length 5: 3
+words of length 6: 0
+words of length 7: 1
+words of length 8: 1
+words of length 9: 0
+words of length 10: 0
+words of length 11: 1
+number of sentences: 5
+average sentence length: 3.6"
+".1K]s# _P!$MM_b9Ap +AR <R7??1B 
+Q!T 1uAK$;s
+ % :!:! p +  
+AY  S?*wLHG!
+!.
+RC VXNC Q] YF.(	 !-2?c","words of length 1: 3
+words of length 2: 4
+words of length 3: 2
+words of length 4: 3
+words of length 5: 1
+words of length 6: 1
+words of length 7: 2
+words of length 8: 1
+words of length 9: 0
+words of length 10: 0
+words of length 11: 1
+number of sentences: 14
+average sentence length: 1.2857142857"
+0\? X9Ml!,"words of length 1: 0
+words of length 2: 0
+words of length 3: 1
+words of length 4: 0
+words of length 5: 1
+number of sentences: 2
+average sentence length: 1.0"
+" .!Kf6YS nhM?` .as?!. p	E >
+|9 x 1}O(WAw7{ kb.H! u1  ?uQ0 2","words of length 1: 5
+words of length 2: 2
+words of length 3: 0
+words of length 4: 1
+words of length 5: 2
+words of length 6: 1
+words of length 7: 1
+words of length 8: 0
+words of length 9: 1
+number of sentences: 10
+average sentence length: 1.3"
+" iY xoy4
++""   xfUtc!/T@X1. rO_5fh""  Yl \EC.7{	4? .!  Ai. U
+pZ""].s","words of length 1: 1
+words of length 2: 5
+words of length 3: 1
+words of length 4: 1
+words of length 5: 0
+words of length 6: 2
+words of length 7: 1
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 1
+number of sentences: 8
+average sentence length: 1.5"
+"! i5e
+&,H !* v `Najc XA4s  cg8,?|2"".7I}1ax! #v6 /Zo k
+^6E/
+ {#.v-
+%wq9(	XR $.
+ 
+ykP  
+s?f;kyHJ??t","words of length 1: 3
+words of length 2: 3
+words of length 3: 5
+words of length 4: 2
+words of length 5: 3
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 1
+words of length 12: 0
+words of length 13: 0
+words of length 14: 0
+words of length 15: 0
+words of length 16: 1
+number of sentences: 10
+average sentence length: 1.8"
+"]? \  o|L])&zbPjw7
+p u'x? 
+""r?-^	  x} p 2 \  x6eb<HXh3    ?  , c J U4psF !M/    on['_ ","words of length 1: 9
+words of length 2: 2
+words of length 3: 1
+words of length 4: 1
+words of length 5: 3
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 1
+words of length 10: 0
+words of length 11: 0
+words of length 12: 1
+number of sentences: 5
+average sentence length: 3.6"
+"gcf N!v
+ S k@ r
+.~	 T~ )","words of length 1: 3
+words of length 2: 3
+words of length 3: 2
+number of sentences: 2
+average sentence length: 4.0"
+o.,"words of length 1: 0
+words of length 2: 1
+number of sentences: 1
+average sentence length: 1.0"
+"Wh~u o./O lh.5
+b
+e
+!QbWi}!N3 ?\Jp ?. h.F 
+w} |  NOJ {#VR(-?[> ?I:7bVX
+! 	7T  n
+K $!( 	
+","words of length 1: 6
+words of length 2: 3
+words of length 3: 3
+words of length 4: 4
+words of length 5: 0
+words of length 6: 0
+words of length 7: 1
+words of length 8: 0
+words of length 9: 2
+number of sentences: 12
+average sentence length: 1.5833333333"
+"M._!1X
+oFES 0.k
+h	","words of length 1: 1
+words of length 2: 0
+words of length 3: 1
+words of length 4: 1
+words of length 5: 0
+words of length 6: 1
+number of sentences: 3
+average sentence length: 1.3333333333"
+"x@U )44?4eGz
+L% V$J?x !"" 0i? 
+ ~1$?-
+7 ~B
+] +z B?P`
+y !*f lP f  ","words of length 1: 4
+words of length 2: 5
+words of length 3: 3
+words of length 4: 1
+words of length 5: 2
+words of length 6: 0
+words of length 7: 0
+words of length 8: 1
+number of sentences: 7
+average sentence length: 2.2857142857"
+=U>W.??k~k;&o:/!! ,"words of length 1: 0
+words of length 2: 0
+words of length 3: 0
+words of length 4: 0
+words of length 5: 0
+words of length 6: 0
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 0
+words of length 15: 0
+words of length 16: 0
+words of length 17: 1
+number of sentences: 5
+average sentence length: 0.2"
+" .M 5nZh ??nZMH~[8Pb: Y/ ^7= @=?	?R@Ho%? `5 .# 
+","words of length 1: 0
+words of length 2: 4
+words of length 3: 2
+words of length 4: 1
+words of length 5: 0
+words of length 6: 0
+words of length 7: 1
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 1
+number of sentences: 7
+average sentence length: 1.2857142857"
+"% *aJY[jpr pbmkOg?r|? 3  LZ#'!q6K.!hg l fUtA	h!L\
+
+ (ru1~a` )4 3S^","words of length 1: 3
+words of length 2: 1
+words of length 3: 1
+words of length 4: 2
+words of length 5: 0
+words of length 6: 0
+words of length 7: 1
+words of length 8: 1
+words of length 9: 0
+words of length 10: 1
+words of length 11: 0
+words of length 12: 1
+number of sentences: 6
+average sentence length: 1.8333333333"
+"	 8J,
+r%sZi l39Xn42 b ?!NNf!
+gl.H 	 
+z1(
+ Qg-m?!xq	 f?  ZPRxA. .$)A  !<,d[4ZOw ^ 
+
+ W ","words of length 1: 3
+words of length 2: 1
+words of length 3: 2
+words of length 4: 2
+words of length 5: 1
+words of length 6: 2
+words of length 7: 1
+words of length 8: 1
+words of length 9: 1
+number of sentences: 10
+average sentence length: 1.4"
+"R@5Nek  .a?0g?g?q_LGd#-
+N)v/:x","words of length 1: 0
+words of length 2: 0
+words of length 3: 0
+words of length 4: 0
+words of length 5: 0
+words of length 6: 2
+words of length 7: 0
+words of length 8: 0
+words of length 9: 0
+words of length 10: 0
+words of length 11: 0
+words of length 12: 0
+words of length 13: 0
+words of length 14: 0
+words of length 15: 1
+number of sentences: 4
+average sentence length: 0.75"

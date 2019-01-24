@@ -1,0 +1,450 @@
+train_input_1,train_input_2,train_output_1
+,,
+,hi,
+ThereWorld,,
+A,A,
+B,C,0 B C
+&,#,0 & #
+4,456789,
+rat,hat,0 r h
+new,net,2 w t
+big,bag,1 i a
+STOP,SIGN,"1 T I
+2 O G
+3 P N"
+abcde,a,
+abcde,abcde,
+abcde,edcba,"0 a e
+1 b d
+3 d b
+4 e a"
+2n,nn,0 2 n
+hi,zipper,0 h z
+dealer,dollars,"1 e o
+2 a l
+4 e a"
+nacho,cheese,"0 n c
+1 a h
+2 c e
+3 h e
+4 o s"
+loud,louder,
+qwertyuiop,asdfghjkl;,"0 q a
+1 w s
+2 e d
+3 r f
+4 t g
+5 y h
+6 u j
+7 i k
+8 o l
+9 p ;"
+LALALALALA,LLLLLLLLLL,"1 A L
+3 A L
+5 A L
+7 A L
+9 A L"
+!!!!!!,.?.,"0 ! .
+1 ! ?
+2 ! ."
+9r2334,9223d4r,"1 r 2
+4 3 d"
+WellWell,wellwell,"0 W w
+4 W w"
+TakeThat!,TAKETHAT!!,"1 a A
+2 k K
+3 e E
+5 h H
+6 a A
+7 t T"
+CHOCOLATE^,CHOCOLATE^,
+ssssssssss,~~~~~~~~~~,"0 s ~
+1 s ~
+2 s ~
+3 s ~
+4 s ~
+5 s ~
+6 s ~
+7 s ~
+8 s ~
+9 s ~"
+>_=]>_=]>_,q_q_q_q_q_,"0 > q
+2 = q
+3 ] _
+4 > q
+6 = q
+7 ] _
+8 > q"
+()()()()(),pp)pp)pp)p,"0 ( p
+1 ) p
+2 ( )
+3 ) p
+4 ( p
+6 ( p
+7 ) p
+8 ( )
+9 ) p"
+HaHaHaHaHa,HiHiHiHiHi,"1 a i
+3 a i
+5 a i
+7 a i
+9 a i"
+L+#B,L+#:,3 B :
+.\0q=A<',.\0qCA<'=,4 = C
+CG},CG,
+YsTUiY,Yj4U,"1 s j
+2 T 4"
+m@T,m!T,1 @ !
+/7[xJ06|,/7ax'hm,"2 [ a
+4 J '
+5 0 h
+6 6 m"
+?XK12/t,?XK72/9P,"3 1 7
+6 t 9"
+k#Ens,kpETs,"1 # p
+3 n T"
+m2N%T[,m~N%M[,"1 2 ~
+4 T M"
+Gm^18E>K,03lz8/>K,"0 G 0
+1 m 3
+2 ^ l
+3 1 z
+5 E /"
+Dx'e{,*G'j{D,"0 D *
+1 x G
+3 e j"
+aN&]Of6,cN&]Mf6,"0 a c
+4 O M"
+"(aRDW^\5,+","raADW^\5,+","0 ( r
+2 R A"
+d~,[~,0 d [
+P+Yet!,"`N,Gt!6","0 P `
+1 + N
+2 Y ,
+3 e G"
+2h@X80,2h@X80^,
+%tX,%tX,
+EE4=,oEI,"0 E o
+2 4 I"
+"""%!","""%",
+n^\LE,n^oK7,"2 \ o
+3 L K
+4 E 7"
+P-,P--,
+\WlX6m-P~,\WlX6m-BD,"7 P B
+8 ~ D"
+Yirq\af?2,Yir(0af?,"3 q (
+4 \ 0"
+ZQvi,rjvr,"0 Z r
+1 Q j
+3 i r"
+mM,mM,
+<rJ,<rP=,2 J P
+:(7,:(7,
+^9]mM,D9CIM,"0 ^ D
+2 ] C
+3 m I"
+"A<FoYrVA,5","AO`o!rVA,T","1 < O
+2 F `
+4 Y !
+9 5 T"
+o5r,o5r,
+$n/Mw:V$,pn/pw:V,"0 $ p
+3 M p"
+)[c,)[c2,
+"LX<D/o;p,",UU<s/o;p2,"0 L U
+1 X U
+3 D s
+8 , 2"
+^M%g,OM!g,"0 ^ O
+2 % !"
+b,b8,
+xlZ,jlZT,0 x j
+qB{b<y|,q7*b<y|,"1 B 7
+2 { *"
+XO8,5O8,0 X 5
+"B;k?_""[?#","+;]i_""[?R","0 B +
+2 k ]
+3 ? i
+8 # R"
+Vo,>n$,"0 V >
+1 o n"
+K@,K/wC,1 @ /
+No,N,
+,XGv,
+"3=,",3=,
+U,U:9[(Lf6=J,
+a:G=*?oF,o:2=*?o.#,"0 a o
+2 G 2
+7 F ."
+w]O,x],0 w x
+|/\qRs*,"""A\\RB*","0 | ""
+1 / A
+3 q \
+5 s B"
+$M&',$M&',
+"lfCC""/DE","lfCC""/D:",7 E :
+r}{QF{k^d.,r|{QF{/^d.,"1 } |
+6 k /"
+4Tb_QC,4_m'o=,"1 T _
+2 b m
+3 _ '
+4 Q o
+5 C ="
+{sKwV=k/,{sKwBl3v,"4 V B
+5 = l
+6 k 3
+7 / v"
+{n',on',0 { o
+6mrLK(,KmrWK(,"0 6 K
+3 L W"
+rH^\#lB,rH<,2 ^ <
+~*W:,~*W|,3 : |
+Q7~s7C,&q~s7C,"0 Q &
+1 7 q"
+pXe&I`>,pXeeI`>,3 & e
+qe2XF.,qe2XZJm,"4 F Z
+5 . J"
+p>;,pz;,1 > z
+~Y8,"~Y:g~,9",2 8 :
+z&v],=&t]K,"0 z =
+2 v t"
+,Wr*(f<,
+|?trh,|?trhe,
+WrH-nZ&,WeH7UZ3,"1 r e
+3 - 7
+4 n U
+6 & 3"
+M1[2>w2X,{1[2VU2X,"0 M {
+4 > V
+5 w U"
+~9M0]gg-[,~9McNgg-t,"3 0 c
+4 ] N
+8 [ t"
+.LY,_'C,"0 . _
+1 L '
+2 Y C"
+8u;Qc!#Q=,|o;Qc!#Q%f,"0 8 |
+1 u o
+8 = %"
+H]fU=},H],
+]zr,]zr,
+nkt(*,nkt(,
+ac,ac+,
+uA<>NQsf!,u\v>%6Aq!,"1 A \
+2 < v
+4 N %
+5 Q 6
+6 s A
+7 f q"
+F1,F,
+5e(L,.apL,"0 5 .
+1 e a
+2 ( p"
+7Sb,7SM`,2 b M
+(Y.PD,(RX5Dx,"1 Y R
+2 . X
+3 P 5"
+YnL|/EXU,YAL,1 n A
+U|s*u6M.,J|s*uEMx,"0 U J
+5 6 E
+7 . x"
+}MB8o9@-,{MB8o9M+,"0 } {
+6 @ M
+7 - +"
+mxsAiL|F,mVsTiLJdA,"1 x V
+3 A T
+6 | J
+7 F d"
+X{T,X{,
++F.9&O2,"+:,93^2","1 F :
+2 . ,
+4 & 3
+5 O ^"
+"}\F$""W:}","}?FJ""(:1","1 \ ?
+3 $ J
+5 W (
+7 } 1"
+8z%CXx\,8L)CXb,"1 z L
+2 % )
+5 x b"
+4CQg~ai4>,4CQg~aqx>,"6 i q
+7 4 x"
+n$,n,
+=6XE\0Y,=6XEM0,4 \ M
+CV7CeD,CV7eeD,3 C e
+"&l""C","&l""$",3 C $
+t$1&9`^SQt,tm1597^<]t,"1 $ m
+3 & 5
+5 ` 7
+7 S <
+8 Q ]"
+"oP>'LL,z","oP5YLL,v","2 > 5
+3 ' Y
+7 z v"
+&H,,
+dy,dy,
+Dc,Dl7,1 c l
+38x</`~,g8z</`c,"0 3 g
+2 x z
+6 ~ c"
+e?S7yU_,e?{7QU_,"2 S {
+4 y Q"
+,@(6,
+G#Cn3H5K|N,G6Cn3.5jPz,"1 # 6
+5 H .
+7 K j
+8 | P
+9 N z"
+"?,",?,
+Ts9$A8p,|s90A8p,"0 T |
+3 $ 0"
+-*7',O*uB,"0 - O
+2 7 u
+3 ' B"
+>i>+llr-Q,>O>+IlA-Q,"1 i O
+4 l I
+6 r A"
+scZ,DcZ,0 s D
+pP,pA,1 P A
+k2`/k,k.$/,"1 2 .
+2 ` $"
+BS|*gRy),BR$*g;yP,"1 S R
+2 | $
+5 R ;
+7 ) P"
+C,C9,
+jMb`W,jAw`r1,"1 M A
+2 b w
+4 W r"
+""";d;Xr30G",""";dkXr30G",3 ; k
+CWwId,CkwI,1 W k
+"cbr'""P)wt#","cb:3""P+Ht","2 r :
+3 ' 3
+6 ) +
+7 w H"
+#NexnZJ,gNe;nZJ,"0 # g
+3 x ;"
+rh,iZq,"0 r i
+1 h Z"
+hM^P#d{,hM^PRd,4 # R
+"N@,Z9",NF1Z9,"1 @ F
+2 , 1"
+ou_k&,U%(k&|,"0 o U
+1 u %
+2 _ ("
+@XXI1,@XSI;,"2 X S
+4 1 ;"
+[o]`j58,Bo]`=QQ,"0 [ B
+4 j =
+5 5 Q
+6 8 Q"
+kp:V,kp#,2 : #
+T:D?_R,T:D?4!h,"4 _ 4
+5 R !"
+9<(iD,H<Cg(,"0 9 H
+2 ( C
+3 i g
+4 D ("
+(&Z`-Xh,(&Z`-/hd,5 X /
+yn,Qn,0 y Q
+QTF\ElT};,xT$;ElT}y,"0 Q x
+2 F $
+3 \ ;
+8 ; y"
+asr^,asr,
+3&^w~DC],3&^w~DF,6 C F
+gWqEq,&xqE\},"0 g &
+1 W x
+4 q \"
+"T""","T"";",
+"I""vlp","h""vlG","0 I h
+4 p G"
+O#+RN<Gg],OiuRN<Gg,"1 # i
+2 + u"
+Ql}jFof,[@ZjFof,"0 Q [
+1 l @
+2 } Z"
+vYX:yoZ,v)X:y;|,"1 Y )
+5 o ;
+6 Z |"
+','0,
+zpm,zp,
+yB8[4,%%8[4,"0 y %
+1 B %"
+p61hR^j6v^,p61hRLt6v,"5 ^ L
+6 j t"
+l2gWQb!;?,d[gb#b!;?j,"0 l d
+1 2 [
+3 W b
+4 Q #"
+h2,h2,
+<vZD$726s,%v)*$7gT,"0 < %
+2 Z )
+3 D *
+6 2 g
+7 6 T"
+R,R',
+K/=tWOQ`h,_/wt\IW`h,"0 K _
+2 = w
+4 W \
+5 O I
+6 Q W"
+#]9^?(w,#]Xv?(i,"2 9 X
+3 ^ v
+6 w i"
+ph/mfe_~/c,ph%mfe0~/6,"2 / %
+6 _ 0
+9 c 6"
+%/j,%/2,2 j 2
+"LlDAVE,E",Llg')I1E,"2 D g
+3 A '
+4 V )
+5 E I
+6 , 1"
+MC@,Mg@,1 C g
+=Sghl,=Jghl*,1 S J
+`!JURKs,`&JURK=,"1 ! &
+6 s ="
+"+am""N0r","+aH""N0r",2 m H
+@0[uw,UG[uZ,"0 @ U
+1 0 G
+4 w Z"
+kUrSE,kxoSEr,"1 U x
+2 r o"
+v;+g?,v;+,
+"""!8""g=(WL","""!8""`=xNL","4 g `
+6 ( x
+7 W N"
+Q6-=R*,Q\-=R|9,"1 6 \
+5 * |"
+sLqf>1,>Lqf>E,"0 s >
+5 1 E"
+4X,4,
+"7""0&3ST","M""D03eT","0 7 M
+2 0 D
+3 & 0
+5 S e"
+9z,LiVM*d%L,"0 9 L
+1 z i"
+",rH",",rH",
+"VXQt""x)m",9:ht7xFo,"0 V 9
+1 X :
+2 Q h
+4 "" 7
+6 ) F
+7 m o"
+d<:&XzzdKH,^<Q&Xzz&KH,"0 d ^
+2 : Q
+7 d &"
+3T#-`}MTd,3$#-`KMDd,"1 T $
+5 } K
+7 T D"
+0d,0d7,
+V1@F,$4@F<,"0 V $
+1 1 4"
+Gm],Tm],0 G T
+yoH}&@2q,g}HU&@2q,"0 y g
+1 o }
+3 } U"
+j-NA,j-N,
