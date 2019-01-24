@@ -1,0 +1,28 @@
+# Job Submission Notes
+
+## Holes
+
+== Treatment: PROBLEM_smallest__SEL_DOWN_SAMPLE_TESTS__CN_128__CS_4 ==
+  MIN RID: 15351
+  MAX RID: 15390
+  Best guess at missing runs: [15361, 15362, 15363, 15364, 15365, 15366, 15367, 15368, 15369, 15370]
+== Treatment: PROBLEM_smallest__SEL_DOWN_SAMPLE_TESTS__CN_64__CS_8 ==
+  MIN RID: 15301
+  MAX RID: 15350
+  Best guess at missing runs: [15331, 15332, 15333, 15334, 15335, 15336, 15337, 15338, 15339, 15340]
+== Treatment: PROBLEM_smallest__SEL_TRUNCATED__CN_16__CS_32 ==
+  MIN RID: 16227
+  MAX RID: 16230
+  Best guess at missing runs: []
+== Treatment: PROBLEM_smallest__SEL_TRUNCATED__CN_32__CS_16 ==
+  MIN RID: 16272
+  MAX RID: 16300
+  Best guess at missing runs: [16273, 16274]
+== Treatment: PROBLEM_smallest__SEL_TRUNCATED__CN_8__CS_64 ==
+  MIN RID: 16151
+  MAX RID: 16200
+  Best guess at missing runs: [16185, 16186, 16187, 16188, 16189, 16190, 16191, 16192, 16193, 16194]
+== Treatment: PROBLEM_sum-of-squares__SEL_DOWN_SAMPLE_TESTS__CN_4__CS_128 ==
+  MIN RID: 19101
+  MAX RID: 19150
+  Best guess at missing runs: [19134]
