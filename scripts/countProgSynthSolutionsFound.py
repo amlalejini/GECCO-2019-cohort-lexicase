@@ -1,6 +1,19 @@
 
 import argparse, os, copy, errno, csv
 
+cohort_configs = {
+    "CN_128__CS_4": "cn128:cs4",
+    "CN_16__CS_32": "cn16:cs32",
+    "CN_1__CS_512": "cn1:cs512",
+    "CN_256__CS_2": "cn256:cs2",
+    "CN_2__CS_256": "cn2:cs256",
+    "CN_32__CS_16": "cn32:cs16",
+    "CN_4__CS_128": "cn4:cs128",
+    "CN_64__CS_8": "cn64:cs8",
+    "CN_8__CS_64": "cn8:cs64"
+}
+
+
 parser = argparse.ArgumentParser(description="Data aggregation script.")
 parser.add_argument("data_file", type=str, help="Target data file")
 args = parser.parse_args()
@@ -33,12 +46,20 @@ for sol in solutions:
     info_by_treatment[treatment]["uses_cohorts"] = sol[header_lu["uses_cohorts"]]
     info_by_treatment[treatment]["problem"] = sol[header_lu["problem"]]
 
-solutions_summary = "treatment,test_mode,problem,uses_cohorts,solutions_found,total_runs,min_solution_size\n"
+    cohort_config = None
+    for thing in cohort_configs:
+        if thing in treatment: cohort_config = cohort_configs[thing]
+    if cohort_config == None: 
+        print("Unrecognized cohort config! Exiting.")
+        exit()
+    info_by_treatment[treatment]["cohort_config"] = cohort_config
+
+solutions_summary = "treatment,test_mode,cohort_config,problem,uses_cohorts,solutions_found,total_runs,min_solution_size\n"
 for treatment in info_by_treatment:
     info = info_by_treatment[treatment]
     print(treatment)
     test_mode = treatment.split("__")[1].replace("TESTS_", "")
-    solutions_summary += ",".join(map(str, [treatment, test_mode, info["problem"], info["uses_cohorts"], info["solutions_found"], info["total_runs"], info["min_solution_length"]])) + "\n"
+    solutions_summary += ",".join(map(str, [treatment, test_mode, info["cohort_config"], info["problem"], info["uses_cohorts"], info["solutions_found"], info["total_runs"], info["min_solution_length"]])) + "\n"
 
 new_name = fpath.split("/")[-1].strip(".csv") + "__solutions_summary.csv"
 with open(new_name, "w") as fp:
