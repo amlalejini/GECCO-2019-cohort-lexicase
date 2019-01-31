@@ -54,6 +54,7 @@ ggplot(data=data.frame(x=c(0.0, 0.95)), mapping=aes(x=x)) +
   # stat_function(fun=expected_gens, n=100, args=list(num_cohorts = 128), aes(colour="128 cohorts")) +
   # stat_function(fun=expected_gens, n=100, args=list(num_cohorts = 256), aes(colour="256 cohorts")) +
   ylab("Expected Generations") + xlab("Proportion of tests encountered by a lineage") +
+  xlim(0.0, 0.95) + 
   scale_color_discrete("# Cohorts", limits= c("2 cohorts", "4 cohorts", "8 cohorts")) + 
   ggsave("expected_generations.pdf")
 
