@@ -1,0 +1,131 @@
+---
+title: "Teasing Apart Cohort Lexicase Selection"
+output: 
+  html_document: 
+    keep_md: true
+    toc: true
+    toc_float: true
+    collapsed: false
+    theme: default
+  pdf_document: default
+---
+
+## Dependencies
+
+```{r}
+library(readr)
+library(tidyr)
+library(ggplot2)
+library(plyr)
+library(reshape2)
+library(cowplot)
+library(rcompanion)
+
+source("https://gist.githubusercontent.com/benmarwick/2a1bb0133ff568cbe28d/raw/fb53bd97121f7f9ce947837ef1a4c65a73bffb3f/geom_flat_violin.R")
+```
+
+## Load data
+
+```{r}
+# Load data for final experiment runs.
+solutions_u100_data_loc <- "../data/exp-data/min_programs__update_100.csv"
+solutions_u100_summary_data_loc <- "../data/exp-data/min_programs__update_100__solutions_summary.csv"
+
+solutions_u300_data_loc <- "../data/exp-data/min_programs__update_300.csv"
+solutions_u300_summary_data_loc <- "../data/exp-data/min_programs__update_300__solutions_summary.csv"
+
+solutions_e26214400_data_loc <- "../data/exp-data/min_programs__eval_26214400.csv"
+solutions_e26214400_summary_data_loc <- "../data/exp-data/min_programs__eval_26214400__solutions_summary.csv"
+
+solutions_e78643200_data_loc <- "../data/exp-data/min_programs__eval_78643200__modified.csv"
+solutions_e78643200_summary_data_loc <- "../data/exp-data/min_programs__eval_78643200__solutions_summary.csv"
+
+prog_solutions_u100 <- read.csv(solutions_u100_data_loc, na.strings = "NONE")
+prog_solutions_u100_summary <- read.csv(solutions_u100_summary_data_loc, na.strings = "NONE")
+
+prog_solutions_u300 <- read.csv(solutions_u300_data_loc, na.strings = "NONE")
+prog_solutions_u300_summary <- read.csv(solutions_u300_summary_data_loc, na.strings = "NONE")
+
+prog_solutions_e26214400 <- read.csv(solutions_e26214400_data_loc, na.strings = "NONE")
+prog_solutions_e26214400_summary <- read.csv(solutions_e26214400_summary_data_loc, na.strings = "NONE")
+
+prog_solutions_e78643200 <- read.csv(solutions_e78643200_data_loc, na.strings = "NONE")
+prog_solutions_e78643200_summary <- read.csv(solutions_e78643200_summary_data_loc, na.strings = "NONE")
+```
+
+
+```{r}
+ggplot(data = filter(prog_solutions_e78643200_summary, problem != "sum-of-squares" & cohort_config=="cn8:cs64"), mapping=aes(x=test_mode, y=solutions_found, fill=test_mode)) +
+    geom_bar(stat="identity") + xlab("Problem") + ylab("Successful Runs")  +  ylim(0, 52) +
+    guides(fill=FALSE)+
+    geom_text(aes(label=solutions_found), nudge_y=2) + 
+    coord_flip() + facet_wrap( ~ problem, nrow=1) + ggtitle("78643200 evaluations") + 
+    ggsave("tease-apart-cn8-cs64.pdf", height=5, width=15)
+
+
+
+# ggplot(data = filter(prog_solutions_u300_summary, test_mode=="SEL_COHORT_LEX" & problem != "sum-of-squares"), mapping=aes(x=cohort_config, y=solutions_found, fill=cohort_config)) +
+#     geom_bar(stat="identity") + xlab("K (number of cohorts)") + ylab("Successful Runs")  +  ylim(0, 52) +
+#     scale_x_discrete(labels = c("1", "2", "4", "8", "16", "32", "64", "128", "256"), limits = c("cn1:cs512", "cn2:cs256", "cn4:cs128", "cn8:cs64", "cn16:cs32", "cn32:cs16", "cn64:cs8", "cn128:cs4", "cn256:cs2")) +
+#     guides(fill=FALSE)+
+#     geom_text(aes(label=solutions_found), nudge_y=2) + 
+#     theme(axis.text.x=element_text(size=10), axis.title.x = element_text(size=10)) + 
+#     coord_flip() + facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
+#     theme(strip.text.x = element_text(size = 9)) + 
+#     ggtitle("300 Generations") + ggsave("fixed-gens-performance.pdf", height=5, width=15)
+```
+
+## Problem - Compare String Lengths
+
+
+```{r}
+ggplot(data = filter(prog_solutions_e78643200_summary, problem == "compare-string-lengths" & cohort_config!="cn1:cs512"), mapping=aes(x=test_mode, y=solutions_found, fill=test_mode)) +
+    geom_bar(stat="identity") + xlab("Problem") + ylab("Successful Runs")  +  ylim(0, 52) +
+    guides(fill=FALSE)+
+    geom_text(aes(label=solutions_found), nudge_y=2) + 
+    coord_flip() + facet_wrap( ~ cohort_config) + ggtitle("78643200 evaluations")
+```
+
+## Problem - For Loop Index
+
+
+```{r}
+ggplot(data = filter(prog_solutions_e78643200_summary, problem == "for-loop-index" & cohort_config!="cn1:cs512"), mapping=aes(x=test_mode, y=solutions_found, fill=test_mode)) +
+    geom_bar(stat="identity") + xlab("Problem") + ylab("Successful Runs")  +  ylim(0, 52) +
+    guides(fill=FALSE)+
+    geom_text(aes(label=solutions_found), nudge_y=2) + 
+    coord_flip() + facet_wrap( ~ cohort_config) + ggtitle("78643200 evaluations")
+```
+
+## Problem - Median
+
+
+```{r}
+ggplot(data = filter(prog_solutions_e78643200_summary, problem == "median" & cohort_config!="cn1:cs512"), mapping=aes(x=test_mode, y=solutions_found, fill=test_mode)) +
+    geom_bar(stat="identity") + xlab("Problem") + ylab("Successful Runs")  +  ylim(0, 52) +
+    guides(fill=FALSE)+
+    geom_text(aes(label=solutions_found), nudge_y=2) + 
+    coord_flip() + facet_wrap( ~ cohort_config) + ggtitle("78643200 evaluations")
+```
+
+## Problem - Small Or Large
+
+
+```{r}
+ggplot(data = filter(prog_solutions_e78643200_summary, problem == "small-or-large" & cohort_config!="cn1:cs512"), mapping=aes(x=test_mode, y=solutions_found, fill=test_mode)) +
+    geom_bar(stat="identity") + xlab("Problem") + ylab("Successful Runs")  +  ylim(0, 52) +
+    guides(fill=FALSE) +
+    geom_text(aes(label=solutions_found), nudge_y=2) + 
+    coord_flip() + facet_wrap( ~ cohort_config) + ggtitle("78643200 evaluations")
+```
+
+## Problem - Smallest
+
+
+```{r}
+ggplot(data = filter(prog_solutions_e78643200_summary, problem == "smallest" & cohort_config!="cn1:cs512"), mapping=aes(x=test_mode, y=solutions_found, fill=test_mode)) +
+    geom_bar(stat="identity") + xlab("Problem") + ylab("Successful Runs")  +  ylim(0, 52) +
+    guides(fill=FALSE)+
+    geom_text(aes(label=solutions_found), nudge_y=2) + 
+    coord_flip() + facet_wrap( ~ cohort_config) + ggtitle("78643200 evaluations")
+```
