@@ -22,11 +22,12 @@ library(readr)
 
 # Load full data set
 all_cohort_data <- read_csv("../data/diversity-data/all_cohort_data.csv")
+all_cohort_data$K <- 512/all_cohort_data$PROG_COHORT_SIZE
 all_cohort_data$PROBLEM <- as.factor(all_cohort_data$PROBLEM)
 all_cohort_data$PROG_SELECTION_MODE <- as.factor(all_cohort_data$PROG_SELECTION_MODE)
 all_cohort_data$TEST_SELECTION_MODE <- as.factor(all_cohort_data$TEST_SELECTION_MODE)
 all_cohort_data$EVALUATION_MODE <- as.factor(all_cohort_data$EVALUATION_MODE)
-all_cohort_data$PROG_COHORT_SIZE <- as.factor(all_cohort_data$PROG_COHORT_SIZE)
+
 
 # For doing stats on just the final time point for each run
 all_cohort_data_endpoints <- all_cohort_data %>% group_by(SEED) %>% filter(generation == max(generation))
@@ -34,11 +35,13 @@ all_cohort_data_endpoints <- all_cohort_data %>% group_by(SEED) %>% filter(gener
 # Load data set from time point in each run when problem was solved (or end if problem wasn't solved)
 all_cohort_data_time_solved <- read_csv("../data/diversity-data/all_cohort_data_time_solved.csv")
 colnames(all_cohort_data_time_solved)[1] <- "generation" # Because I screwed up the pandas header output
+
+all_cohort_data_time_solved$K <- 512/all_cohort_data_time_solved$PROG_COHORT_SIZE
 all_cohort_data_time_solved$PROBLEM <- as.factor(all_cohort_data_time_solved$PROBLEM)
 all_cohort_data_time_solved$PROG_SELECTION_MODE <- as.factor(all_cohort_data_time_solved$PROG_SELECTION_MODE)
 all_cohort_data_time_solved$TEST_SELECTION_MODE <- as.factor(all_cohort_data_time_solved$TEST_SELECTION_MODE)
 all_cohort_data_time_solved$EVALUATION_MODE <- as.factor(all_cohort_data_time_solved$EVALUATION_MODE)
-all_cohort_data_time_solved$PROG_COHORT_SIZE <- as.factor(all_cohort_data_time_solved$PROG_COHORT_SIZE)
+
 ```
 
 Okay, let's look at the data!
@@ -252,7 +255,7 @@ ggplot(all_cohort_data %>% filter(PROG_SELECTION_MODE == 1), aes(x=prog_gen_sys_
 ## Stats
 
 ```{r}
-summary(lm(prog_gen_sys_current_phylogenetic_diversity/generation ~ as.numeric(PROG_COHORT_SIZE),data=all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1)))
+summary(lm(prog_phenotype_diversity_unique_behavioral_phenotypes ~ K,data=all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1, PROBLEM != "sum-of-squares")))
 ```
 
 Unsurprisingly, per-generation phylogenetic diversity varies significantly with cohort size. Each additional cohort member increases phylogenetic diveristy by almost 1 (i.e. it means there is one additional node added to the minimal spanning tree per generation)
@@ -297,5 +300,12 @@ ggplot(all_cohort_data_time_solved %>% filter(PROBLEM != "sum-of-squares"), aes(
 
 ```{r}
 ggplot(all_cohort_data_time_solved %>% filter(PROG_COHORT_SIZE %in% c(256,512)), aes(x=PROG_SELECTION_MODE,group=interaction(PROG_SELECTION_MODE,PROG_COHORT_SIZE),color=PROG_COHORT_SIZE, y=prog_gen_sys_ave_depth/generation)) + theme_classic() + geom_boxplot(notch = TRUE) + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+## Figures for paper
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1, PROBLEM != "sum-of-squares"), aes(x=as.factor(K),group=as.factor(K),color=as.factor(K), y=prog_phenotype_diversity_unique_behavioral_phenotypes)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none") + stat_summary(fun.data="mean_cl_boot") + scale_x_discrete()
 
 ```
