@@ -468,14 +468,6 @@ pairwise.wilcox.test(x=eval_data$evaluation_first_solution_found, g=eval_data$co
 #### Problem - Smallest
 
 ```{r}
-# ggplot(filter(prog_solutions_e78643200, problem=="smallest" & sel_mode == "cohort lex"), mapping=aes(x=cohort_config, y=evaluation_first_solution_found, fill=cohort_config, colour=cohort_config)) +
-#     geom_flat_violin(position=position_nudge(x=.2, y=0), adjust=2) +
-#     geom_point(position = position_jitter(width = .15), size = .25) +
-#     geom_boxplot(aes(x = cohort_config, y = evaluation_first_solution_found),outlier.shape = NA, alpha = 0.3, width = .1, colour = "BLACK") +
-#     ylab("Evaluations Required To Find Solution") + ylim(0, 78643200) + xlab("Cohort Configuration") + coord_flip() + guides(fill=FALSE, colour=FALSE) +
-#     scale_x_discrete(limits = c("cn1:cs512", "cn2:cs256", "cn4:cs128", "cn8:cs64", "cn16:cs32", "cn32:cs16", "cn64:cs8", "cn128:cs4", "cn256:cs2")) +
-#     ggtitle("Number of evaluations before a solution was found\nSmallest")
-# 
 
 ggplot(filter(prog_solutions_e78643200, problem=="smallest" & sel_mode == "cohort lex"), mapping=aes(x=cohort_config, y=evaluation_first_solution_found, fill=cohort_config, colour=cohort_config)) +
     geom_flat_violin(position=position_nudge(x=.2, y=0), adjust=2) +
@@ -506,3 +498,28 @@ df<-as.data.frame(x=cfgs)
 df$medians<-meds
 arrange(df, meds)
 ```
+
+#### Faceted By problem
+```{r}
+# early_plt <- ggplot(data = filter(prog_solutions_e26214400_summary, test_mode=="SEL_COHORT_LEX" & problem != "sum-of-squares"), mapping=aes(x=cohort_config, y=solutions_found, fill=cohort_config)) +
+#     geom_bar(stat="identity") + xlab("K (number of cohorts)") + ylab("Successful Runs")  +  ylim(0, 58) +
+#     scale_x_discrete(labels = c("1", "2", "4", "8", "16", "32", "64", "128", "256"), limits = c("cn1:cs512", "cn2:cs256", "cn4:cs128", "cn8:cs64", "cn16:cs32", "cn32:cs16", "cn64:cs8", "cn128:cs4", "cn256:cs2")) +
+#     guides(fill=FALSE)+
+#     geom_text(aes(label=solutions_found), nudge_y=2) + 
+#     theme(axis.text.x=element_text(size=10), axis.title.x = element_text(size=10)) + 
+#     coord_flip() + facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
+#     theme(strip.text.x = element_text(size = 9)) + 
+#     ggtitle("26214400 Evaluations")
+
+ggplot(filter(prog_solutions_e78643200, sel_mode == "cohort lex" & problem!="sum-of-squares"), mapping=aes(x=cohort_config, y=evaluation_first_solution_found, fill=cohort_config, colour=cohort_config)) +
+    # geom_point(position = position_jitter(width = .15), size = .25) +
+    geom_boxplot(aes(x = cohort_config, y = evaluation_first_solution_found), alpha = 0.3) +
+    ylab("Test Case Evaluations") + ylim(0, 78643200) + xlab("K (number of cohorts)") +  guides(fill=FALSE, colour=FALSE) +
+    scale_x_discrete(labels = c("1", "2", "4", "8", "16", "32", "64", "128", "256"), limits = c("cn1:cs512", "cn2:cs256", "cn4:cs128", "cn8:cs64", "cn16:cs32", "cn32:cs16", "cn64:cs8", "cn128:cs4", "cn256:cs2")) +
+    ggtitle("Number of evaluations before first solution found") + 
+    facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) +
+    theme(axis.text.x=element_text(size=10), axis.title.x = element_text(size=10)) + 
+    theme(strip.text.x = element_text(size = 9)) + 
+    ggsave("faceted-first-eval-sol-found.pdf", height=7, width=15)
+```
+

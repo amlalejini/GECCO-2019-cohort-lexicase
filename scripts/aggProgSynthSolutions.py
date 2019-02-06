@@ -9,7 +9,19 @@ import argparse, os, copy, errno, csv
 
 default_update = 10000
 
-problem_whitelist = ["grade", "number-io", "for-loop-index", "median", "smallest", "small-or-large", "compare-string-lengths", "sum-of-squares"]
+problem_whitelist = ["grade", "number-io", "for-loop-index", "median", "smallest", "small-or-large", "compare-string-lengths"]
+
+cohort_configs = {
+    "CN_128__CS_4": "cn128:cs4",
+    "CN_16__CS_32": "cn16:cs32",
+    "CN_1__CS_512": "cn1:cs512",
+    "CN_256__CS_2": "cn256:cs2",
+    "CN_2__CS_256": "cn2:cs256",
+    "CN_32__CS_16": "cn32:cs16",
+    "CN_4__CS_128": "cn4:cs128",
+    "CN_64__CS_8": "cn64:cs8",
+    "CN_8__CS_64": "cn8:cs64"
+}
 
 def mkdir_p(path):
     """
@@ -21,6 +33,27 @@ def mkdir_p(path):
         if exc.errno == errno.EEXIST and os.path.isdir(path):
             pass
         else: raise
+
+def FixDownSampledEval(treatment, e, u):
+    cohort_config = None
+    for thing in cohort_configs:
+        if thing in treatment: cohort_config = cohort_configs[thing]
+    if cohort_config == None: 
+        print("Unrecognized cohort config! Exiting.")
+        exit()
+   
+    # fixing it now.
+    if ("SEL_DOWN_SAMPLE_TESTS" in treatment):
+        cn = float(cohort_config.split(":")[0][2:])
+        cs = float(cohort_config.split(":")[1][2:])
+        # u_eval_found = int(sol[header_lu["update_found"]])
+        # u_eval_first_sol_found = int(sol[header_lu["update_first_solution_found"]])
+        
+        # evaluation_found = (cn * cs * cs)*u_eval_found
+        # evaluation_first_solution_found = (cn * cs * cs)*u_eval_first_sol_found
+        return (cn * cs * cs)*u
+    else:
+        return e
 
 def main():
     parser = argparse.ArgumentParser(description="Data aggregation script.")
@@ -68,6 +101,11 @@ def main():
             file_content = file_content[1:]
             
             solutions = [l for l in csv.reader(file_content, quotechar='"', delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)]
+            for i in range(0, len(solutions)):
+                sol_evaluation = float(solutions[i][header_lu["evaluations"]])
+                sol_update = float(solutions[i][header_lu["update"]])
+                sol_evaluation = FixDownSampledEval(treatment, e=sol_evaluation, u=sol_update)
+                solutions[i][header_lu["evaluations"]] = str(sol_evaluation)
             # Add smallest solution to smallest solution doc
             min_program = None
             sol_found = False
@@ -132,6 +170,12 @@ def main():
             file_content = file_content[1:]
             
             solutions = [l for l in csv.reader(file_content, quotechar='"', delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)]
+            for i in range(0, len(solutions)):
+                sol_evaluation = float(solutions[i][header_lu["evaluations"]])
+                sol_update = float(solutions[i][header_lu["update"]])
+                sol_evaluation = FixDownSampledEval(treatment, e=sol_evaluation, u=sol_update)
+                solutions[i][header_lu["evaluations"]] = str(sol_evaluation)
+
             # Add smallest solution to smallest solution doc
             min_program = None
             sol_found = False
@@ -140,6 +184,7 @@ def main():
                 # Find the smallest program
                 for i in range(0, len(solutions)):
                     sol_evaluation = float(solutions[i][header_lu["evaluations"]])
+                    sol_update = float(solutions[i][header_lu["update"]])
                     if sol_evaluation > evaluations: continue
                     if min_program == None:
                         min_program = i
