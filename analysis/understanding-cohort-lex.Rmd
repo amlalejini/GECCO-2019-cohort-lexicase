@@ -1,0 +1,271 @@
+---
+title: "Cohort Lexicase Data Analyses Pt. 2"
+output: 
+  html_document: 
+    keep_md: yes
+    toc: true
+    toc_float: true
+    toc_depth: 4
+    collapsed: false
+    theme: default
+  pdf_document:
+    toc: true
+    toc_depth: 4
+---
+
+## Overview
+
+Here, an overview of what we do in this here document.
+
+## Analysis Setup
+
+First, we'll load our R packages.
+
+```{r, message=FALSE}
+library(tidyr)      # (Wickham & Henry, 2018)
+library(ggplot2)    # (Wickham, 2009)
+library(plyr)       # (Wickham, 2011)
+library(dplyr)      # (Wickham et al., 2018)
+library(cowplot)    # (Wilke, 2018)
+library(readr)
+library(rcompanion) # (Mangiafico, 2019)
+```
+
+## Data Loading
+
+Note, the path information used here is accurate for the directory structure used in our Git repository (LINK ANONYMIZED).
+
+First, we'll load solution data after a fixed number of _evaluations_:
+
+```{r}
+# (1) After 26214400 total evaluations (100 generations of std lex)
+solutions_e26214400_data_loc <- "../data/exp-data/min_programs__eval_26214400.csv"
+prog_solutions_e26214400 <- read.csv(solutions_e26214400_data_loc, na.strings = "NONE")
+
+# (2) After 78643200 total evaluations (300 generations of std lex)
+solutions_e78643200_data_loc <- "../data/exp-data/min_programs__eval_78643200.csv"
+prog_solutions_e78643200 <- read.csv(solutions_e78643200_data_loc, na.strings = "NONE")
+
+# (3) Load summary of solution data (contingency tables), which contains both time points.
+prog_solutions_evals_summary <- read.csv("../data/exp-data/min_programs__eval_all__solutions_summary.csv", na.strings = "NONE")
+```
+
+Next, we'll load solution data after a fixed number of _generations_:
+
+```{r}
+# (1) After 100 generations (for all conditions)
+solutions_u100_data_loc <- "../data/exp-data/min_programs__update_100.csv"
+prog_solutions_u100 <- read.csv(solutions_u100_data_loc, na.strings = "NONE")
+
+# (2) After 300 generations (for all conditions)
+solutions_u300_data_loc <- "../data/exp-data/min_programs__update_300.csv"
+prog_solutions_u300 <- read.csv(solutions_u300_data_loc, na.strings = "NONE")
+
+# (3) Load summary of solution data (contingency tables), which contains both time points.
+prog_solutions_updates_summary <- read.csv("../data/exp-data/min_programs__update_all__solutions_summary.csv", na.strings = "NONE")
+```
+
+Below, we impose an ordering on the problems in the data (to make order of appearance in plotting consistent).
+
+```{r}
+prog_solutions_evals_summary$problem <- factor(prog_solutions_evals_summary$problem, levels=c('small-or-large','for-loop-index','compare-string-lengths','median','smallest'))
+
+prog_solutions_updates_summary$problem <- factor(prog_solutions_updates_summary$problem, levels=c('small-or-large','for-loop-index','compare-string-lengths','median','smallest'))
+
+prog_solutions_e78643200$problem <- factor(prog_solutions_e78643200$problem, levels=c('small-or-large','for-loop-index','compare-string-lengths','median','smallest'))
+
+# A map from data column name to name to be used in figures.
+problem_names <- c(
+  'small-or-large'=        "Small or Large",
+  'for-loop-index'=        "For Loop Index",
+  'compare-string-lengths'="Comp. Str. Lengths",
+  'median'=                "Median",
+  'smallest'=              "Smallest"
+)
+
+problems <- c('small-or-large','compare-string-lengths','for-loop-index','median','smallest')
+
+sig_thresh <- 0.05
+```
+
+## K = 2
+
+```{r}
+ggplot(data = filter(prog_solutions_evals_summary, cohort_config=="cn2:cs256" & evaluation=="78643200"), mapping=aes(x=test_mode, y=solutions_found, fill=test_mode)) +
+    geom_bar(stat="identity") + xlab("Selection Scheme") + ylab("Successful Runs")  +  ylim(0, 52) +
+    guides(fill=FALSE)+
+    geom_text(aes(label=solutions_found), nudge_y=3) + 
+    theme(axis.title.x = element_text(size=12)) + 
+    scale_x_discrete(labels=c("Cohort", "Down-\nsampled", "Program-only-\ncohorts", "Truncated")) +
+    coord_flip() + facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
+    theme(strip.text.x = element_text(size = 14)) + 
+    ggtitle("Controls for 2 Cohorts") 
+```
+
+## K = 4
+
+```{r}
+ggplot(data = filter(prog_solutions_evals_summary, cohort_config=="cn4:cs128" & evaluation=="78643200"), mapping=aes(x=test_mode, y=solutions_found, fill=test_mode)) +
+    geom_bar(stat="identity") + xlab("Selection Scheme") + ylab("Successful Runs")  +  ylim(0, 52) +
+    guides(fill=FALSE)+
+    geom_text(aes(label=solutions_found), nudge_y=3) + 
+    theme(axis.title.x = element_text(size=12)) + 
+    scale_x_discrete(labels=c("Cohort", "Down-\nsampled", "Program-only-\ncohorts", "Truncated")) +
+    coord_flip() + facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
+    theme(strip.text.x = element_text(size = 14)) + 
+    ggtitle("Controls for 4 Cohorts") 
+```
+
+## K = 8 **Paper**
+
+```{r}
+cohort_cfg <- "cn8:cs64"
+eval <- "78643200"
+
+
+ggplot(data = filter(prog_solutions_evals_summary, cohort_config==cohort_cfg & evaluation==eval), mapping=aes(x=test_mode, y=solutions_found, fill=test_mode)) +
+    geom_bar(stat="identity") + xlab("Selection Scheme") + ylab("Successful Runs")  +  ylim(0, 52) +
+    guides(fill=FALSE)+
+    geom_text(aes(label=solutions_found), nudge_y=3) + 
+    theme(axis.title.x = element_text(size=12)) + 
+    scale_x_discrete(labels=c("Cohort", "Down-\nsampled", "Program-only-\ncohorts", "Truncated")) +
+    coord_flip() + facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
+    theme(strip.text.x = element_text(size = 14)) + 
+    ggtitle("Controls for 8 Cohorts") + 
+    ggsave("tease-apart-cn8-cs64-late.pdf", height=5, width=15)
+```
+
+```{r}
+
+for (p in problems) {
+  print(sprintf("Problem: %s", p))
+  # Comparison: truncated v cohort
+  data <- filter(prog_solutions_evals_summary, cohort_config==cohort_cfg & evaluation==eval & (test_mode=="SEL_COHORT_LEX"|test_mode=="SEL_TRUNCATED") & problem==p)
+  data$successful_runs = data$solutions_found
+  data$failed_runs = data$total_runs - data$solutions_found
+  con_table <- matrix(c(data$successful_runs, data$failed_runs), nrow=length(data$successful_runs))
+  rownames(con_table) <- data$test_mode
+  colnames(con_table) <- c("Successful Runs", "Failed Runs")
+  trunc_v_cohort_test <- fisher.test(con_table)
+  
+  # Comparison: down-sample v cohort
+  data <- filter(prog_solutions_evals_summary, cohort_config==cohort_cfg & evaluation==eval & (test_mode=="SEL_COHORT_LEX"|test_mode=="SEL_DOWN_SAMPLE_TESTS") & problem==p)
+  data$successful_runs = data$solutions_found
+  data$failed_runs = data$total_runs - data$solutions_found
+  con_table <- matrix(c(data$successful_runs, data$failed_runs), nrow=length(data$successful_runs))
+  rownames(con_table) <- data$test_mode
+  colnames(con_table) <- c("Successful Runs", "Failed Runs")
+  ds_v_cohort_test <- fisher.test(con_table)
+  
+  # Comparison: program-only v cohort
+  data <- filter(prog_solutions_evals_summary, cohort_config==cohort_cfg & evaluation==eval & (test_mode=="SEL_COHORT_LEX"|test_mode=="SEL_PROG_ONLY_COHORT_LEX") & problem==p)
+  data$successful_runs = data$solutions_found
+  data$failed_runs = data$total_runs - data$solutions_found
+  con_table <- matrix(c(data$successful_runs, data$failed_runs), nrow=length(data$successful_runs))
+  rownames(con_table) <- data$test_mode
+  colnames(con_table) <- c("Successful Runs", "Failed Runs")
+  po_v_cohort_test <- fisher.test(con_table)
+  
+  
+  # Adjust pvalues using holm method
+  pvals <- c(trunc_v_cohort_test$p.value, ds_v_cohort_test$p.value, po_v_cohort_test$p.value)
+  pvals.adj <- p.adjust(pvals, method="holm")
+  
+  sig <- ""
+  if (pvals.adj[1] < sig_thresh) {
+    sig <- "*"
+  }
+  print(sprintf("  Truncated v Cohort%s", sig))
+  print(sprintf("    Unadj p = %s", toString(pvals[1])))
+  print(sprintf("    Adj p = %s", toString(pvals.adj[1])))
+
+  sig <- ""
+  if (pvals.adj[2] < sig_thresh) {
+    sig <- "*"
+  }
+  print(sprintf("  Down-sample v Cohort%s", sig))
+  print(sprintf("    Unadj p = %s", toString(pvals[2])))
+  print(sprintf("    Adj p = %s", toString(pvals.adj[2])))
+  
+  
+  sig <- ""
+  if (pvals.adj[3] < sig_thresh) {
+    sig <- "*"
+  }
+  print(sprintf("  Program-only-cohort v Cohort%s", sig))
+  print(sprintf("    Unadj p = %s", toString(pvals[3])))
+  print(sprintf("    Adj p = %s", toString(pvals.adj[3])))
+}
+
+```
+
+## K = 16
+
+```{r}
+ggplot(data = filter(prog_solutions_evals_summary, cohort_config=="cn16:cs32" & evaluation=="78643200"), mapping=aes(x=test_mode, y=solutions_found, fill=test_mode)) +
+    geom_bar(stat="identity") + xlab("Selection Scheme") + ylab("Successful Runs")  +  ylim(0, 52) +
+    guides(fill=FALSE)+
+    geom_text(aes(label=solutions_found), nudge_y=3) + 
+    theme(axis.title.x = element_text(size=12)) + 
+    scale_x_discrete(labels=c("Cohort", "Down-\nsampled", "Program-only-\ncohorts", "Truncated")) +
+    coord_flip() + facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
+    theme(strip.text.x = element_text(size = 14)) + 
+    ggtitle("Controls for 16 Cohorts")
+```
+
+## K = 32
+
+```{r}
+ggplot(data = filter(prog_solutions_evals_summary, cohort_config=="cn32:cs16" & evaluation=="78643200"), mapping=aes(x=test_mode, y=solutions_found, fill=test_mode)) +
+    geom_bar(stat="identity") + xlab("Selection Scheme") + ylab("Successful Runs")  +  ylim(0, 52) +
+    guides(fill=FALSE)+
+    geom_text(aes(label=solutions_found), nudge_y=3) + 
+    theme(axis.title.x = element_text(size=12)) + 
+    scale_x_discrete(labels=c("Cohort", "Down-\nsampled", "Program-only-\ncohorts", "Truncated")) +
+    coord_flip() + facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
+    theme(strip.text.x = element_text(size = 14)) + 
+    ggtitle("Controls for 32 Cohorts") 
+```
+
+## K = 64
+
+```{r}
+ggplot(data = filter(prog_solutions_evals_summary, cohort_config=="cn64:cs8" & evaluation=="78643200"), mapping=aes(x=test_mode, y=solutions_found, fill=test_mode)) +
+    geom_bar(stat="identity") + xlab("Selection Scheme") + ylab("Successful Runs")  +  ylim(0, 52) +
+    guides(fill=FALSE)+
+    geom_text(aes(label=solutions_found), nudge_y=3) + 
+    theme(axis.title.x = element_text(size=12)) + 
+    scale_x_discrete(labels=c("Cohort", "Down-\nsampled", "Program-only-\ncohorts", "Truncated")) +
+    coord_flip() + facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
+    theme(strip.text.x = element_text(size = 14)) + 
+    ggtitle("Controls for 64 Cohorts")
+```
+
+## K = 128
+
+```{r}
+ggplot(data = filter(prog_solutions_evals_summary, cohort_config=="cn128:cs4" & evaluation=="78643200"), mapping=aes(x=test_mode, y=solutions_found, fill=test_mode)) +
+    geom_bar(stat="identity") + xlab("Selection Scheme") + ylab("Successful Runs")  +  ylim(0, 52) +
+    guides(fill=FALSE)+
+    geom_text(aes(label=solutions_found), nudge_y=3) + 
+    theme(axis.title.x = element_text(size=12)) + 
+    scale_x_discrete(labels=c("Cohort", "Down-\nsampled", "Program-only-\ncohorts", "Truncated")) +
+    coord_flip() + facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
+    theme(strip.text.x = element_text(size = 14)) + 
+    ggtitle("Controls for 128 Cohorts") 
+```
+
+## K = 256
+
+
+```{r}
+ggplot(data = filter(prog_solutions_evals_summary, cohort_config=="cn256:cs2" & evaluation=="78643200"), mapping=aes(x=test_mode, y=solutions_found, fill=test_mode)) +
+    geom_bar(stat="identity") + xlab("Selection Scheme") + ylab("Successful Runs")  +  ylim(0, 52) +
+    guides(fill=FALSE)+
+    geom_text(aes(label=solutions_found), nudge_y=3) + 
+    theme(axis.title.x = element_text(size=12)) + 
+    scale_x_discrete(labels=c("Cohort", "Down-\nsampled", "Program-only-\ncohorts", "Truncated")) +
+    coord_flip() + facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
+    theme(strip.text.x = element_text(size = 14)) + 
+    ggtitle("Controls for 256 Cohorts") 
+```
