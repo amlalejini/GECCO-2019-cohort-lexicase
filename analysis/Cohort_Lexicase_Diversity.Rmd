@@ -1,0 +1,301 @@
+---
+title: "Diversity in cohort lexicase"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Setup
+
+```{r}
+# Import data
+
+library(ggplot2)
+library(dplyr)
+library(readr)
+
+# Load full data set
+all_cohort_data <- read_csv("../data/diversity-data/all_cohort_data.csv")
+all_cohort_data$PROBLEM <- as.factor(all_cohort_data$PROBLEM)
+all_cohort_data$PROG_SELECTION_MODE <- as.factor(all_cohort_data$PROG_SELECTION_MODE)
+all_cohort_data$TEST_SELECTION_MODE <- as.factor(all_cohort_data$TEST_SELECTION_MODE)
+all_cohort_data$EVALUATION_MODE <- as.factor(all_cohort_data$EVALUATION_MODE)
+all_cohort_data$PROG_COHORT_SIZE <- as.factor(all_cohort_data$PROG_COHORT_SIZE)
+
+# For doing stats on just the final time point for each run
+all_cohort_data_endpoints <- all_cohort_data %>% group_by(SEED) %>% filter(generation == max(generation))
+
+# Load data set from time point in each run when problem was solved (or end if problem wasn't solved)
+all_cohort_data_time_solved <- read_csv("../data/diversity-data/all_cohort_data_time_solved.csv")
+colnames(all_cohort_data_time_solved)[1] <- "generation" # Because I screwed up the pandas header output
+all_cohort_data_time_solved$PROBLEM <- as.factor(all_cohort_data_time_solved$PROBLEM)
+all_cohort_data_time_solved$PROG_SELECTION_MODE <- as.factor(all_cohort_data_time_solved$PROG_SELECTION_MODE)
+all_cohort_data_time_solved$TEST_SELECTION_MODE <- as.factor(all_cohort_data_time_solved$TEST_SELECTION_MODE)
+all_cohort_data_time_solved$EVALUATION_MODE <- as.factor(all_cohort_data_time_solved$EVALUATION_MODE)
+all_cohort_data_time_solved$PROG_COHORT_SIZE <- as.factor(all_cohort_data_time_solved$PROG_COHORT_SIZE)
+```
+
+Okay, let's look at the data!
+
+# Relationship between diversity and cohort size
+
+TLDR: No matter how you slice it, diversity increases with cohort size. Some diversity measurements plataeu at high cohort sizes, others don't.
+
+### Genotypic diversity
+
+Results at the time the problem was solved:
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_gen_sys_diversity)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+
+Looks like there's a clear pattern of increasing diversity as cohort size increases. This was initially counter-intuitive to me (since cohorts are kind of like spatial structure and spatial structure usually increases diversity), but Charles points out that cohorts - especially small ones - kind of break lexicase's ability to maintain stable diversity over time (increases the risk of getting unlucky and not having your test-cases picked).
+
+Is this different if we look at the end rather than the time the problem was solved?
+
+```{r}
+ggplot(all_cohort_data_endpoints %>% filter(PROG_SELECTION_MODE == 1), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_gen_sys_diversity)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+Nope, not really.
+
+Is looking at the number of unique genotypes similar?
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_gen_sys_num_taxa)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+Yes, very similar.
+
+What about sparse number of genotypes?
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_gen_sys_num_sparse_taxa)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+Also pretty similar.
+
+And what does diversity do over time? We need to use evaluations as our unit of time, otherwise we can't put all the cohort sizes on the same axis
+
+```{r}
+ggplot(all_cohort_data %>% filter(PROG_SELECTION_MODE == 1, PROBLEM=="smallest"), aes(x=prog_gen_sys_evaluations,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE,fill=PROG_COHORT_SIZE, y=prog_gen_sys_diversity)) + theme_classic() + stat_summary(fun.data="mean_cl_boot", geom="smooth") + facet_wrap(~PROBLEM)
+```
+
+Oh look, it's a horrible mess! These spikes are legitimate - they are the result of the underlying curves being spiky.
+
+```{r}
+ggplot(all_cohort_data %>% filter(PROG_SELECTION_MODE == 1, PROBLEM=="for-loop-index"), aes(x=prog_gen_sys_evaluations,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE,fill=PROG_COHORT_SIZE, y=prog_gen_sys_diversity)) + theme_classic() + stat_summary(fun.data="mean_cl_boot", geom="smooth") + facet_wrap(~PROBLEM)
+```
+
+
+```{r}
+ggplot(all_cohort_data %>% filter(PROG_SELECTION_MODE == 1, PROBLEM=="small-or-large"), aes(x=prog_gen_sys_evaluations,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE,fill=PROG_COHORT_SIZE, y=prog_gen_sys_diversity)) + theme_classic() + stat_summary(fun.data="mean_cl_boot", geom="smooth") + facet_wrap(~PROBLEM)
+```
+
+
+```{r}
+ggplot(all_cohort_data %>% filter(PROG_SELECTION_MODE == 1, PROBLEM=="sum-of-squares"), aes(x=prog_gen_sys_evaluations,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE,fill=PROG_COHORT_SIZE, y=prog_gen_sys_diversity)) + theme_classic() + stat_summary(fun.data="mean_cl_boot", geom="smooth") + facet_wrap(~PROBLEM)
+```
+
+
+
+```{r}
+ggplot(all_cohort_data %>% filter(PROG_SELECTION_MODE == 1, PROBLEM=="median"), aes(x=prog_gen_sys_evaluations,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE,fill=PROG_COHORT_SIZE, y=prog_gen_sys_diversity)) + theme_classic() + stat_summary(fun.data="mean_cl_boot", geom="smooth") + facet_wrap(~PROBLEM)
+```
+
+```{r}
+ggplot(all_cohort_data %>% filter(PROG_SELECTION_MODE == 1, PROBLEM=="compare-string-lengths"), aes(x=prog_gen_sys_evaluations,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE,fill=PROG_COHORT_SIZE, y=prog_gen_sys_diversity)) + theme_classic() + stat_summary(fun.data="mean_cl_boot", geom="smooth") + facet_wrap(~PROBLEM)
+```
+
+I don't think there's anything super interesting to infer from this?
+
+## Phylogenetic diversity
+
+Does phylogenetic diversity behave differently?
+
+Results at the time the problem was solved:
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_gen_sys_current_phylogenetic_diversity)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+This is biased because the small cohorts go through way more generations, inflating phylogenetic diversity. Let's adjust for that by looking at per-generation phylogenetic diversity:
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_gen_sys_current_phylogenetic_diversity/generation)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+Looks like there's a clear pattern of increasing diversity as cohort size increases. This was initially counter-intuitive to me (since cohorts are kind of like spatial structure and spatial structure usually increases diversity), but Charles points out that cohorts - especially small ones - kind of break lexicase's ability to maintain stable diversity over time (increases the risk of getting unlucky and not having your test-cases picked).
+
+Is this different if we look at the end rather than the time the problem was solved?
+
+```{r}
+ggplot(all_cohort_data_endpoints %>% filter(PROG_SELECTION_MODE == 1), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_gen_sys_current_phylogenetic_diversity/generation)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+
+Looks like this effect intensifies if you look at end points (makes sense - lexicase often doesn't converge, so this just gives it more time to keep diversifying).
+
+```{r}
+ggplot(all_cohort_data %>% filter(PROG_SELECTION_MODE == 1), aes(x=prog_gen_sys_evaluations,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE,fill=PROG_COHORT_SIZE, y=prog_gen_sys_current_phylogenetic_diversity/generation)) + theme_classic() + stat_summary(fun.data="mean_cl_boot", geom="smooth") + facet_wrap(~PROBLEM)
+```
+
+Well, looks like that drops pretty consistently over time.
+
+Let's check a few other phylodiversity measures for consistency.
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_gen_sys_mean_pairwise_distance/generation)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_gen_sys_mean_evolutionary_distinctiveness/generation)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_gen_sys_variance_pairwise_distance)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_gen_sys_max_pairwise_distance/generation)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_gen_sys_min_pairwise_distance/generation)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_gen_sys_ave_depth/generation)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+Average generation per generation is kind of a weird statistic, but this is basically telling us the rate at which the depth of the phylogeny grows.
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_gen_sys_mrca_depth/generation)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_gen_sys_mrca_changes/generation)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+
+Wait... how are there more MRCA changes in the more diverse conditions?
+
+```{r}
+ggplot(all_cohort_data %>% filter(PROG_SELECTION_MODE == 1), aes(x=prog_gen_sys_evaluations,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE,fill=PROG_COHORT_SIZE, y=prog_gen_sys_mrca_changes/generation)) + theme_classic() + stat_summary(fun.data="mean_cl_boot", geom="smooth") + facet_wrap(~PROBLEM)
+```
+
+
+Ah, okay, larger cohorts have a larger spike at the beginning because sweeps can happen faster in them. Okay, that makes sense.
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_gen_sys_variance_sparse_pairwise_distances)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+```{r}
+ggplot(all_cohort_data %>% filter(PROG_SELECTION_MODE == 1), aes(x=prog_gen_sys_evaluations,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE,fill=PROG_COHORT_SIZE, y=prog_gen_sys_current_phylogenetic_diversity/generation)) + theme_classic() + stat_summary(fun.data="mean_cl_boot", geom="smooth") + facet_wrap(~PROBLEM)
+```
+
+Looks like that drops too. Probably because diversity plataeus and generations keep increasing
+
+## Behavioral/phenotypic diversity
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_phenotype_diversity_behavioral_diversity)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_phenotype_diversity_unique_behavioral_phenotypes)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
+
+
+```{r}
+ggplot(all_cohort_data %>% filter(PROG_SELECTION_MODE == 1), aes(x=prog_gen_sys_evaluations,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE,fill=PROG_COHORT_SIZE, y=prog_phenotype_diversity_unique_behavioral_phenotypes)) + theme_classic() + stat_summary(fun.data="mean_cl_boot", geom="smooth") + facet_wrap(~PROBLEM)
+```
+
+```{r}
+ggplot(all_cohort_data %>% filter(PROG_SELECTION_MODE == 1), aes(x=prog_gen_sys_evaluations,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE,fill=PROG_COHORT_SIZE, y=prog_phenotype_diversity_behavioral_diversity)) + theme_classic() + stat_summary(fun.data="mean_cl_boot", geom="smooth") + facet_wrap(~PROBLEM)
+```
+
+## Stats
+
+```{r}
+summary(lm(prog_gen_sys_current_phylogenetic_diversity/generation ~ as.numeric(PROG_COHORT_SIZE),data=all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1)))
+```
+
+Unsurprisingly, per-generation phylogenetic diversity varies significantly with cohort size. Each additional cohort member increases phylogenetic diveristy by almost 1 (i.e. it means there is one additional node added to the minimal spanning tree per generation)
+
+
+## Importance of diversity
+
+It would be great to know if diversity actually contributed to solving the problem. By looking at the diversity at the time the problem was solved vs diversity at the end of thte run for runs in which the problem wasn't solved we get some pretty compelling evidence that it does matter:
+
+```{r}
+
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1, PROBLEM != "sum-of-squares"), aes(color=solved,x=PROG_COHORT_SIZE, y=prog_gen_sys_current_phylogenetic_diversity/generation)) + theme_classic() + stat_summary(fun.data = "mean_cl_boot") + facet_wrap(~PROBLEM)
+
+```
+
+
+And let's look at standard phenotypic diversity
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1, PROBLEM != "sum-of-squares"), aes(color=solved,x=PROG_COHORT_SIZE, y=prog_phenotype_diversity_unique_behavioral_phenotypes)) + theme_classic() + stat_summary(fun.data = "mean_cl_boot") + facet_wrap(~PROBLEM)
+
+```
+
+
+Looks like phylogenetic is a lot cleaner! That's interesting.
+
+What about Shannon diversity?
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_SELECTION_MODE == 1, PROBLEM != "sum-of-squares"), aes(color=solved,x=PROG_COHORT_SIZE, y=prog_phenotype_diversity_behavioral_diversity)) + theme_classic() + stat_summary(fun.data = "mean_cl_boot") + facet_wrap(~PROBLEM)
+
+```
+
+Pretty similar.
+
+## Teasing apart why cohort is so good
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROBLEM != "sum-of-squares"), aes(x=PROG_COHORT_SIZE,group=PROG_COHORT_SIZE,color=PROG_COHORT_SIZE, y=prog_phenotype_diversity_unique_behavioral_phenotypes)) + theme_classic() + geom_boxplot() + facet_wrap(~PROBLEM*PROG_SELECTION_MODE) + theme(legend.position = "none")
+
+```
+
+```{r}
+ggplot(all_cohort_data_time_solved %>% filter(PROG_COHORT_SIZE %in% c(256,512)), aes(x=PROG_SELECTION_MODE,group=interaction(PROG_SELECTION_MODE,PROG_COHORT_SIZE),color=PROG_COHORT_SIZE, y=prog_gen_sys_ave_depth/generation)) + theme_classic() + geom_boxplot(notch = TRUE) + facet_wrap(~PROBLEM) + theme(legend.position = "none")
+
+```
