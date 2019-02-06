@@ -88,10 +88,11 @@ problem_names <- c(
 
 ### Paper Figure
 
-For four of the five problems (all but small or large), this figure gives the number of successful runs after 26214400 total evaluations (100 generations of standard lexicase). This was not sufficient time for solutions to evolve in small or large, so that problem is reported after 78643200 total evaluations (300 generations of standard lexicase).
+<!-- For four of the five problems (all but small or large), this figure gives the number of successful runs after 26214400 total evaluations (100 generations of standard lexicase). This was not sufficient time for solutions to evolve in small or large, so that problem is reported after 78643200 total evaluations (300 generations of standard lexicase). -->
 
 ```{r, echo=FALSE}
-paper_plot_data <- filter(prog_solutions_evals_summary, test_mode=="SEL_COHORT_LEX" & ((problem=="small-or-large"&evaluation=="78643200")|(problem!="small-or-large"&evaluation=="26214400")))
+# paper_plot_data <- filter(prog_solutions_evals_summary, test_mode=="SEL_COHORT_LEX" & ((problem=="small-or-large"&evaluation=="78643200")|(problem!="small-or-large"&evaluation=="26214400")))
+paper_plot_data <- filter(prog_solutions_evals_summary, test_mode=="SEL_COHORT_LEX" & evaluation=="78643200")
 plt<-ggplot(data = paper_plot_data, mapping=aes(x=cohort_config, y=solutions_found, fill=cohort_config)) +
       geom_bar(stat="identity") + xlab("K (number of cohorts)") + ylab("Successful Runs")  +  ylim(0, 50) +
       scale_x_discrete(labels = c("1", "2", "4", "8", "16", "32", "64", "128", "256"), limits = c("cn1:cs512", "cn2:cs256", "cn4:cs128", "cn8:cs64", "cn16:cs32", "cn32:cs16", "cn64:cs8", "cn128:cs4", "cn256:cs2")) +
@@ -101,7 +102,7 @@ plt<-ggplot(data = paper_plot_data, mapping=aes(x=cohort_config, y=solutions_fou
       coord_flip() + facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
       theme(strip.text.x = element_text(size = 14)) + 
       ggtitle("Success Rates for Each Cohort Configuration") +
-      ggsave("fixed-evals-performance.pdf", height=5, width=15)
+      ggsave("fixed-evals-performance-late.pdf", height=5, width=15)
 plt
 ```
 
