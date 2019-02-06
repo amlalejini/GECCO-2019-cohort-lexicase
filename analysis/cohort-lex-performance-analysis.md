@@ -52,29 +52,11 @@ prog_solutions_e78643200 <- read.csv(solutions_e78643200_data_loc, na.strings = 
 prog_solutions_evals_summary <- read.csv("../data/exp-data/min_programs__eval_all__solutions_summary.csv", na.strings = "NONE")
 ```
 
-Next, we'll load solution data after a fixed number of _generations_:
-
-
-```r
-# (1) After 100 generations (for all conditions)
-solutions_u100_data_loc <- "../data/exp-data/min_programs__update_100.csv"
-prog_solutions_u100 <- read.csv(solutions_u100_data_loc, na.strings = "NONE")
-
-# (2) After 300 generations (for all conditions)
-solutions_u300_data_loc <- "../data/exp-data/min_programs__update_300.csv"
-prog_solutions_u300 <- read.csv(solutions_u300_data_loc, na.strings = "NONE")
-
-# (3) Load summary of solution data (contingency tables), which contains both time points.
-prog_solutions_updates_summary <- read.csv("../data/exp-data/min_programs__update_all__solutions_summary.csv", na.strings = "NONE")
-```
-
 Below, we impose an ordering on the problems in the data (to make order of appearance in plotting consistent).
 
 
 ```r
 prog_solutions_evals_summary$problem <- factor(prog_solutions_evals_summary$problem, levels=c('small-or-large','for-loop-index','compare-string-lengths','median','smallest'))
-
-prog_solutions_updates_summary$problem <- factor(prog_solutions_updates_summary$problem, levels=c('small-or-large','for-loop-index','compare-string-lengths','median','smallest'))
 
 prog_solutions_e78643200$problem <- factor(prog_solutions_e78643200$problem, levels=c('small-or-large','for-loop-index','compare-string-lengths','median','smallest'))
 
@@ -88,30 +70,293 @@ problem_names <- c(
 )
 ```
 
-## Given a Fixed number of evaluations, cohorts improve problem solving success
+## Given a Fixed number of evaluations (26214400), both cohorts and downsampling improve problem solving success
 
-### Paper Figure
-
-<!-- For four of the five problems (all but small or large), this figure gives the number of successful runs after 26214400 total evaluations (100 generations of standard lexicase). This was not sufficient time for solutions to evolve in small or large, so that problem is reported after 78643200 total evaluations (300 generations of standard lexicase). -->
+## Down sampling
 
 
 ```
-## Warning: Removed 2 rows containing missing values (geom_text).
-
-## Warning: Removed 2 rows containing missing values (geom_text).
+## Warning: Removed 3 rows containing missing values (geom_text).
 ```
 
-![](cohort-lex-performance-analysis_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
-
-### After 26214400 Evaluations (100 generations of standard lexicase)
-
-![](cohort-lex-performance-analysis_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](cohort-lex-performance-analysis_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 #### Statistics - Compare string lengths
 
 
 ```r
-prob_data <- filter(eval_26214400_clex_data, problem=="compare-string-lengths")
+prob_data <- filter(downsample_data, problem=="compare-string-lengths")
+prob_data$successful_runs = prob_data$solutions_found
+prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
+con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
+rownames(con_table) <- prob_data$cohort_config
+colnames(con_table) <- c("Successful Runs", "Failed Runs")
+pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, method="holm")
+```
+
+```
+##               Comparison p.Fisher p.adj.Fisher
+## 1  cn1:cs512 : cn128:cs4 5.63e-02     7.32e-01
+## 2  cn1:cs512 : cn16:cs32 3.30e-12     7.59e-11
+## 3  cn1:cs512 : cn256:cs2 5.63e-02     7.32e-01
+## 4  cn1:cs512 : cn2:cs256 8.57e-06     1.46e-04
+## 5  cn1:cs512 : cn32:cs16 4.36e-01     1.00e+00
+## 6  cn1:cs512 : cn4:cs128 1.40e-11     3.08e-10
+## 7   cn1:cs512 : cn64:cs8 5.63e-02     7.32e-01
+## 8   cn1:cs512 : cn8:cs64 4.62e-15     1.20e-13
+## 9  cn128:cs4 : cn16:cs32 8.29e-18     2.65e-16
+## 10 cn128:cs4 : cn256:cs2 1.00e+00     1.00e+00
+## 11 cn128:cs4 : cn2:cs256 3.47e-10     7.29e-09
+## 12 cn128:cs4 : cn32:cs16 4.95e-01     1.00e+00
+## 13 cn128:cs4 : cn4:cs128 4.28e-17     1.24e-15
+## 14  cn128:cs4 : cn64:cs8 1.00e+00     1.00e+00
+## 15  cn128:cs4 : cn8:cs64 5.24e-21     1.89e-19
+## 16 cn16:cs32 : cn256:cs2 8.29e-18     2.65e-16
+## 17 cn16:cs32 : cn2:cs256 1.13e-02     1.69e-01
+## 18 cn16:cs32 : cn32:cs16 4.60e-15     1.20e-13
+## 19 cn16:cs32 : cn4:cs128 1.00e+00     1.00e+00
+## 20  cn16:cs32 : cn64:cs8 8.29e-18     2.65e-16
+## 21  cn16:cs32 : cn8:cs64 4.36e-01     1.00e+00
+## 22 cn256:cs2 : cn2:cs256 3.47e-10     7.29e-09
+## 23 cn256:cs2 : cn32:cs16 4.95e-01     1.00e+00
+## 24 cn256:cs2 : cn4:cs128 4.28e-17     1.24e-15
+## 25  cn256:cs2 : cn64:cs8 1.00e+00     1.00e+00
+## 26  cn256:cs2 : cn8:cs64 5.24e-21     1.89e-19
+## 27 cn2:cs256 : cn32:cs16 6.18e-08     1.11e-06
+## 28 cn2:cs256 : cn4:cs128 2.13e-02     2.98e-01
+## 29  cn2:cs256 : cn64:cs8 3.47e-10     7.29e-09
+## 30  cn2:cs256 : cn8:cs64 4.35e-04     6.96e-03
+## 31 cn32:cs16 : cn4:cs128 2.19e-14     5.26e-13
+## 32  cn32:cs16 : cn64:cs8 4.95e-01     1.00e+00
+## 33  cn32:cs16 : cn8:cs64 4.01e-18     1.32e-16
+## 34  cn4:cs128 : cn64:cs8 4.28e-17     1.24e-15
+## 35  cn4:cs128 : cn8:cs64 3.08e-01     1.00e+00
+## 36   cn64:cs8 : cn8:cs64 5.24e-21     1.89e-19
+```
+
+#### Statistics - For loop index
+
+
+```r
+prob_data <- filter(downsample_data, problem=="for-loop-index")
+prob_data$successful_runs = prob_data$solutions_found
+prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
+con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
+rownames(con_table) <- prob_data$cohort_config
+colnames(con_table) <- c("Successful Runs", "Failed Runs")
+pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, method="holm")
+```
+
+```
+##               Comparison p.Fisher p.adj.Fisher
+## 1  cn1:cs512 : cn128:cs4 9.96e-18     3.29e-16
+## 2  cn1:cs512 : cn16:cs32 1.12e-07     2.69e-06
+## 3  cn1:cs512 : cn256:cs2 6.27e-24     2.26e-22
+## 4  cn1:cs512 : cn2:cs256 5.25e-01     1.00e+00
+## 5  cn1:cs512 : cn32:cs16 1.38e-09     3.73e-08
+## 6  cn1:cs512 : cn4:cs128 9.05e-02     6.34e-01
+## 7   cn1:cs512 : cn64:cs8 1.91e-14     5.92e-13
+## 8   cn1:cs512 : cn8:cs64 6.49e-05     1.17e-03
+## 9  cn128:cs4 : cn16:cs32 4.73e-04     7.18e-03
+## 10 cn128:cs4 : cn256:cs2 5.63e-02     4.50e-01
+## 11 cn128:cs4 : cn2:cs256 4.62e-15     1.48e-13
+## 12 cn128:cs4 : cn32:cs16 7.00e-03     8.40e-02
+## 13 cn128:cs4 : cn4:cs128 3.30e-12     9.90e-11
+## 14  cn128:cs4 : cn64:cs8 3.88e-01     1.00e+00
+## 15  cn128:cs4 : cn8:cs64 1.39e-06     3.06e-05
+## 16 cn16:cs32 : cn256:cs2 6.59e-08     1.65e-06
+## 17 cn16:cs32 : cn2:cs256 7.63e-06     1.53e-04
+## 18 cn16:cs32 : cn32:cs16 5.37e-01     1.00e+00
+## 19 cn16:cs32 : cn4:cs128 4.49e-04     7.18e-03
+## 20  cn16:cs32 : cn64:cs8 1.56e-02     1.72e-01
+## 21  cn16:cs32 : cn8:cs64 2.30e-01     1.00e+00
+## 22 cn256:cs2 : cn2:cs256 5.24e-21     1.83e-19
+## 23 cn256:cs2 : cn32:cs16 2.96e-06     6.22e-05
+## 24 cn256:cs2 : cn4:cs128 8.29e-18     2.82e-16
+## 25  cn256:cs2 : cn64:cs8 2.63e-03     3.42e-02
+## 26  cn256:cs2 : cn8:cs64 3.55e-11     9.94e-10
+## 27 cn2:cs256 : cn32:cs16 1.55e-07     3.56e-06
+## 28 cn2:cs256 : cn4:cs128 4.36e-01     1.00e+00
+## 29  cn2:cs256 : cn64:cs8 5.56e-12     1.61e-10
+## 30  cn2:cs256 : cn8:cs64 1.75e-03     2.45e-02
+## 31 cn32:cs16 : cn4:cs128 1.72e-05     3.27e-04
+## 32  cn32:cs16 : cn64:cs8 1.10e-01     6.60e-01
+## 33  cn32:cs16 : cn8:cs64 4.39e-02     3.95e-01
+## 34  cn4:cs128 : cn64:cs8 2.13e-09     5.54e-08
+## 35  cn4:cs128 : cn8:cs64 3.27e-02     3.27e-01
+## 36   cn64:cs8 : cn8:cs64 1.54e-04     2.62e-03
+```
+
+#### Statistics - Median
+
+
+```r
+prob_data <- filter(downsample_data, problem=="median")
+prob_data$successful_runs = prob_data$solutions_found
+prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
+con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
+rownames(con_table) <- prob_data$cohort_config
+colnames(con_table) <- c("Successful Runs", "Failed Runs")
+pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, method="holm")
+```
+
+```
+##               Comparison p.Fisher p.adj.Fisher
+## 1  cn1:cs512 : cn128:cs4 1.00e+00     1.00e+00
+## 2  cn1:cs512 : cn16:cs32 5.13e-17     1.44e-15
+## 3  cn1:cs512 : cn256:cs2 1.00e+00     1.00e+00
+## 4  cn1:cs512 : cn2:cs256 5.12e-08     9.22e-07
+## 5  cn1:cs512 : cn32:cs16 1.24e-24     3.84e-23
+## 6  cn1:cs512 : cn4:cs128 1.71e-12     3.76e-11
+## 7   cn1:cs512 : cn64:cs8 1.01e-27     3.43e-26
+## 8   cn1:cs512 : cn8:cs64 2.76e-14     6.90e-13
+## 9  cn128:cs4 : cn16:cs32 1.49e-18     4.47e-17
+## 10 cn128:cs4 : cn256:cs2 1.00e+00     1.00e+00
+## 11 cn128:cs4 : cn2:cs256 3.05e-09     6.10e-08
+## 12 cn128:cs4 : cn32:cs16 2.63e-26     8.68e-25
+## 13 cn128:cs4 : cn4:cs128 6.68e-14     1.60e-12
+## 14  cn128:cs4 : cn64:cs8 1.98e-29     7.13e-28
+## 15  cn128:cs4 : cn8:cs64 9.49e-16     2.56e-14
+## 16 cn16:cs32 : cn256:cs2 1.49e-18     4.47e-17
+## 17 cn16:cs32 : cn2:cs256 1.59e-03     1.91e-02
+## 18 cn16:cs32 : cn32:cs16 2.77e-02     2.49e-01
+## 19 cn16:cs32 : cn4:cs128 1.76e-01     1.00e+00
+## 20  cn16:cs32 : cn64:cs8 1.19e-03     1.55e-02
+## 21  cn16:cs32 : cn8:cs64 4.83e-01     1.00e+00
+## 22 cn256:cs2 : cn2:cs256 3.05e-09     6.10e-08
+## 23 cn256:cs2 : cn32:cs16 2.63e-26     8.68e-25
+## 24 cn256:cs2 : cn4:cs128 6.68e-14     1.60e-12
+## 25  cn256:cs2 : cn64:cs8 1.98e-29     7.13e-28
+## 26  cn256:cs2 : cn8:cs64 9.49e-16     2.56e-14
+## 27 cn2:cs256 : cn32:cs16 6.18e-08     1.05e-06
+## 28 cn2:cs256 : cn4:cs128 1.06e-01     8.48e-01
+## 29  cn2:cs256 : cn64:cs8 3.47e-10     7.29e-09
+## 30  cn2:cs256 : cn8:cs64 2.42e-02     2.42e-01
+## 31 cn32:cs16 : cn4:cs128 1.96e-04     2.74e-03
+## 32  cn32:cs16 : cn64:cs8 4.95e-01     1.00e+00
+## 33  cn32:cs16 : cn8:cs64 1.88e-03     2.07e-02
+## 34  cn4:cs128 : cn64:cs8 2.96e-06     4.74e-05
+## 35  cn4:cs128 : cn8:cs64 6.66e-01     1.00e+00
+## 36   cn64:cs8 : cn8:cs64 4.24e-05     6.36e-04
+```
+
+#### Statistics - Small or large
+
+
+```r
+prob_data <- filter(downsample_data, problem=="small-or-large")
+prob_data$successful_runs = prob_data$solutions_found
+prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
+con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
+rownames(con_table) <- prob_data$cohort_config
+colnames(con_table) <- c("Successful Runs", "Failed Runs")
+pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, method="holm")
+```
+
+```
+##               Comparison p.Fisher p.adj.Fisher
+## 1  cn1:cs512 : cn128:cs4    1.000            1
+## 2  cn1:cs512 : cn16:cs32    1.000            1
+## 3  cn1:cs512 : cn256:cs2    1.000            1
+## 4  cn1:cs512 : cn2:cs256    1.000            1
+## 5  cn1:cs512 : cn32:cs16    1.000            1
+## 6  cn1:cs512 : cn4:cs128    0.495            1
+## 7   cn1:cs512 : cn64:cs8    1.000            1
+## 8   cn1:cs512 : cn8:cs64    1.000            1
+## 9  cn128:cs4 : cn16:cs32    1.000            1
+## 10 cn128:cs4 : cn256:cs2    1.000            1
+## 11 cn128:cs4 : cn2:cs256    1.000            1
+## 12 cn128:cs4 : cn32:cs16    1.000            1
+## 13 cn128:cs4 : cn4:cs128    0.495            1
+## 14  cn128:cs4 : cn64:cs8    1.000            1
+## 15  cn128:cs4 : cn8:cs64    1.000            1
+## 16 cn16:cs32 : cn256:cs2    1.000            1
+## 17 cn16:cs32 : cn2:cs256    1.000            1
+## 18 cn16:cs32 : cn32:cs16    1.000            1
+## 19 cn16:cs32 : cn4:cs128    0.495            1
+## 20  cn16:cs32 : cn64:cs8    1.000            1
+## 21  cn16:cs32 : cn8:cs64    1.000            1
+## 22 cn256:cs2 : cn2:cs256    1.000            1
+## 23 cn256:cs2 : cn32:cs16    1.000            1
+## 24 cn256:cs2 : cn4:cs128    0.495            1
+## 25  cn256:cs2 : cn64:cs8    1.000            1
+## 26  cn256:cs2 : cn8:cs64    1.000            1
+## 27 cn2:cs256 : cn32:cs16    1.000            1
+## 28 cn2:cs256 : cn4:cs128    0.495            1
+## 29  cn2:cs256 : cn64:cs8    1.000            1
+## 30  cn2:cs256 : cn8:cs64    1.000            1
+## 31 cn32:cs16 : cn4:cs128    0.495            1
+## 32  cn32:cs16 : cn64:cs8    1.000            1
+## 33  cn32:cs16 : cn8:cs64    1.000            1
+## 34  cn4:cs128 : cn64:cs8    0.495            1
+## 35  cn4:cs128 : cn8:cs64    1.000            1
+## 36   cn64:cs8 : cn8:cs64    1.000            1
+```
+
+#### Statistics - Smallest
+
+
+```r
+prob_data <- filter(downsample_data, problem=="smallest")
+prob_data$successful_runs = prob_data$solutions_found
+prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
+con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
+rownames(con_table) <- prob_data$cohort_config
+colnames(con_table) <- c("Successful Runs", "Failed Runs")
+pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, method="holm")
+```
+
+```
+##               Comparison p.Fisher p.adj.Fisher
+## 1  cn1:cs512 : cn128:cs4 4.24e-05     6.36e-04
+## 2  cn1:cs512 : cn16:cs32 6.44e-22     2.06e-20
+## 3  cn1:cs512 : cn256:cs2 1.00e+00     1.00e+00
+## 4  cn1:cs512 : cn2:cs256 4.60e-07     8.74e-06
+## 5  cn1:cs512 : cn32:cs16 2.63e-26     8.94e-25
+## 6  cn1:cs512 : cn4:cs128 1.13e-10     2.82e-09
+## 7   cn1:cs512 : cn64:cs8 1.98e-29     7.13e-28
+## 8   cn1:cs512 : cn8:cs64 9.49e-16     2.85e-14
+## 9  cn128:cs4 : cn16:cs32 1.11e-09     2.44e-08
+## 10 cn128:cs4 : cn256:cs2 4.24e-05     6.36e-04
+## 11 cn128:cs4 : cn2:cs256 3.95e-01     1.00e+00
+## 12 cn128:cs4 : cn32:cs16 4.12e-13     1.11e-11
+## 13 cn128:cs4 : cn4:cs128 1.42e-02     1.28e-01
+## 14  cn128:cs4 : cn64:cs8 9.49e-16     2.85e-14
+## 15  cn128:cs4 : cn8:cs64 2.03e-05     3.25e-04
+## 16 cn16:cs32 : cn256:cs2 6.44e-22     2.06e-20
+## 17 cn16:cs32 : cn2:cs256 3.06e-07     6.12e-06
+## 18 cn16:cs32 : cn32:cs16 2.69e-01     1.00e+00
+## 19 cn16:cs32 : cn4:cs128 3.23e-04     3.88e-03
+## 20  cn16:cs32 : cn64:cs8 2.67e-02     2.14e-01
+## 21  cn16:cs32 : cn8:cs64 7.84e-02     5.49e-01
+## 22 cn256:cs2 : cn2:cs256 4.60e-07     8.74e-06
+## 23 cn256:cs2 : cn32:cs16 2.63e-26     8.94e-25
+## 24 cn256:cs2 : cn4:cs128 1.13e-10     2.82e-09
+## 25  cn256:cs2 : cn64:cs8 1.98e-29     7.13e-28
+## 26  cn256:cs2 : cn8:cs64 9.49e-16     2.85e-14
+## 27 cn2:cs256 : cn32:cs16 2.59e-10     5.96e-09
+## 28 cn2:cs256 : cn4:cs128 1.60e-01     8.00e-01
+## 29  cn2:cs256 : cn64:cs8 9.17e-13     2.38e-11
+## 30  cn2:cs256 : cn8:cs64 1.18e-03     1.30e-02
+## 31 cn32:cs16 : cn4:cs128 1.14e-06     1.94e-05
+## 32  cn32:cs16 : cn64:cs8 4.95e-01     1.00e+00
+## 33  cn32:cs16 : cn8:cs64 1.88e-03     1.88e-02
+## 34  cn4:cs128 : cn64:cs8 8.69e-09     1.82e-07
+## 35  cn4:cs128 : cn8:cs64 9.69e-02     5.81e-01
+## 36   cn64:cs8 : cn8:cs64 4.24e-05     6.36e-04
+```
+
+
+## Cohorts
+
+![](cohort-lex-performance-analysis_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+
+
+#### Statistics - Compare string lengths
+
+
+```r
+prob_data <- filter(cohort_data, problem=="compare-string-lengths")
 prob_data$successful_runs = prob_data$solutions_found
 prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
 con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
@@ -164,7 +409,7 @@ pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, me
 
 
 ```r
-prob_data <- filter(eval_26214400_clex_data, problem=="for-loop-index")
+prob_data <- filter(cohort_data, problem=="for-loop-index")
 prob_data$successful_runs = prob_data$solutions_found
 prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
 con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
@@ -217,7 +462,7 @@ pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, me
 
 
 ```r
-prob_data <- filter(eval_26214400_clex_data, problem=="median")
+prob_data <- filter(cohort_data, problem=="median")
 prob_data$successful_runs = prob_data$solutions_found
 prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
 con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
@@ -270,7 +515,7 @@ pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, me
 
 
 ```r
-prob_data <- filter(eval_26214400_clex_data, problem=="small-or-large")
+prob_data <- filter(cohort_data, problem=="small-or-large")
 prob_data$successful_runs = prob_data$solutions_found
 prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
 con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
@@ -323,7 +568,7 @@ pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, me
 
 
 ```r
-prob_data <- filter(eval_26214400_clex_data, problem=="smallest")
+prob_data <- filter(cohort_data, problem=="smallest")
 prob_data$successful_runs = prob_data$solutions_found
 prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
 con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
@@ -372,294 +617,368 @@ pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, me
 ## 36   cn64:cs8 : cn8:cs64 3.78e-01     1.00e+00
 ```
 
-### After 78643200 Evaluations (300 generations of standard lexicase)
+
+
+
+
+
+
+
+
+
+
+
+## Down sampling and cohort lexicase solves problems with less computational effort
+
+## Down sampling
 
 
 ```
-## Warning: Removed 2 rows containing missing values (geom_text).
+## Warning: Removed 630 rows containing non-finite values (stat_boxplot).
 ```
 
-![](cohort-lex-performance-analysis_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](cohort-lex-performance-analysis_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
 
-#### Statistics - Compare string lengths
+#### Statistics - Small Or Large
 
 
 ```r
-prob_data <- filter(eval_78643200_clex_data, problem=="compare-string-lengths")
-prob_data$successful_runs = prob_data$solutions_found
-prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
-con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
-rownames(con_table) <- prob_data$cohort_config
-colnames(con_table) <- c("Successful Runs", "Failed Runs")
-pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, method="holm")
+eval_data <- filter(prog_solutions_e78643200, problem=="small-or-large" & (sel_mode == "sample tests"|cohort_config=="cn1:cs512") & !is.na(evaluation_first_solution_found))
+kruskal.test(evaluation_first_solution_found ~ cohort_config, eval_data)
 ```
 
 ```
-##               Comparison p.Fisher p.adj.Fisher
-## 1  cn128:cs4 : cn16:cs32 1.98e-29     7.13e-28
-## 2  cn128:cs4 : cn1:cs512 1.08e-11     2.27e-10
-## 3  cn128:cs4 : cn256:cs2 1.00e+00     1.00e+00
-## 4  cn128:cs4 : cn2:cs256 6.90e-23     1.93e-21
-## 5  cn128:cs4 : cn32:cs16 2.49e-19     5.98e-18
-## 6  cn128:cs4 : cn4:cs128 6.27e-24     1.88e-22
-## 7   cn128:cs4 : cn64:cs8 4.95e-01     1.00e+00
-## 8   cn128:cs4 : cn8:cs64 1.01e-27     3.43e-26
-## 9  cn16:cs32 : cn1:cs512 6.59e-08     1.19e-06
-## 10 cn16:cs32 : cn256:cs2 1.98e-29     7.13e-28
-## 11 cn16:cs32 : cn2:cs256 5.63e-02     6.19e-01
-## 12 cn16:cs32 : cn32:cs16 2.63e-03     3.68e-02
-## 13 cn16:cs32 : cn4:cs128 1.17e-01     1.00e+00
-## 14  cn16:cs32 : cn64:cs8 2.63e-26     8.42e-25
-## 15  cn16:cs32 : cn8:cs64 1.00e+00     1.00e+00
-## 16 cn1:cs512 : cn256:cs2 1.08e-11     2.27e-10
-## 17 cn1:cs512 : cn2:cs256 4.73e-04     7.10e-03
-## 18 cn1:cs512 : cn32:cs16 1.56e-02     2.03e-01
-## 19 cn1:cs512 : cn4:cs128 1.43e-04     2.29e-03
-## 20  cn1:cs512 : cn64:cs8 2.56e-09     4.86e-08
-## 21  cn1:cs512 : cn8:cs64 9.42e-07     1.60e-05
-## 22 cn256:cs2 : cn2:cs256 6.90e-23     1.93e-21
-## 23 cn256:cs2 : cn32:cs16 2.49e-19     5.98e-18
-## 24 cn256:cs2 : cn4:cs128 6.27e-24     1.88e-22
-## 25  cn256:cs2 : cn64:cs8 4.95e-01     1.00e+00
-## 26  cn256:cs2 : cn8:cs64 1.01e-27     3.43e-26
-## 27 cn2:cs256 : cn32:cs16 3.88e-01     1.00e+00
-## 28 cn2:cs256 : cn4:cs128 1.00e+00     1.00e+00
-## 29  cn2:cs256 : cn64:cs8 6.18e-20     1.54e-18
-## 30  cn2:cs256 : cn8:cs64 2.04e-01     1.00e+00
-## 31 cn32:cs16 : cn4:cs128 2.34e-01     1.00e+00
-## 32  cn32:cs16 : cn64:cs8 1.62e-16     3.56e-15
-## 33  cn32:cs16 : cn8:cs64 1.57e-02     2.03e-01
-## 34  cn4:cs128 : cn64:cs8 6.07e-21     1.58e-19
-## 35  cn4:cs128 : cn8:cs64 3.62e-01     1.00e+00
-## 36   cn64:cs8 : cn8:cs64 1.24e-24     3.84e-23
+## 
+## 	Kruskal-Wallis rank sum test
+## 
+## data:  evaluation_first_solution_found by cohort_config
+## Kruskal-Wallis chi-squared = 4.2497, df = 3, p-value = 0.2357
 ```
 
-#### Statistics - For loop index
+```r
+pairwise.wilcox.test(x=eval_data$evaluation_first_solution_found, g=eval_data$cohort_config, exact=FALSE, p.adjust.method = "holm")
+```
+
+```
+## 
+## 	Pairwise comparisons using Wilcoxon rank sum test 
+## 
+## data:  eval_data$evaluation_first_solution_found and eval_data$cohort_config 
+## 
+##           cn1:cs512 cn2:cs256 cn4:cs128
+## cn2:cs256 1.00      -         -        
+## cn4:cs128 0.99      1.00      -        
+## cn8:cs64  0.64      0.99      1.00     
+## 
+## P value adjustment method: holm
+```
+
+```r
+cfgs <- c()
+meds <- c()
+for (cfg in levels(eval_data$cohort_config)) {
+  cfgs <- c(cfgs, cfg)
+  med  <- median(filter(eval_data, cohort_config==cfg)$evaluation_first_solution_found)
+  meds <- c(meds, med)
+}
+df<-as.data.frame(x=cfgs)
+df$medians<-meds
+arrange(df, meds)
+```
+
+```
+##        cfgs  medians
+## 1  cn8:cs64 44859392
+## 2 cn2:cs256 52822016
+## 3 cn4:cs128 54984704
+## 4 cn1:cs512 68550650
+## 5 cn128:cs4       NA
+## 6 cn16:cs32       NA
+## 7 cn256:cs2       NA
+## 8 cn32:cs16       NA
+## 9  cn64:cs8       NA
+```
+
+#### Statistics - For Loop Index
 
 
 ```r
-prob_data <- filter(eval_78643200_clex_data, problem=="for-loop-index")
-prob_data$successful_runs = prob_data$solutions_found
-prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
-con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
-rownames(con_table) <- prob_data$cohort_config
-colnames(con_table) <- c("Successful Runs", "Failed Runs")
-pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, method="holm")
+eval_data <- filter(prog_solutions_e78643200, problem=="for-loop-index" & (sel_mode == "sample tests"|cohort_config=="cn1:cs512") & !is.na(evaluation_first_solution_found))
+kruskal.test(evaluation_first_solution_found ~ cohort_config, eval_data)
 ```
 
 ```
-##               Comparison p.Fisher p.adj.Fisher
-## 1  cn128:cs4 : cn16:cs32 0.548000      1.00000
-## 2  cn128:cs4 : cn1:cs512 0.041400      1.00000
-## 3  cn128:cs4 : cn256:cs2 0.100000      1.00000
-## 4  cn128:cs4 : cn2:cs256 0.158000      1.00000
-## 5  cn128:cs4 : cn32:cs16 0.548000      1.00000
-## 6  cn128:cs4 : cn4:cs128 0.689000      1.00000
-## 7   cn128:cs4 : cn64:cs8 0.419000      1.00000
-## 8   cn128:cs4 : cn8:cs64 0.688000      1.00000
-## 9  cn16:cs32 : cn1:cs512 0.214000      1.00000
-## 10 cn16:cs32 : cn256:cs2 0.014900      0.47700
-## 11 cn16:cs32 : cn2:cs256 0.541000      1.00000
-## 12 cn16:cs32 : cn32:cs16 1.000000      1.00000
-## 13 cn16:cs32 : cn4:cs128 1.000000      1.00000
-## 14  cn16:cs32 : cn64:cs8 0.109000      1.00000
-## 15  cn16:cs32 : cn8:cs64 0.230000      1.00000
-## 16 cn1:cs512 : cn256:cs2 0.000121      0.00436
-## 17 cn1:cs512 : cn2:cs256 0.671000      1.00000
-## 18 cn1:cs512 : cn32:cs16 0.214000      1.00000
-## 19 cn1:cs512 : cn4:cs128 0.149000      1.00000
-## 20  cn1:cs512 : cn64:cs8 0.002440      0.08300
-## 21  cn1:cs512 : cn8:cs64 0.008470      0.28000
-## 22 cn256:cs2 : cn2:cs256 0.001230      0.04300
-## 23 cn256:cs2 : cn32:cs16 0.014900      0.47700
-## 24 cn256:cs2 : cn4:cs128 0.025300      0.73400
-## 25  cn256:cs2 : cn64:cs8 0.527000      1.00000
-## 26  cn256:cs2 : cn8:cs64 0.298000      1.00000
-## 27 cn2:cs256 : cn32:cs16 0.541000      1.00000
-## 28 cn2:cs256 : cn4:cs128 0.416000      1.00000
-## 29  cn2:cs256 : cn64:cs8 0.015900      0.47700
-## 30  cn2:cs256 : cn8:cs64 0.044600      1.00000
-## 31 cn32:cs16 : cn4:cs128 1.000000      1.00000
-## 32  cn32:cs16 : cn64:cs8 0.109000      1.00000
-## 33  cn32:cs16 : cn8:cs64 0.230000      1.00000
-## 34  cn4:cs128 : cn64:cs8 0.160000      1.00000
-## 35  cn4:cs128 : cn8:cs64 0.317000      1.00000
-## 36   cn64:cs8 : cn8:cs64 0.838000      1.00000
+## 
+## 	Kruskal-Wallis rank sum test
+## 
+## data:  evaluation_first_solution_found by cohort_config
+## Kruskal-Wallis chi-squared = 136.44, df = 8, p-value < 2.2e-16
+```
+
+```r
+pairwise.wilcox.test(x=eval_data$evaluation_first_solution_found, g=eval_data$cohort_config, exact=FALSE, p.adjust.method = "holm")
+```
+
+```
+## 
+## 	Pairwise comparisons using Wilcoxon rank sum test 
+## 
+## data:  eval_data$evaluation_first_solution_found and eval_data$cohort_config 
+## 
+##           cn1:cs512 cn128:cs4 cn16:cs32 cn2:cs256 cn256:cs2 cn32:cs16
+## cn128:cs4 6.6e-06   -         -         -         -         -        
+## cn16:cs32 0.00136   0.02102   -         -         -         -        
+## cn2:cs256 0.99639   8.5e-06   0.00615   -         -         -        
+## cn256:cs2 2.2e-07   0.41699   1.5e-05   2.4e-08   -         -        
+## cn32:cs16 6.7e-05   0.09992   0.99678   0.00026   4.4e-05   -        
+## cn4:cs128 0.99678   1.0e-06   0.00667   0.99678   2.2e-09   0.00069  
+## cn64:cs8  1.5e-05   0.21330   0.53896   9.7e-05   0.00075   0.99678  
+## cn8:cs64  0.01450   4.9e-06   0.12410   0.21330   9.8e-11   0.00477  
+##           cn4:cs128 cn64:cs8
+## cn128:cs4 -         -       
+## cn16:cs32 -         -       
+## cn2:cs256 -         -       
+## cn256:cs2 -         -       
+## cn32:cs16 -         -       
+## cn4:cs128 -         -       
+## cn64:cs8  2.9e-05   -       
+## cn8:cs64  0.53896   0.00017 
+## 
+## P value adjustment method: holm
+```
+
+```r
+cfgs <- c()
+meds <- c()
+for (cfg in levels(eval_data$cohort_config)) {
+  cfgs <- c(cfgs, cfg)
+  med  <- median(filter(eval_data, cohort_config==cfg)$evaluation_first_solution_found)
+  meds <- c(meds, med)
+}
+df<-as.data.frame(x=cfgs)
+df$medians<-meds
+arrange(df, meds)
+```
+
+```
+##        cfgs  medians
+## 1 cn256:cs2  2640384
+## 2 cn128:cs4  3020800
+## 3  cn64:cs8  4771840
+## 4 cn32:cs16  8241152
+## 5 cn16:cs32  8749056
+## 6  cn8:cs64 17432576
+## 7 cn4:cs128 32342016
+## 8 cn2:cs256 34013184
+## 9 cn1:cs512 47972400
+```
+
+#### Statistics - Compare String Lengths
+
+
+```r
+eval_data <- filter(prog_solutions_e78643200, problem=="compare-string-lengths" & (sel_mode == "sample tests"|cohort_config=="cn1:cs512") & !is.na(evaluation_first_solution_found))
+kruskal.test(evaluation_first_solution_found ~ cohort_config, eval_data)
+```
+
+```
+## 
+## 	Kruskal-Wallis rank sum test
+## 
+## data:  evaluation_first_solution_found by cohort_config
+## Kruskal-Wallis chi-squared = 74.536, df = 5, p-value = 1.163e-14
+```
+
+```r
+pairwise.wilcox.test(x=eval_data$evaluation_first_solution_found, g=eval_data$cohort_config, exact=FALSE, p.adjust.method = "holm")
+```
+
+```
+## 
+## 	Pairwise comparisons using Wilcoxon rank sum test 
+## 
+## data:  eval_data$evaluation_first_solution_found and eval_data$cohort_config 
+## 
+##           cn1:cs512 cn16:cs32 cn2:cs256 cn32:cs16 cn4:cs128
+## cn16:cs32 1.4e-07   -         -         -         -        
+## cn2:cs256 0.00237   0.00031   -         -         -        
+## cn32:cs16 0.15339   0.20804   0.15339   -         -        
+## cn4:cs128 1.4e-07   0.02631   0.15339   0.15339   -        
+## cn8:cs64  6.8e-10   0.75015   1.2e-05   0.16187   0.00421  
+## 
+## P value adjustment method: holm
+```
+
+```r
+cfgs <- c()
+meds <- c()
+for (cfg in levels(eval_data$cohort_config)) {
+  cfgs <- c(cfgs, cfg)
+  med  <- median(filter(eval_data, cohort_config==cfg)$evaluation_first_solution_found)
+  meds <- c(meds, med)
+}
+df<-as.data.frame(x=cfgs)
+df$medians<-meds
+arrange(df, meds)
+```
+
+```
+##        cfgs  medians
+## 1 cn32:cs16  2740224
+## 2 cn16:cs32  8110080
+## 3  cn8:cs64  8421376
+## 4 cn4:cs128 16875520
+## 5 cn2:cs256 24379392
+## 6 cn1:cs512 47448100
+## 7 cn128:cs4       NA
+## 8 cn256:cs2       NA
+## 9  cn64:cs8       NA
 ```
 
 #### Statistics - Median
 
 
 ```r
-prob_data <- filter(eval_78643200_clex_data, problem=="median")
-prob_data$successful_runs = prob_data$solutions_found
-prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
-con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
-rownames(con_table) <- prob_data$cohort_config
-colnames(con_table) <- c("Successful Runs", "Failed Runs")
-pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, method="holm")
+eval_data <- filter(prog_solutions_e78643200, problem=="median" & (sel_mode == "sample tests"|cohort_config=="cn1:cs512") & !is.na(evaluation_first_solution_found))
+kruskal.test(evaluation_first_solution_found ~ cohort_config, eval_data)
 ```
 
 ```
-##               Comparison p.Fisher p.adj.Fisher
-## 1  cn128:cs4 : cn16:cs32 8.29e-18     2.65e-16
-## 2  cn128:cs4 : cn1:cs512 1.04e-09     2.50e-08
-## 3  cn128:cs4 : cn256:cs2 1.00e+00     1.00e+00
-## 4  cn128:cs4 : cn2:cs256 4.11e-15     1.15e-13
-## 5  cn128:cs4 : cn32:cs16 2.49e-19     8.96e-18
-## 6  cn128:cs4 : cn4:cs128 2.49e-19     8.96e-18
-## 7   cn128:cs4 : cn64:cs8 1.13e-10     2.94e-09
-## 8   cn128:cs4 : cn8:cs64 4.28e-17     1.28e-15
-## 9  cn16:cs32 : cn1:cs512 6.37e-03     1.15e-01
-## 10 cn16:cs32 : cn256:cs2 8.29e-18     2.65e-16
-## 11 cn16:cs32 : cn2:cs256 4.95e-01     1.00e+00
-## 12 cn16:cs32 : cn32:cs16 8.03e-01     1.00e+00
-## 13 cn16:cs32 : cn4:cs128 8.03e-01     1.00e+00
-## 14  cn16:cs32 : cn64:cs8 1.96e-02     3.14e-01
-## 15  cn16:cs32 : cn8:cs64 1.00e+00     1.00e+00
-## 16 cn1:cs512 : cn256:cs2 1.04e-09     2.50e-08
-## 17 cn1:cs512 : cn2:cs256 6.56e-02     9.18e-01
-## 18 cn1:cs512 : cn32:cs16 1.36e-03     2.99e-02
-## 19 cn1:cs512 : cn4:cs128 1.36e-03     2.99e-02
-## 20  cn1:cs512 : cn64:cs8 8.41e-01     1.00e+00
-## 21  cn1:cs512 : cn8:cs64 1.24e-02     2.11e-01
-## 22 cn256:cs2 : cn2:cs256 4.11e-15     1.15e-13
-## 23 cn256:cs2 : cn32:cs16 2.49e-19     8.96e-18
-## 24 cn256:cs2 : cn4:cs128 2.49e-19     8.96e-18
-## 25  cn256:cs2 : cn64:cs8 1.13e-10     2.94e-09
-## 26  cn256:cs2 : cn8:cs64 4.28e-17     1.28e-15
-## 27 cn2:cs256 : cn32:cs16 2.41e-01     1.00e+00
-## 28 cn2:cs256 : cn4:cs128 2.41e-01     1.00e+00
-## 29  cn2:cs256 : cn64:cs8 1.49e-01     1.00e+00
-## 30  cn2:cs256 : cn8:cs64 6.53e-01     1.00e+00
-## 31 cn32:cs16 : cn4:cs128 1.00e+00     1.00e+00
-## 32  cn32:cs16 : cn64:cs8 4.91e-03     9.82e-02
-## 33  cn32:cs16 : cn8:cs64 6.24e-01     1.00e+00
-## 34  cn4:cs128 : cn64:cs8 4.91e-03     9.82e-02
-## 35  cn4:cs128 : cn8:cs64 6.24e-01     1.00e+00
-## 36   cn64:cs8 : cn8:cs64 3.53e-02     5.30e-01
+## 
+## 	Kruskal-Wallis rank sum test
+## 
+## data:  evaluation_first_solution_found by cohort_config
+## Kruskal-Wallis chi-squared = 150.44, df = 6, p-value < 2.2e-16
 ```
-
-#### Statistics - Small or large
-
 
 ```r
-prob_data <- filter(eval_78643200_clex_data, problem=="small-or-large")
-prob_data$successful_runs = prob_data$solutions_found
-prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
-con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
-rownames(con_table) <- prob_data$cohort_config
-colnames(con_table) <- c("Successful Runs", "Failed Runs")
-pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, method="holm")
+pairwise.wilcox.test(x=eval_data$evaluation_first_solution_found, g=eval_data$cohort_config, exact=FALSE, p.adjust.method = "holm")
 ```
 
 ```
-##               Comparison p.Fisher p.adj.Fisher
-## 1  cn128:cs4 : cn16:cs32  0.05630       1.0000
-## 2  cn128:cs4 : cn1:cs512  0.49500       1.0000
-## 3  cn128:cs4 : cn256:cs2  1.00000       1.0000
-## 4  cn128:cs4 : cn2:cs256  0.49500       1.0000
-## 5  cn128:cs4 : cn32:cs16  1.00000       1.0000
-## 6  cn128:cs4 : cn4:cs128  0.00119       0.0428
-## 7   cn128:cs4 : cn64:cs8  1.00000       1.0000
-## 8   cn128:cs4 : cn8:cs64  0.00119       0.0428
-## 9  cn16:cs32 : cn1:cs512  0.43600       1.0000
-## 10 cn16:cs32 : cn256:cs2  0.05630       1.0000
-## 11 cn16:cs32 : cn2:cs256  0.43600       1.0000
-## 12 cn16:cs32 : cn32:cs16  0.05630       1.0000
-## 13 cn16:cs32 : cn4:cs128  0.26200       1.0000
-## 14  cn16:cs32 : cn64:cs8  0.05630       1.0000
-## 15  cn16:cs32 : cn8:cs64  0.26200       1.0000
-## 16 cn1:cs512 : cn256:cs2  0.49500       1.0000
-## 17 cn1:cs512 : cn2:cs256  1.00000       1.0000
-## 18 cn1:cs512 : cn32:cs16  0.49500       1.0000
-## 19 cn1:cs512 : cn4:cs128  0.02770       0.7760
-## 20  cn1:cs512 : cn64:cs8  0.49500       1.0000
-## 21  cn1:cs512 : cn8:cs64  0.02770       0.7760
-## 22 cn256:cs2 : cn2:cs256  0.49500       1.0000
-## 23 cn256:cs2 : cn32:cs16  1.00000       1.0000
-## 24 cn256:cs2 : cn4:cs128  0.00119       0.0428
-## 25  cn256:cs2 : cn64:cs8  1.00000       1.0000
-## 26  cn256:cs2 : cn8:cs64  0.00119       0.0428
-## 27 cn2:cs256 : cn32:cs16  0.49500       1.0000
-## 28 cn2:cs256 : cn4:cs128  0.02770       0.7760
-## 29  cn2:cs256 : cn64:cs8  0.49500       1.0000
-## 30  cn2:cs256 : cn8:cs64  0.02770       0.7760
-## 31 cn32:cs16 : cn4:cs128  0.00119       0.0428
-## 32  cn32:cs16 : cn64:cs8  1.00000       1.0000
-## 33  cn32:cs16 : cn8:cs64  0.00119       0.0428
-## 34  cn4:cs128 : cn64:cs8  0.00119       0.0428
-## 35  cn4:cs128 : cn8:cs64  1.00000       1.0000
-## 36   cn64:cs8 : cn8:cs64  0.00119       0.0428
+## 
+## 	Pairwise comparisons using Wilcoxon rank sum test 
+## 
+## data:  eval_data$evaluation_first_solution_found and eval_data$cohort_config 
+## 
+##           cn1:cs512 cn16:cs32 cn2:cs256 cn32:cs16 cn4:cs128 cn64:cs8
+## cn16:cs32 3.1e-09   -         -         -         -         -       
+## cn2:cs256 2.7e-06   5.8e-09   -         -         -         -       
+## cn32:cs16 9.7e-11   0.26971   2.9e-11   -         -         -       
+## cn4:cs128 1.7e-07   2.8e-07   0.06960   6.3e-09   -         -       
+## cn64:cs8  4.8e-11   0.87562   8.1e-11   0.26971   1.7e-07   -       
+## cn8:cs64  7.3e-09   0.00118   0.00015   1.7e-05   0.08079   0.00118 
+## 
+## P value adjustment method: holm
 ```
+
+```r
+cfgs <- c()
+meds <- c()
+for (cfg in levels(eval_data$cohort_config)) {
+  cfgs <- c(cfgs, cfg)
+  med  <- median(filter(eval_data, cohort_config==cfg)$evaluation_first_solution_found)
+  meds <- c(meds, med)
+}
+df<-as.data.frame(x=cfgs)
+df$medians<-meds
+arrange(df, meds)
+```
+
+```
+##        cfgs  medians
+## 1 cn32:cs16  3829760
+## 2 cn16:cs32  5308416
+## 3  cn64:cs8  5523456
+## 4  cn8:cs64 12648448
+## 5 cn4:cs128 17235968
+## 6 cn2:cs256 22806528
+## 7 cn1:cs512 51380200
+## 8 cn128:cs4       NA
+## 9 cn256:cs2       NA
+```
+
 
 #### Statistics - Smallest
 
 
 ```r
-prob_data <- filter(eval_78643200_clex_data, problem=="smallest")
-prob_data$successful_runs = prob_data$solutions_found
-prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
-con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
-rownames(con_table) <- prob_data$cohort_config
-colnames(con_table) <- c("Successful Runs", "Failed Runs")
-pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, method="holm")
+eval_data <- filter(prog_solutions_e78643200, problem=="smallest" & (sel_mode == "sample tests"|cohort_config=="cn1:cs512") & !is.na(evaluation_first_solution_found))
+kruskal.test(evaluation_first_solution_found ~ cohort_config, eval_data)
 ```
 
 ```
-##               Comparison p.Fisher p.adj.Fisher
-## 1  cn128:cs4 : cn16:cs32 1.22e-02     2.81e-01
-## 2  cn128:cs4 : cn1:cs512 9.28e-02     1.00e+00
-## 3  cn128:cs4 : cn256:cs2 2.08e-16     6.24e-15
-## 4  cn128:cs4 : cn2:cs256 8.15e-01     1.00e+00
-## 5  cn128:cs4 : cn32:cs16 3.10e-02     6.82e-01
-## 6  cn128:cs4 : cn4:cs128 6.64e-02     1.00e+00
-## 7   cn128:cs4 : cn64:cs8 2.11e-01     1.00e+00
-## 8   cn128:cs4 : cn8:cs64 1.25e-01     1.00e+00
-## 9  cn16:cs32 : cn1:cs512 1.55e-05     4.34e-04
-## 10 cn16:cs32 : cn256:cs2 4.64e-25     1.67e-23
-## 11 cn16:cs32 : cn2:cs256 4.07e-02     8.14e-01
-## 12 cn16:cs32 : cn32:cs16 1.00e+00     1.00e+00
-## 13 cn16:cs32 : cn4:cs128 7.15e-01     1.00e+00
-## 14  cn16:cs32 : cn64:cs8 3.18e-01     1.00e+00
-## 15  cn16:cs32 : cn8:cs64 4.87e-01     1.00e+00
-## 16 cn1:cs512 : cn256:cs2 3.55e-11     1.03e-09
-## 17 cn1:cs512 : cn2:cs256 3.27e-02     6.87e-01
-## 18 cn1:cs512 : cn32:cs16 6.49e-05     1.75e-03
-## 19 cn1:cs512 : cn4:cs128 2.25e-04     5.85e-03
-## 20  cn1:cs512 : cn64:cs8 1.75e-03     4.20e-02
-## 21  cn1:cs512 : cn8:cs64 6.68e-04     1.67e-02
-## 22 cn256:cs2 : cn2:cs256 8.29e-18     2.57e-16
-## 23 cn256:cs2 : cn32:cs16 6.27e-24     2.19e-22
-## 24 cn256:cs2 : cn4:cs128 6.90e-23     2.35e-21
-## 25  cn256:cs2 : cn64:cs8 5.24e-21     1.68e-19
-## 26  cn256:cs2 : cn8:cs64 6.44e-22     2.13e-20
-## 27 cn2:cs256 : cn32:cs16 9.05e-02     1.00e+00
-## 28 cn2:cs256 : cn4:cs128 1.71e-01     1.00e+00
-## 29  cn2:cs256 : cn64:cs8 4.36e-01     1.00e+00
-## 30  cn2:cs256 : cn8:cs64 2.87e-01     1.00e+00
-## 31 cn32:cs16 : cn4:cs128 1.00e+00     1.00e+00
-## 32  cn32:cs16 : cn64:cs8 5.25e-01     1.00e+00
-## 33  cn32:cs16 : cn8:cs64 7.41e-01     1.00e+00
-## 34  cn4:cs128 : cn64:cs8 7.60e-01     1.00e+00
-## 35  cn4:cs128 : cn8:cs64 1.00e+00     1.00e+00
-## 36   cn64:cs8 : cn8:cs64 1.00e+00     1.00e+00
+## 
+## 	Kruskal-Wallis rank sum test
+## 
+## data:  evaluation_first_solution_found by cohort_config
+## Kruskal-Wallis chi-squared = 202.09, df = 7, p-value < 2.2e-16
 ```
 
+```r
+pairwise.wilcox.test(x=eval_data$evaluation_first_solution_found, g=eval_data$cohort_config, exact=FALSE, p.adjust.method = "holm")
+```
 
-## Cohort lexicase solves problems with less computational effort
+```
+## 
+## 	Pairwise comparisons using Wilcoxon rank sum test 
+## 
+## data:  eval_data$evaluation_first_solution_found and eval_data$cohort_config 
+## 
+##           cn1:cs512 cn128:cs4 cn16:cs32 cn2:cs256 cn32:cs16 cn4:cs128
+## cn128:cs4 0.00194   -         -         -         -         -        
+## cn16:cs32 2.8e-11   1.0e-07   -         -         -         -        
+## cn2:cs256 4.3e-05   0.90963   8.9e-13   -         -         -        
+## cn32:cs16 3.7e-11   1.4e-09   0.06680   5.8e-13   -         -        
+## cn4:cs128 2.4e-07   0.14326   2.4e-06   0.02316   7.2e-09   -        
+## cn64:cs8  8.0e-12   3.7e-11   0.00026   2.0e-14   0.14326   3.5e-11  
+## cn8:cs64  2.5e-08   0.00246   0.02316   8.8e-06   8.8e-06   0.06986  
+##           cn64:cs8
+## cn128:cs4 -       
+## cn16:cs32 -       
+## cn2:cs256 -       
+## cn32:cs16 -       
+## cn4:cs128 -       
+## cn64:cs8  -       
+## cn8:cs64  1.7e-08 
+## 
+## P value adjustment method: holm
+```
 
-### Paper Figure
+```r
+cfgs <- c()
+meds <- c()
+for (cfg in levels(eval_data$cohort_config)) {
+  cfgs <- c(cfgs, cfg)
+  med  <- median(filter(eval_data, cohort_config==cfg)$evaluation_first_solution_found)
+  meds <- c(meds, med)
+}
+df<-as.data.frame(x=cfgs)
+df$medians<-meds
+arrange(df, meds)
+```
 
-Because selection schemes were statistically indistiguishable on the small or large problem, we leave that problem out the analyses presented in the paper. However, it is included in analyses below.
+```
+##        cfgs  medians
+## 1  cn64:cs8  2881536
+## 2 cn32:cs16  4718592
+## 3 cn16:cs32  6905856
+## 4  cn8:cs64 10076160
+## 5 cn4:cs128 17989632
+## 6 cn2:cs256 28704768
+## 7 cn128:cs4 30744576
+## 8 cn1:cs512 51511300
+## 9 cn256:cs2       NA
+```
 
-To give more time for different conditions to yield solutions, we ran everything for 78643200 total evaluations.
+## Cohorts
 
-![](cohort-lex-performance-analysis_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
-### After 78643200 Total Evaluations
+```
+## Warning: Removed 742 rows containing non-finite values (stat_boxplot).
+```
 
-![](cohort-lex-performance-analysis_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](cohort-lex-performance-analysis_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
 
 #### Statistics - Small Or Large
 
@@ -994,9 +1313,6 @@ arrange(df, meds)
 ## 8 cn1:cs512 51511300
 ## 9 cn256:cs2       NA
 ```
-
-
-
 
 ## References
 

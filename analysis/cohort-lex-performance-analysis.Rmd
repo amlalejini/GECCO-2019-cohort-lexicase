@@ -50,27 +50,10 @@ prog_solutions_e78643200 <- read.csv(solutions_e78643200_data_loc, na.strings = 
 prog_solutions_evals_summary <- read.csv("../data/exp-data/min_programs__eval_all__solutions_summary.csv", na.strings = "NONE")
 ```
 
-Next, we'll load solution data after a fixed number of _generations_:
-
-```{r}
-# (1) After 100 generations (for all conditions)
-solutions_u100_data_loc <- "../data/exp-data/min_programs__update_100.csv"
-prog_solutions_u100 <- read.csv(solutions_u100_data_loc, na.strings = "NONE")
-
-# (2) After 300 generations (for all conditions)
-solutions_u300_data_loc <- "../data/exp-data/min_programs__update_300.csv"
-prog_solutions_u300 <- read.csv(solutions_u300_data_loc, na.strings = "NONE")
-
-# (3) Load summary of solution data (contingency tables), which contains both time points.
-prog_solutions_updates_summary <- read.csv("../data/exp-data/min_programs__update_all__solutions_summary.csv", na.strings = "NONE")
-```
-
 Below, we impose an ordering on the problems in the data (to make order of appearance in plotting consistent).
 
 ```{r}
 prog_solutions_evals_summary$problem <- factor(prog_solutions_evals_summary$problem, levels=c('small-or-large','for-loop-index','compare-string-lengths','median','smallest'))
-
-prog_solutions_updates_summary$problem <- factor(prog_solutions_updates_summary$problem, levels=c('small-or-large','for-loop-index','compare-string-lengths','median','smallest'))
 
 prog_solutions_e78643200$problem <- factor(prog_solutions_e78643200$problem, levels=c('small-or-large','for-loop-index','compare-string-lengths','median','smallest'))
 
@@ -84,16 +67,15 @@ problem_names <- c(
 )
 ```
 
-## Given a Fixed number of evaluations, cohorts improve problem solving success
+## Given a Fixed number of evaluations (26214400), both cohorts and downsampling improve problem solving success
 
-### Paper Figure
-
-<!-- For four of the five problems (all but small or large), this figure gives the number of successful runs after 26214400 total evaluations (100 generations of standard lexicase). This was not sufficient time for solutions to evolve in small or large, so that problem is reported after 78643200 total evaluations (300 generations of standard lexicase). -->
+## Down sampling
 
 ```{r, echo=FALSE}
 # paper_plot_data <- filter(prog_solutions_evals_summary, test_mode=="SEL_COHORT_LEX" & ((problem=="small-or-large"&evaluation=="78643200")|(problem!="small-or-large"&evaluation=="26214400")))
-paper_plot_data <- filter(prog_solutions_evals_summary, test_mode=="SEL_COHORT_LEX" & evaluation=="78643200")
-plt<-ggplot(data = paper_plot_data, mapping=aes(x=cohort_config, y=solutions_found, fill=cohort_config)) +
+downsample_data <- filter(prog_solutions_evals_summary, (test_mode=="SEL_DOWN_SAMPLE_TESTS"|cohort_config=="cn1:cs512") & evaluation=="26214400")
+
+ggplot(data = downsample_data, mapping=aes(x=cohort_config, y=solutions_found, fill=cohort_config)) +
       geom_bar(stat="identity") + xlab("K (number of cohorts)") + ylab("Successful Runs")  +  ylim(0, 50) +
       scale_x_discrete(labels = c("1", "2", "4", "8", "16", "32", "64", "128", "256"), limits = c("cn1:cs512", "cn2:cs256", "cn4:cs128", "cn8:cs64", "cn16:cs32", "cn32:cs16", "cn64:cs8", "cn128:cs4", "cn256:cs2")) +
       guides(fill=FALSE)+
@@ -101,30 +83,14 @@ plt<-ggplot(data = paper_plot_data, mapping=aes(x=cohort_config, y=solutions_fou
       theme(axis.title.x = element_text(size=14)) + 
       coord_flip() + facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
       theme(strip.text.x = element_text(size = 14)) + 
-      ggtitle("Success Rates for Each Cohort Configuration") +
-      ggsave("fixed-evals-performance-late.pdf", height=5, width=15)
-plt
-```
+      ggtitle("Success Rates for Each Down-sample Configuration")
 
-### After 26214400 Evaluations (100 generations of standard lexicase)
-
-```{r, echo=FALSE}
-eval_26214400_clex_data <- filter(prog_solutions_evals_summary, test_mode=="SEL_COHORT_LEX" & evaluation=="26214400")
-ggplot(data = eval_26214400_clex_data, mapping=aes(x=cohort_config, y=solutions_found, fill=cohort_config)) +
-      geom_bar(stat="identity") + xlab("K (number of cohorts)") + ylab("Successful Runs")  +  ylim(0, 50) +
-      scale_x_discrete(labels = c("1", "2", "4", "8", "16", "32", "64", "128", "256"), limits = c("cn1:cs512", "cn2:cs256", "cn4:cs128", "cn8:cs64", "cn16:cs32", "cn32:cs16", "cn64:cs8", "cn128:cs4", "cn256:cs2")) +
-      guides(fill=FALSE)+
-      geom_text(aes(label=solutions_found), nudge_y=2) + 
-      theme(axis.title.x = element_text(size=14)) + 
-      coord_flip() + facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
-      theme(strip.text.x = element_text(size = 14)) + 
-      ggtitle("Success Rates for Each Cohort Configuration (after 26214400 Evaluations)")
 ```
 
 #### Statistics - Compare string lengths
 
 ```{r}
-prob_data <- filter(eval_26214400_clex_data, problem=="compare-string-lengths")
+prob_data <- filter(downsample_data, problem=="compare-string-lengths")
 prob_data$successful_runs = prob_data$solutions_found
 prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
 con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
@@ -136,7 +102,7 @@ pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, me
 #### Statistics - For loop index
 
 ```{r}
-prob_data <- filter(eval_26214400_clex_data, problem=="for-loop-index")
+prob_data <- filter(downsample_data, problem=="for-loop-index")
 prob_data$successful_runs = prob_data$solutions_found
 prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
 con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
@@ -148,7 +114,7 @@ pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, me
 #### Statistics - Median
 
 ```{r}
-prob_data <- filter(eval_26214400_clex_data, problem=="median")
+prob_data <- filter(downsample_data, problem=="median")
 prob_data$successful_runs = prob_data$solutions_found
 prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
 con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
@@ -160,7 +126,7 @@ pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, me
 #### Statistics - Small or large
 
 ```{r}
-prob_data <- filter(eval_26214400_clex_data, problem=="small-or-large")
+prob_data <- filter(downsample_data, problem=="small-or-large")
 prob_data$successful_runs = prob_data$solutions_found
 prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
 con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
@@ -172,7 +138,7 @@ pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, me
 #### Statistics - Smallest
 
 ```{r}
-prob_data <- filter(eval_26214400_clex_data, problem=="smallest")
+prob_data <- filter(downsample_data, problem=="smallest")
 prob_data$successful_runs = prob_data$solutions_found
 prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
 con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
@@ -181,11 +147,14 @@ colnames(con_table) <- c("Successful Runs", "Failed Runs")
 pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, method="holm")
 ```
 
-### After 78643200 Evaluations (300 generations of standard lexicase)
+
+## Cohorts
 
 ```{r, echo=FALSE}
-eval_78643200_clex_data <- filter(prog_solutions_evals_summary, test_mode=="SEL_COHORT_LEX" & evaluation=="78643200")
-ggplot(data = eval_78643200_clex_data, mapping=aes(x=cohort_config, y=solutions_found, fill=cohort_config)) +
+# paper_plot_data <- filter(prog_solutions_evals_summary, test_mode=="SEL_COHORT_LEX" & ((problem=="small-or-large"&evaluation=="78643200")|(problem!="small-or-large"&evaluation=="26214400")))
+cohort_data <- filter(prog_solutions_evals_summary, test_mode=="SEL_COHORT_LEX" & evaluation=="26214400")
+
+ggplot(data = cohort_data, mapping=aes(x=cohort_config, y=solutions_found, fill=cohort_config)) +
       geom_bar(stat="identity") + xlab("K (number of cohorts)") + ylab("Successful Runs")  +  ylim(0, 50) +
       scale_x_discrete(labels = c("1", "2", "4", "8", "16", "32", "64", "128", "256"), limits = c("cn1:cs512", "cn2:cs256", "cn4:cs128", "cn8:cs64", "cn16:cs32", "cn32:cs16", "cn64:cs8", "cn128:cs4", "cn256:cs2")) +
       guides(fill=FALSE)+
@@ -193,13 +162,15 @@ ggplot(data = eval_78643200_clex_data, mapping=aes(x=cohort_config, y=solutions_
       theme(axis.title.x = element_text(size=14)) + 
       coord_flip() + facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
       theme(strip.text.x = element_text(size = 14)) + 
-      ggtitle("Success Rates for Each Cohort Configuration (after 78643200 Evaluations)")
+      ggtitle("Success Rates for Each Down-sample Configuration") 
+
 ```
+
 
 #### Statistics - Compare string lengths
 
 ```{r}
-prob_data <- filter(eval_78643200_clex_data, problem=="compare-string-lengths")
+prob_data <- filter(cohort_data, problem=="compare-string-lengths")
 prob_data$successful_runs = prob_data$solutions_found
 prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
 con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
@@ -211,7 +182,7 @@ pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, me
 #### Statistics - For loop index
 
 ```{r}
-prob_data <- filter(eval_78643200_clex_data, problem=="for-loop-index")
+prob_data <- filter(cohort_data, problem=="for-loop-index")
 prob_data$successful_runs = prob_data$solutions_found
 prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
 con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
@@ -223,7 +194,7 @@ pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, me
 #### Statistics - Median
 
 ```{r}
-prob_data <- filter(eval_78643200_clex_data, problem=="median")
+prob_data <- filter(cohort_data, problem=="median")
 prob_data$successful_runs = prob_data$solutions_found
 prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
 con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
@@ -235,7 +206,7 @@ pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, me
 #### Statistics - Small or large
 
 ```{r}
-prob_data <- filter(eval_78643200_clex_data, problem=="small-or-large")
+prob_data <- filter(cohort_data, problem=="small-or-large")
 prob_data$successful_runs = prob_data$solutions_found
 prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
 con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
@@ -247,7 +218,7 @@ pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, me
 #### Statistics - Smallest
 
 ```{r}
-prob_data <- filter(eval_78643200_clex_data, problem=="smallest")
+prob_data <- filter(cohort_data, problem=="smallest")
 prob_data$successful_runs = prob_data$solutions_found
 prob_data$failed_runs = prob_data$total_runs - prob_data$solutions_found
 con_table <- matrix(c(prob_data$successful_runs, prob_data$failed_runs), nrow=length(prob_data$successful_runs))
@@ -257,37 +228,141 @@ pairwiseNominalIndependence(con_table, fisher=TRUE, gtest=FALSE, chisq=FALSE, me
 ```
 
 
-## Cohort lexicase solves problems with less computational effort
 
-### Paper Figure
 
-Because selection schemes were statistically indistiguishable on the small or large problem, we leave that problem out the analyses presented in the paper. However, it is included in analyses below.
 
-To give more time for different conditions to yield solutions, we ran everything for 78643200 total evaluations.
 
-```{r, echo=FALSE, warning=FALSE}
-ggplot(filter(prog_solutions_e78643200, sel_mode == "cohort lex" & problem != "small-or-large"), mapping=aes(x=cohort_config, y=evaluation_first_solution_found, fill=cohort_config, colour=cohort_config)) +
+
+
+
+
+
+
+## Down sampling and cohort lexicase solves problems with less computational effort
+
+## Down sampling
+
+```{r, echo=FALSE}
+downsample_ce_data <- filter(prog_solutions_e78643200, (sel_mode == "sample tests"|cohort_config=="cn1:cs512") & problem!="small-or-large")
+
+ggplot(downsample_ce_data, mapping=aes(x=cohort_config, y=evaluation_first_solution_found, fill=cohort_config, colour=cohort_config)) +
     # geom_point(position = position_jitter(width = .15), size = .25) +
     geom_boxplot(aes(x = cohort_config, y = evaluation_first_solution_found), alpha = 0.3) +
     ylab("Test Case Evaluations") + ylim(0, 78643200) + xlab("K (number of cohorts)") +  guides(fill=FALSE, colour=FALSE) +
     scale_x_discrete(labels = c("1", "2", "4", "8", "16", "32", "64", "128", "256"), limits = c("cn1:cs512", "cn2:cs256", "cn4:cs128", "cn8:cs64", "cn16:cs32", "cn32:cs16", "cn64:cs8", "cn128:cs4", "cn256:cs2")) +
-    ggtitle("Number of evaluations before finding a solution") + 
+    ggtitle("Number of evaluations before finding a solution with down-sample") + 
     facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) +
     theme(axis.title.x = element_text(size=14)) + 
-    theme(strip.text.x = element_text(size = 12)) + 
-    ggsave("faceted-first-eval-sol-found.pdf", height=5, width=15)
+    theme(strip.text.x = element_text(size = 12))
 ```
 
-### After 78643200 Total Evaluations
+#### Statistics - Small Or Large
 
-```{r, echo=FALSE, warning=FALSE}
-pdata <- filter(prog_solutions_e78643200, sel_mode == "cohort lex")
-ggplot(pdata, mapping=aes(x=cohort_config, y=evaluation_first_solution_found, fill=cohort_config, colour=cohort_config)) +
+```{r}
+eval_data <- filter(prog_solutions_e78643200, problem=="small-or-large" & (sel_mode == "sample tests"|cohort_config=="cn1:cs512") & !is.na(evaluation_first_solution_found))
+kruskal.test(evaluation_first_solution_found ~ cohort_config, eval_data)
+pairwise.wilcox.test(x=eval_data$evaluation_first_solution_found, g=eval_data$cohort_config, exact=FALSE, p.adjust.method = "holm")
+
+cfgs <- c()
+meds <- c()
+for (cfg in levels(eval_data$cohort_config)) {
+  cfgs <- c(cfgs, cfg)
+  med  <- median(filter(eval_data, cohort_config==cfg)$evaluation_first_solution_found)
+  meds <- c(meds, med)
+}
+df<-as.data.frame(x=cfgs)
+df$medians<-meds
+arrange(df, meds)
+```
+
+#### Statistics - For Loop Index
+
+```{r}
+eval_data <- filter(prog_solutions_e78643200, problem=="for-loop-index" & (sel_mode == "sample tests"|cohort_config=="cn1:cs512") & !is.na(evaluation_first_solution_found))
+kruskal.test(evaluation_first_solution_found ~ cohort_config, eval_data)
+pairwise.wilcox.test(x=eval_data$evaluation_first_solution_found, g=eval_data$cohort_config, exact=FALSE, p.adjust.method = "holm")
+
+cfgs <- c()
+meds <- c()
+for (cfg in levels(eval_data$cohort_config)) {
+  cfgs <- c(cfgs, cfg)
+  med  <- median(filter(eval_data, cohort_config==cfg)$evaluation_first_solution_found)
+  meds <- c(meds, med)
+}
+df<-as.data.frame(x=cfgs)
+df$medians<-meds
+arrange(df, meds)
+```
+
+#### Statistics - Compare String Lengths
+
+```{r}
+eval_data <- filter(prog_solutions_e78643200, problem=="compare-string-lengths" & (sel_mode == "sample tests"|cohort_config=="cn1:cs512") & !is.na(evaluation_first_solution_found))
+kruskal.test(evaluation_first_solution_found ~ cohort_config, eval_data)
+pairwise.wilcox.test(x=eval_data$evaluation_first_solution_found, g=eval_data$cohort_config, exact=FALSE, p.adjust.method = "holm")
+
+cfgs <- c()
+meds <- c()
+for (cfg in levels(eval_data$cohort_config)) {
+  cfgs <- c(cfgs, cfg)
+  med  <- median(filter(eval_data, cohort_config==cfg)$evaluation_first_solution_found)
+  meds <- c(meds, med)
+}
+df<-as.data.frame(x=cfgs)
+df$medians<-meds
+arrange(df, meds)
+```
+
+#### Statistics - Median
+
+```{r}
+eval_data <- filter(prog_solutions_e78643200, problem=="median" & (sel_mode == "sample tests"|cohort_config=="cn1:cs512") & !is.na(evaluation_first_solution_found))
+kruskal.test(evaluation_first_solution_found ~ cohort_config, eval_data)
+pairwise.wilcox.test(x=eval_data$evaluation_first_solution_found, g=eval_data$cohort_config, exact=FALSE, p.adjust.method = "holm")
+
+cfgs <- c()
+meds <- c()
+for (cfg in levels(eval_data$cohort_config)) {
+  cfgs <- c(cfgs, cfg)
+  med  <- median(filter(eval_data, cohort_config==cfg)$evaluation_first_solution_found)
+  meds <- c(meds, med)
+}
+df<-as.data.frame(x=cfgs)
+df$medians<-meds
+arrange(df, meds)
+```
+
+
+#### Statistics - Smallest
+
+```{r}
+eval_data <- filter(prog_solutions_e78643200, problem=="smallest" & (sel_mode == "sample tests"|cohort_config=="cn1:cs512") & !is.na(evaluation_first_solution_found))
+kruskal.test(evaluation_first_solution_found ~ cohort_config, eval_data)
+pairwise.wilcox.test(x=eval_data$evaluation_first_solution_found, g=eval_data$cohort_config, exact=FALSE, p.adjust.method = "holm")
+
+cfgs <- c()
+meds <- c()
+for (cfg in levels(eval_data$cohort_config)) {
+  cfgs <- c(cfgs, cfg)
+  med  <- median(filter(eval_data, cohort_config==cfg)$evaluation_first_solution_found)
+  meds <- c(meds, med)
+}
+df<-as.data.frame(x=cfgs)
+df$medians<-meds
+arrange(df, meds)
+```
+
+## Cohorts
+
+```{r, echo=FALSE}
+cohort_ce_data <- filter(prog_solutions_e78643200, sel_mode == "cohort lex" & problem!="small-or-large")
+
+ggplot(cohort_ce_data, mapping=aes(x=cohort_config, y=evaluation_first_solution_found, fill=cohort_config, colour=cohort_config)) +
     # geom_point(position = position_jitter(width = .15), size = .25) +
     geom_boxplot(aes(x = cohort_config, y = evaluation_first_solution_found), alpha = 0.3) +
     ylab("Test Case Evaluations") + ylim(0, 78643200) + xlab("K (number of cohorts)") +  guides(fill=FALSE, colour=FALSE) +
     scale_x_discrete(labels = c("1", "2", "4", "8", "16", "32", "64", "128", "256"), limits = c("cn1:cs512", "cn2:cs256", "cn4:cs128", "cn8:cs64", "cn16:cs32", "cn32:cs16", "cn64:cs8", "cn128:cs4", "cn256:cs2")) +
-    ggtitle("Number of evaluations before finding a solution") + 
+    ggtitle("Number of evaluations before finding a solution with cohort lexicase") + 
     facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) +
     theme(axis.title.x = element_text(size=14)) + 
     theme(strip.text.x = element_text(size = 12))
@@ -388,9 +463,6 @@ df<-as.data.frame(x=cfgs)
 df$medians<-meds
 arrange(df, meds)
 ```
-
-
-
 
 ## References
 
