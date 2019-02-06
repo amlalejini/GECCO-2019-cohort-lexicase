@@ -927,6 +927,7 @@ protected:
           InitTestCasePop_TrainingSetBolstered(w, test_set, gen_rand_test, true);
         }
       });
+
     } else if (TRAINING_EXAMPLE_MODE == (size_t)TRAINING_EXAMPLE_MODE_TYPE::STATIC_COEVO) {
       std::cout << "In STATIC_COEVO training example mode, bolstering training examples to match pop size." << std::endl;
       STATIC_COEVO__NUM_STATIC_TESTCASES = test_set.GetSize(); // Number of test cases to never mutate
@@ -962,10 +963,18 @@ protected:
                                             bool guarantee_unique=true) {
     std::cout << "Initializing test case population from a training set then bolstering to TEST_POP_SIZE." << std::endl;
     std::cout << "  Test set size = " << test_set.GetSize() << std::endl;
+
+    emp::vector<size_t> tids;
+    for (size_t i = 0; i < test_set.GetSize(); ++i) { tids.emplace_back(i); }
+    emp::Shuffle(*random, tids);
+    std::cout << "Test IDS: ";
+    for (size_t i = 0; i < test_set.GetSize(); ++i) { std::cout << tids[i] << ";"; }
+    std::cout << std::endl;
+
     while (w->GetSize() < TEST_POP_SIZE) {
       if (w->GetSize() < test_set.GetSize()) {
         // std::cout << "Injecting test id " << w->GetSize() << std::endl;
-        w->Inject(test_set.GetInput(w->GetSize()), 1);
+        w->Inject(test_set.GetInput(tids[w->GetSize()]), 1);
       } else {
         // std::cout << "Injecting randomly generated input " << std::endl;
         bool dup = true;  // Assume a dup, prove it's not.
@@ -998,6 +1007,7 @@ protected:
 
     if (guarantee_unique) { emp_assert(unique); }
     std::cout << "  Unique pop? " << unique << std::endl;
+
   }
 
   // Initialize given world's population randomly.
@@ -2127,7 +2137,7 @@ void ProgramSynthesisExperiment::SetupDataCollection() {
 
   std::function<size_t(void)> get_update = [this]() { return prog_world->GetUpdate(); };
   std::function<double(void)> get_evaluations = [this]() {
-    if (EVALUATION_MODE == (size_t)EVALUATION_TYPE::COHORT) {
+    if (EVALUATION_MODE == (size_t)EVALUATION_TYPE::COHORT || EVALUATION_MODE == (size_t)EVALUATION_TYPE::TEST_DOWNSAMPLING) {
       // update * cohort size * cohort size * num cohorts
       return prog_world->GetUpdate() * PROG_COHORT_SIZE * TEST_COHORT_SIZE * NUM_COHORTS;
     } else {
