@@ -8,7 +8,7 @@ AssignSignifLetters <- function(mw) {
   # And now for a bunch of code that figures out to assign significance group labels for the figure
   # Inspired by http://stackoverflow.com/questions/23681709/algorithm-for-automating-pairwise-significance-grouping-labels-in-r
   
-  n <- 10
+  n <- length(colnames(mw))
   g <- as.matrix(mw > 0.05)
   g <- cbind(rbind(NA, g), NA)
   g <- replace(g, is.na(g), FALSE)
