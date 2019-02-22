@@ -1,6 +1,22 @@
 # Job submission notes
 
-- Problem: Smallest
+- Problem: Smallest (ALEX)
+  - [ ] Cohorts
+  - [ ] Down-sampled training
+  - [x] Reduced training
+- Problem: Median (JOSE)
+  - [ ] Cohorts
+  - [ ] Down-sampled training
+  - [ ] Reduced training
+- Problem: For Loop Index
+  - [ ] Cohorts
+  - [ ] Down-sampled training
+  - [ ] Reduced training
+- Problem: Compare String Lengths
+  - [ ] Cohorts
+  - [ ] Down-sampled training
+  - [ ] Reduced training
+- Problem: Small or Large
   - [ ] Cohorts
   - [ ] Down-sampled training
   - [ ] Reduced training
