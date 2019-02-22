@@ -2137,9 +2137,11 @@ void ProgramSynthesisExperiment::SetupDataCollection() {
 
   std::function<size_t(void)> get_update = [this]() { return prog_world->GetUpdate(); };
   std::function<double(void)> get_evaluations = [this]() {
-    if (EVALUATION_MODE == (size_t)EVALUATION_TYPE::COHORT || EVALUATION_MODE == (size_t)EVALUATION_TYPE::TEST_DOWNSAMPLING) {
+    if (EVALUATION_MODE == (size_t)EVALUATION_TYPE::COHORT) {
       // update * cohort size * cohort size * num cohorts
       return prog_world->GetUpdate() * PROG_COHORT_SIZE * TEST_COHORT_SIZE * NUM_COHORTS;
+    } else if (EVALUATION_MODE == (size_t)EVALUATION_TYPE::TEST_DOWNSAMPLING) {
+      return prog_world->GetUpdate() * PROG_POP_SIZE * TEST_COHORT_SIZE;
     } else {
       return prog_world->GetUpdate() * PROG_POP_SIZE * TEST_POP_SIZE;
     }
