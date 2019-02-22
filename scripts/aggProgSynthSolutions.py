@@ -48,7 +48,7 @@ def FixDownSampledEval(treatment, e, u):
         exit()
    
     # fixing it now.
-    if ("SEL_DOWN_SAMPLE_TESTS" in treatment):
+    if ("SAMPLED_TRAINING" in treatment):
         cn = float(cohort_config.split(":")[0][2:])
         cs = float(cohort_config.split(":")[1][2:])
         # u_eval_found = int(sol[header_lu["update_found"]])
@@ -56,7 +56,8 @@ def FixDownSampledEval(treatment, e, u):
         
         # evaluation_found = (cn * cs * cs)*u_eval_found
         # evaluation_first_solution_found = (cn * cs * cs)*u_eval_first_sol_found
-        return (cn * cs * cs)*u
+        return 1000 * cs * u
+        # return (cn * cs * cs)*u
     else:
         return e
 
