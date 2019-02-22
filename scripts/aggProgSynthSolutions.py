@@ -9,7 +9,7 @@ import argparse, os, copy, errno, csv
 
 default_update = 10000
 
-problem_whitelist = ["grade", "number-io", "for-loop-index", "median", "smallest", "small-or-large", "compare-string-lengths"]
+problem_whitelist = ["grade", "number-io", "median", "smallest", "small-or-large", "compare-string-lengths"]
 
 cohort_configs = {
     "CN_128__CS_4": "cn128:cs4",
@@ -20,7 +20,12 @@ cohort_configs = {
     "CN_32__CS_16": "cn32:cs16",
     "CN_4__CS_128": "cn4:cs128",
     "CN_64__CS_8": "cn64:cs8",
-    "CN_8__CS_64": "cn8:cs64"
+    "CN_8__CS_64": "cn8:cs64",
+    "CN_1__CS_100": "cn1:cs100",
+    "CN_2__CS_50": "cn2:cs50",
+    "CN_4__CS_25": "cn4:cs25",
+    "CN_10__CS_10": "cn10:cs10",
+    "CN_20__CS_5": "cn20:cs5"
 }
 
 def mkdir_p(path):
