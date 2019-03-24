@@ -76,4 +76,5 @@ Each of the _K_ candidate solution cohorts is then paired with a test case cohor
 
 ## Supplemental Material
 
-- Description of the GP system used for this work, including instruction set information: [./docs/gp-system.md](./docs/gp-system.md).
+- Description of the GP system used for this work, including instruction set information: [./docs/gp-system.md](./docs/gp-system.md)
+- Hand-coded solutions for (many of) the program synthesis problems used in this work: [./docs/ProgSynthHandWrittenSolutions.md](./docs/ProgSynthHandWrittenSolutions.md)
