@@ -13,6 +13,7 @@ Selection (title not yet finalized).
   - [Cohort Lexicase](#cohort-lexicase)
   - [Contribution Authors](#contribution-authors)
 - [Repository Guide](#repository-guide)
+- [Supplemental Material](#supplemental-material)
 
 <!-- /TOC -->
 
@@ -72,3 +73,7 @@ Each of the _K_ candidate solution cohorts is then paired with a test case cohor
 - [scripts/](https://github.com/amlalejini/GECCO-2019-cohort-lexicase/tree/master/scripts/)
   - Contains utility scripts used for managing experiments on the HPCC and for aggregating
     and manipulating experiment data.
+
+## Supplemental Material
+
+- Description of the GP system used for this work, including instruction set information: [./docs/gp-system.md](./docs/gp-system.md).
