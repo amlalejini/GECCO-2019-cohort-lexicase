@@ -1,4 +1,4 @@
-# Cohorts enhance speed and solution quality of lexicase selection
+# Applying Random Subsampling to Lexicase Selection
 
 This repository contains supplementary material (e.g., source code, data, documentation)
 for our 2019 GECCO student workshop submission, Applying Random Subsampling to Lexicase
