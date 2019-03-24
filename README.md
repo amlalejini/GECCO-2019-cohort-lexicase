@@ -68,8 +68,6 @@ Each of the _K_ candidate solution cohorts is then paired with a test case cohor
     running the experiments discussed in our contribution.
 - [hpcc/](https://github.com/amlalejini/GECCO-2019-cohort-lexicase/tree/master/hpcc/)
   - Contains scripts used to submit experiment jobs to MSU's HPCC.
-- [media/](https://github.com/amlalejini/GECCO-2019-cohort-lexicase/tree/master/media/)
-  - Contains media (images) associated with this work.
 - [scripts/](https://github.com/amlalejini/GECCO-2019-cohort-lexicase/tree/master/scripts/)
   - Contains utility scripts used for managing experiments on the HPCC and for aggregating
     and manipulating experiment data.
