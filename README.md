@@ -79,3 +79,6 @@ Each of the _K_ candidate solution cohorts is then paired with a test case cohor
 - Program synthesis problem descriptions: [./docs/problem-descriptions.md](./docs/problem-descriptions.md)
 - Training and testing sets used for program synthesis problems can be found here: [./data/prog-synth-examples/](./data/prog-synth-examples/)
   - These test case sets were pulled from here: [https://github.com/thelmuth/Program-Synthesis-Benchmark-Data](https://github.com/thelmuth/Program-Synthesis-Benchmark-Data)
+- Data analyses can be found:
+  - Raw rmarkdown file: [./analysis/ds-exp-analysis/performances-analysis.Rmd](./analysis/ds-exp-analysis/performance-analysis.Rmd)
+  - Web page generated using R markdown: [https://lalejini.com/GECCO-2019-cohort-lexicase/analysis/ds-exp-analysis/performance-analysis.html](https://lalejini.com/GECCO-2019-cohort-lexicase/analysis/ds-exp-analysis/performance-analysis.html)
