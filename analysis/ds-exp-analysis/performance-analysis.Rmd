@@ -1,0 +1,580 @@
+---
+title: "Data Analyses"
+output: 
+  html_document: 
+    keep_md: yes
+    toc: true
+    toc_float: true
+    toc_depth: 4
+    collapsed: false
+    theme: default
+  pdf_document:
+    toc: true
+    toc_depth: 4
+---
+
+## Overview
+
+Here, an overview of what we do in this here document.
+
+## Analysis Setup
+
+First, we'll load our R packages.
+
+```{r, message=FALSE}
+library(tidyr)      # (Wickham & Henry, 2018)
+library(ggplot2)    # (Wickham, 2009)
+library(plyr)       # (Wickham, 2011)
+library(dplyr)      # (Wickham et al., 2018)
+library(cowplot)    # (Wilke, 2018)
+library(readr)
+library(rcompanion) # (Mangiafico, 2019)
+```
+
+## Data Loading
+
+Note, the path information used here is accurate for the directory structure used in our Git repository (LINK ANONYMIZED).
+
+First, we'll load solution data after a fixed number of _evaluations_:
+
+```{r}
+# (1) After 30000000 evaluations.
+solutions_e30000000_data_loc <- "../../data/ds-exp-data/min_programs__eval_30000000.csv"
+prog_solutions_e30000000 <- read.csv(solutions_e30000000_data_loc, na.strings = "NONE")
+
+# (2) Load summary of solution data (contingency tables), which contains both time points.
+prog_solutions_evals_summary <- read.csv("../../data/ds-exp-data/min_programs__eval_30000000__solutions_summary.csv", na.strings = "NONE")
+```
+
+Next, we'll load solution data after a fixed number of _generations_:
+```{r}
+# (1) After 300 generations.
+solutions_u300_data_loc <- "../../data/ds-exp-data/min_programs__update_300.csv"
+prog_solutions_u300 <- read.csv(solutions_u300_data_loc, na.strings = "NONE")
+
+# (2) Load summary of solution data (contingency tables), which contains both time points.
+prog_solutions_gens_summary <- read.csv("../../data/ds-exp-data/min_programs__update_300__solutions_summary.csv", na.strings = "NONE")
+```
+
+
+Below, we impose an ordering on the problems in the data (to make order of appearance in plotting consistent).
+
+```{r}
+prog_solutions_evals_summary$problem <- factor(prog_solutions_evals_summary$problem, levels=c('small-or-large','for-loop-index','compare-string-lengths','median','smallest'))
+
+prog_solutions_evals_summary$test_mode <- factor(prog_solutions_evals_summary$test_mode, levels=c("SEL_REDUCED_TRAINING", "SEL_SAMPLED_TRAINING", "SEL_COHORT_LEX"))
+
+
+prog_solutions_gens_summary$problem <- factor(prog_solutions_gens_summary$problem, levels=c('small-or-large','for-loop-index','compare-string-lengths','median','smallest'))
+
+prog_solutions_gens_summary$test_mode <- factor(prog_solutions_gens_summary$test_mode, levels=c("SEL_REDUCED_TRAINING", "SEL_SAMPLED_TRAINING", "SEL_COHORT_LEX"))
+
+prog_solutions_e30000000$problem <- factor(prog_solutions_e30000000$problem, levels=c('small-or-large','for-loop-index','compare-string-lengths','median','smallest'))
+
+prog_solutions_e30000000$test_mode <- factor(prog_solutions_e30000000$test_mode, levels=c("SEL_REDUCED_TRAINING", "SEL_SAMPLED_TRAINING", "SEL_COHORT_LEX"))
+
+
+prog_solutions_u300$problem <- factor(prog_solutions_u300$problem, levels=c('small-or-large','for-loop-index','compare-string-lengths','median','smallest'))
+
+# A map from data column name to name to be used in figures.
+problem_names <- c(
+  'small-or-large'=        "Small or Large",
+  'for-loop-index'=        "For Loop Index",
+  'compare-string-lengths'="Comp. Str. Lengths",
+  'median'=                "Median",
+  'smallest'=              "Smallest"
+)
+
+prog_solutions_evals_summary$successful_runs <- prog_solutions_evals_summary$solutions_found
+prog_solutions_evals_summary$failed_runs <- prog_solutions_evals_summary$total_runs - prog_solutions_evals_summary$solutions_found
+
+problems <- c("small-or-large", "for-loop-index", "compare-string-lengths", "median", "smallest")
+```
+
+## Problem solving success given a fixed evaluation budget
+
+### Condition - Reduced Training Set
+
+```{r, echo=FALSE}
+
+reducedts_data <- filter(prog_solutions_evals_summary, (test_mode=="SEL_REDUCED_TRAINING"))
+
+ggplot(data = reducedts_data, mapping=aes(x=cohort_config, y=solutions_found, fill=cohort_config)) +
+      geom_bar(stat="identity") + xlab("% training each generation") + ylab("Successful Runs")  +  ylim(0, 105) +
+      scale_x_discrete(labels = c("100%","50%","25%","10%","5%"), limits = c("cn1:cs100","cn2:cs50","cn4:cs25","cn10:cs10","cn20:cs5")) +
+      guides(fill=FALSE)+
+      geom_text(aes(label=solutions_found), nudge_y=2) + 
+      theme(axis.title.x = element_text(size=14)) + 
+      coord_flip() + facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
+      theme(strip.text.x = element_text(size = 14)) + 
+      ggtitle("Success rates for each reduced training set treatment\n(@30000000 evaluations)") + 
+      ggsave("rt-e30000000.pdf", width=15, height=5)
+
+```
+
+### Condition - Down-sampled Training Set
+
+```{r, echo=FALSE}
+
+downsample_data <- filter(prog_solutions_evals_summary, (test_mode=="SEL_SAMPLED_TRAINING"))
+
+ggplot(data = downsample_data, mapping=aes(x=cohort_config, y=solutions_found, fill=cohort_config)) +
+      geom_bar(stat="identity") + xlab("% training each generation") + ylab("Successful Runs")  +  ylim(0, 105) +
+      scale_x_discrete(labels = c("100%","50%","25%","10%","5%"), limits = c("cn1:cs100","cn2:cs50","cn4:cs25","cn10:cs10","cn20:cs5")) +
+      guides(fill=FALSE)+
+      geom_text(aes(label=solutions_found), nudge_y=2) + 
+      theme(axis.title.x = element_text(size=14)) + 
+      coord_flip() + facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
+      theme(strip.text.x = element_text(size = 14)) + 
+      ggtitle("Success rates for each down-sampled treatment\n(@30000000 evaluations)") + 
+      ggsave("ds-e30000000.pdf", width=15, height=5)
+
+```
+
+Computational effort
+
+```{r, echo=FALSE}
+ggplot(filter(prog_solutions_e30000000, test_mode=="SEL_SAMPLED_TRAINING"), mapping=aes(x=cohort_config, y=evaluation_first_solution_found, fill=test_mode, colour=test_mode)) +
+    # geom_point(position = position_jitter(width = .15), size = .25) +
+    geom_boxplot(aes(x = cohort_config, y = evaluation_first_solution_found), alpha = 0.3) +
+    ylab("Test case evaluations") + ylim(0, 30000000) + xlab("training configuration") +  guides(colour=FALSE) +
+    scale_x_discrete(labels = c("100%","50%","25%","10%","5%"), limits = c("cn1:cs100","cn2:cs50","cn4:cs25","cn10:cs10","cn20:cs5")) +
+    ggtitle("Number of evaluations before finding a solution") + 
+    facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) +
+    theme(axis.title.x = element_text(size=14)) + 
+    theme(strip.text.x = element_text(size = 12)) + 
+    ggsave("ds-comp-effort.pdf", width=15, height=5)
+```
+
+### Condition - Cohort lexicase
+
+```{r, echo=FALSE}
+
+cohorts_data <- filter(prog_solutions_evals_summary, (test_mode=="SEL_COHORT_LEX"))
+
+ggplot(data = cohorts_data, mapping=aes(x=cohort_config, y=solutions_found, fill=cohort_config)) +
+      geom_bar(stat="identity") + xlab("% training each generation") + ylab("Successful Runs")  +  ylim(0, 105) +
+      scale_x_discrete(labels = c("100%","50%","25%","10%","5%"), limits = c("cn1:cs100","cn2:cs50","cn4:cs25","cn10:cs10","cn20:cs5")) +
+      guides(fill=FALSE)+
+      geom_text(aes(label=solutions_found), nudge_y=2) + 
+      theme(axis.title.x = element_text(size=14)) + 
+      coord_flip() + facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
+      theme(strip.text.x = element_text(size = 14)) + 
+      ggtitle("Success rates for each cohort treatment\n(@30000000 evaluations)") + 
+      ggsave("c-e30000000.pdf", width=15, height=5)
+
+```
+
+### All conditions together
+
+```{r, echo=FALSE}
+
+ggplot(data = prog_solutions_evals_summary, mapping=aes(x=cohort_config, y=solutions_found, fill=test_mode)) +
+      geom_bar(stat="identity", position=position_dodge()) + xlab("% training each generation") + ylab("Successful Runs")  +  ylim(0, 105) +
+      scale_x_discrete(labels = c("100%","50%","25%","10%","5%"), limits = c("cn1:cs100","cn2:cs50","cn4:cs25","cn10:cs10","cn20:cs5")) +
+      # guides(fill=FALSE)+
+      geom_text(aes(label=solutions_found), position=position_dodge(0.9), hjust=0) +
+      theme(axis.title.x = element_text(size=14)) + 
+      coord_flip() + 
+      facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
+      theme(strip.text.x = element_text(size = 14)) + 
+      ggtitle("Success rates for each training set configuration\n(@30000000 evaluations)") + 
+      ggsave("together-e30000000.pdf", width=15, height=5)
+
+```
+
+### Reducing the training set does not improve problem solving success (usually)
+
+Except for small or large (where we don't have high enough problem-solving success) and for loop index (which has interesting/different behavior), trading evaluations for more generations by reducing our training set doesn't improve problem problem solving success. Indeed, trading too many evaluations away _reduces_ our problem solving success (presumably because of overfitting). Data analysis below.
+
+Here, we compare each level of reduction (50% of training, 25% of training, 10% of training, and 5% of training) with using the full training set. Each condition has been allowed to run for an equivalent number of generations; as such, the 50%-training-case condition ran for twice as many generations (600 total generations) as the 100%-training-case condition (300 total generations).
+
+We determine if any comparison deviates from the null hypothesis using a Fisher's Exact test, correcting for multiple comparisons with the Holm-Bonferroni method.
+
+For each problem:
+
+```{r, echo=FALSE, results="asis"}
+cfg100_name <- "cn1:cs100"
+cfg50_name <- "cn2:cs50"
+cfg25_name <- "cn4:cs25"
+cfg10_name <- "cn10:cs10"
+cfg5_name <- "cn20:cs5"
+correction_method<-"holm"
+alpha <- 0.05
+
+# For each problem:
+
+for (cur_problem in problems) {
+
+  # print(paste("============== PROBLEM: ", cur_problem, " =============="))
+  cat("#### Problem: ", cur_problem, "  \n")
+    
+  # 100%-50%
+  comp_data <- filter(prog_solutions_evals_summary, problem==cur_problem & test_mode=="SEL_REDUCED_TRAINING" & (cohort_config==cfg100_name | cohort_config==cfg50_name))
+  ts50_contingency_table <- matrix(c(comp_data$successful_runs, comp_data$failed_runs), nrow <- length(comp_data$successful_runs))
+  rownames(ts50_contingency_table) <- comp_data$cohort_config
+  colnames(ts50_contingency_table) <- c("Successful Runs", "Failed Runs")
+  ts50_ft<-fisher.test(ts50_contingency_table)
+
+  # 100%-25%
+  comp_data <- filter(prog_solutions_evals_summary, problem==cur_problem & test_mode=="SEL_REDUCED_TRAINING" & (cohort_config==cfg100_name | cohort_config==cfg25_name))
+  ts25_contingency_table <- matrix(c(comp_data$successful_runs, comp_data$failed_runs), nrow <- length(comp_data$successful_runs))
+  rownames(ts25_contingency_table) <- comp_data$cohort_config
+  colnames(ts25_contingency_table) <- c("Successful Runs", "Failed Runs")
+  ts25_ft<-fisher.test(ts25_contingency_table)
+
+  # 100%-10%
+  comp_data <- filter(prog_solutions_evals_summary, problem==cur_problem & test_mode=="SEL_REDUCED_TRAINING" & (cohort_config==cfg100_name | cohort_config==cfg10_name))
+  ts10_contingency_table <- matrix(c(comp_data$successful_runs, comp_data$failed_runs), nrow <- length(comp_data$successful_runs))
+  rownames(ts10_contingency_table) <- comp_data$cohort_config
+  colnames(ts10_contingency_table) <- c("Successful Runs", "Failed Runs")
+  ts10_ft<-fisher.test(ts10_contingency_table)
+
+  # 100%-5%
+  comp_data <- filter(prog_solutions_evals_summary, problem==cur_problem & test_mode=="SEL_REDUCED_TRAINING" & (cohort_config==cfg100_name | cohort_config==cfg5_name))
+  ts5_contingency_table <- matrix(c(comp_data$successful_runs, comp_data$failed_runs), nrow <- length(comp_data$successful_runs))
+  rownames(ts5_contingency_table) <- comp_data$cohort_config
+  colnames(ts5_contingency_table) <- c("Successful Runs", "Failed Runs")
+  ts5_ft<-fisher.test(ts5_contingency_table)
+  
+  # Okay, now we correct for multiple comparisons:
+  adjusted <- p.adjust(p=c(ts50_ft$p.value, ts25_ft$p.value, ts10_ft$p.value, ts5_ft$p.value), method=correction_method)
+  ts50_ft.adjusted <- adjusted[1]
+  ts25_ft.adjusted <- adjusted[2]
+  ts10_ft.adjusted <- adjusted[3]
+  ts5_ft.adjusted <- adjusted[4]
+  
+  # Summarize significance
+  cat("**Results Summary**  \n")
+  cat("Significant (after correction) comparisions:  \n")
+  nosig <- TRUE
+  if (ts50_ft.adjusted < alpha) {
+    cat("- 100% training vs 50% training ( p = ", ts50_ft.adjusted, "); ")
+    cat("100%-training success < 50%-training success?", ts50_contingency_table[cfg100_name,"Successful Runs"] < ts50_contingency_table[cfg50_name,"Successful Runs"], "  \n")
+    nosig <- FALSE
+  }
+  if (ts25_ft.adjusted < alpha) {
+    cat("- 100% training vs 25% training ( p = ", ts25_ft.adjusted, "); ")
+    cat("100%-training success < 25%-training success?", ts25_contingency_table[cfg100_name,"Successful Runs"] < ts25_contingency_table[cfg25_name,"Successful Runs"], "  \n")
+    nosig <- FALSE
+  }
+  if (ts10_ft.adjusted < alpha) {
+    cat("- 100% training vs 10% training ( p = ", ts10_ft.adjusted, "); ")
+    cat("100%-training success < 10%-training success?", ts10_contingency_table[cfg100_name,"Successful Runs"] < ts10_contingency_table[cfg10_name,"Successful Runs"], "  \n")
+    nosig <- FALSE
+  }
+  if (ts5_ft.adjusted < alpha) {
+    cat("- 100% training vs 5% training ( p = ", ts5_ft.adjusted, "); ")
+    cat("100%-training success < 5%-training success?", ts5_contingency_table[cfg100_name,"Successful Runs"] < ts5_contingency_table[cfg5_name,"Successful Runs"], "  \n")
+    nosig <- FALSE
+  }
+  if (nosig) {
+    cat("- NONE  \n")
+  }
+  
+  # Print it all out...
+  cat("  \n**Comparing: 100%-training-set with 50%-training-set**  \n")
+  cat("```  \n")
+  print(ts50_contingency_table)
+  print(ts50_ft)
+  cat("p.adjusted (method =", correction_method, ") =", ts50_ft.adjusted, "  \n")
+  cat("```  \n")
+  
+  cat("  \n**Comparing: 100%-training-set with 25%-training-set**  \n")
+  cat("```  \n")
+  print(ts25_contingency_table)
+  print(ts25_ft)
+  cat("p.adjusted (method =", correction_method, ") =", ts25_ft.adjusted, "  \n")
+  cat("```  \n")
+  
+  cat("  \n**Comparing: 100%-training-set with 10%-training-set**  \n")
+  cat("```  \n")
+  print(ts10_contingency_table)
+  print(ts10_ft)
+  cat("p.adjusted (method =", correction_method, ") =", ts10_ft.adjusted, "  \n")
+  cat("```  \n")
+  
+  cat("  \n**Comparing: 100%-training-set with 5%-training-set**  \n")
+  cat("```\n")
+  print(ts5_contingency_table)
+  print(ts5_ft)
+  cat("p.adjusted (method =", correction_method, ") =", ts5_ft.adjusted, "  \n")
+  cat("```\n")
+}
+
+```
+
+### Does down-sampling improve problem solving success?
+
+For each problem: 
+
+```{r, echo=FALSE, results="asis"}
+cfg100_name <- "cn1:cs100"
+cfg50_name <- "cn2:cs50"
+cfg25_name <- "cn4:cs25"
+cfg10_name <- "cn10:cs10"
+cfg5_name <- "cn20:cs5"
+correction_method<-"holm"
+alpha <- 0.05
+cur_test_mode <- "SEL_SAMPLED_TRAINING"
+
+# For each problem:
+
+for (cur_problem in problems) {
+
+  # print(paste("============== PROBLEM: ", cur_problem, " =============="))
+  cat("#### Problem: ", cur_problem, "  \n")
+    
+  # 100%-50%
+  comp_data <- filter(prog_solutions_evals_summary, problem==cur_problem & test_mode==cur_test_mode & (cohort_config==cfg100_name | cohort_config==cfg50_name))
+  ts50_contingency_table <- matrix(c(comp_data$successful_runs, comp_data$failed_runs), nrow <- length(comp_data$successful_runs))
+  rownames(ts50_contingency_table) <- comp_data$cohort_config
+  colnames(ts50_contingency_table) <- c("Successful Runs", "Failed Runs")
+  ts50_ft<-fisher.test(ts50_contingency_table)
+
+  # 100%-25%
+  comp_data <- filter(prog_solutions_evals_summary, problem==cur_problem & test_mode==cur_test_mode & (cohort_config==cfg100_name | cohort_config==cfg25_name))
+  ts25_contingency_table <- matrix(c(comp_data$successful_runs, comp_data$failed_runs), nrow <- length(comp_data$successful_runs))
+  rownames(ts25_contingency_table) <- comp_data$cohort_config
+  colnames(ts25_contingency_table) <- c("Successful Runs", "Failed Runs")
+  ts25_ft<-fisher.test(ts25_contingency_table)
+
+  # 100%-10%
+  comp_data <- filter(prog_solutions_evals_summary, problem==cur_problem & test_mode==cur_test_mode & (cohort_config==cfg100_name | cohort_config==cfg10_name))
+  ts10_contingency_table <- matrix(c(comp_data$successful_runs, comp_data$failed_runs), nrow <- length(comp_data$successful_runs))
+  rownames(ts10_contingency_table) <- comp_data$cohort_config
+  colnames(ts10_contingency_table) <- c("Successful Runs", "Failed Runs")
+  ts10_ft<-fisher.test(ts10_contingency_table)
+
+  # 100%-5%
+  comp_data <- filter(prog_solutions_evals_summary, problem==cur_problem & test_mode==cur_test_mode & (cohort_config==cfg100_name | cohort_config==cfg5_name))
+  ts5_contingency_table <- matrix(c(comp_data$successful_runs, comp_data$failed_runs), nrow <- length(comp_data$successful_runs))
+  rownames(ts5_contingency_table) <- comp_data$cohort_config
+  colnames(ts5_contingency_table) <- c("Successful Runs", "Failed Runs")
+  ts5_ft<-fisher.test(ts5_contingency_table)
+  
+  # Okay, now we correct for multiple comparisons:
+  adjusted <- p.adjust(p=c(ts50_ft$p.value, ts25_ft$p.value, ts10_ft$p.value, ts5_ft$p.value), method=correction_method)
+  ts50_ft.adjusted <- adjusted[1]
+  ts25_ft.adjusted <- adjusted[2]
+  ts10_ft.adjusted <- adjusted[3]
+  ts5_ft.adjusted <- adjusted[4]
+  
+  # Summarize significance
+  cat("**Results Summary**  \n")
+  cat("Significant (after correction) comparisions:  \n")
+  nosig <- TRUE
+  if (ts50_ft.adjusted < alpha) {
+    cat("- 100% training vs 50% training ( p = ", ts50_ft.adjusted, "); ")
+    cat("100%-training success < 50%-training success?", ts50_contingency_table[cfg100_name,"Successful Runs"] < ts50_contingency_table[cfg50_name,"Successful Runs"], "  \n")
+    nosig <- FALSE
+  }
+  if (ts25_ft.adjusted < alpha) {
+    cat("- 100% training vs 25% training ( p = ", ts25_ft.adjusted, "); ")
+    cat("100%-training success < 25%-training success?", ts25_contingency_table[cfg100_name,"Successful Runs"] < ts25_contingency_table[cfg25_name,"Successful Runs"], "  \n")
+    nosig <- FALSE
+  }
+  if (ts10_ft.adjusted < alpha) {
+    cat("- 100% training vs 10% training ( p = ", ts10_ft.adjusted, "); ")
+    cat("100%-training success < 10%-training success?", ts10_contingency_table[cfg100_name,"Successful Runs"] < ts10_contingency_table[cfg10_name,"Successful Runs"], "  \n")
+    nosig <- FALSE
+  }
+  if (ts5_ft.adjusted < alpha) {
+    cat("- 100% training vs 5% training ( p = ", ts5_ft.adjusted, "); ")
+    cat("100%-training success < 5%-training success?", ts5_contingency_table[cfg100_name,"Successful Runs"] < ts5_contingency_table[cfg5_name,"Successful Runs"], "  \n")
+    nosig <- FALSE
+  }
+  if (nosig) {
+    cat("- NONE  \n")
+  }
+  
+  # Print it all out...
+  cat("  \n**Comparing: 100%-training-set with 50%-training-set**  \n")
+  cat("```  \n")
+  print(ts50_contingency_table)
+  print(ts50_ft)
+  cat("p.adjusted (method =", correction_method, ") =", ts50_ft.adjusted, "  \n")
+  cat("```  \n")
+  
+  cat("  \n**Comparing: 100%-training-set with 25%-training-set**  \n")
+  cat("```  \n")
+  print(ts25_contingency_table)
+  print(ts25_ft)
+  cat("p.adjusted (method =", correction_method, ") =", ts25_ft.adjusted, "  \n")
+  cat("```  \n")
+  
+  cat("  \n**Comparing: 100%-training-set with 10%-training-set**  \n")
+  cat("```  \n")
+  print(ts10_contingency_table)
+  print(ts10_ft)
+  cat("p.adjusted (method =", correction_method, ") =", ts10_ft.adjusted, "  \n")
+  cat("```  \n")
+  
+  cat("  \n**Comparing: 100%-training-set with 5%-training-set**  \n")
+  cat("```\n")
+  print(ts5_contingency_table)
+  print(ts5_ft)
+  cat("p.adjusted (method =", correction_method, ") =", ts5_ft.adjusted, "  \n")
+  cat("```\n")
+}
+
+```
+
+### Do cohorts improve problem solving success?
+
+For each problem: 
+
+```{r, echo=FALSE, results="asis"}
+cfg100_name <- "cn1:cs100"
+cfg50_name <- "cn2:cs50"
+cfg25_name <- "cn4:cs25"
+cfg10_name <- "cn10:cs10"
+cfg5_name <- "cn20:cs5"
+correction_method<-"holm"
+alpha <- 0.05
+cur_test_mode <- "SEL_COHORT_LEX"
+
+# For each problem:
+
+for (cur_problem in problems) {
+
+  # print(paste("============== PROBLEM: ", cur_problem, " =============="))
+  cat("#### Problem: ", cur_problem, "  \n")
+    
+  # 100%-50%
+  comp_data <- filter(prog_solutions_evals_summary, problem==cur_problem & test_mode==cur_test_mode & (cohort_config==cfg100_name | cohort_config==cfg50_name))
+  ts50_contingency_table <- matrix(c(comp_data$successful_runs, comp_data$failed_runs), nrow <- length(comp_data$successful_runs))
+  rownames(ts50_contingency_table) <- comp_data$cohort_config
+  colnames(ts50_contingency_table) <- c("Successful Runs", "Failed Runs")
+  ts50_ft<-fisher.test(ts50_contingency_table)
+
+  # 100%-25%
+  comp_data <- filter(prog_solutions_evals_summary, problem==cur_problem & test_mode==cur_test_mode & (cohort_config==cfg100_name | cohort_config==cfg25_name))
+  ts25_contingency_table <- matrix(c(comp_data$successful_runs, comp_data$failed_runs), nrow <- length(comp_data$successful_runs))
+  rownames(ts25_contingency_table) <- comp_data$cohort_config
+  colnames(ts25_contingency_table) <- c("Successful Runs", "Failed Runs")
+  ts25_ft<-fisher.test(ts25_contingency_table)
+
+  # 100%-10%
+  comp_data <- filter(prog_solutions_evals_summary, problem==cur_problem & test_mode==cur_test_mode & (cohort_config==cfg100_name | cohort_config==cfg10_name))
+  ts10_contingency_table <- matrix(c(comp_data$successful_runs, comp_data$failed_runs), nrow <- length(comp_data$successful_runs))
+  rownames(ts10_contingency_table) <- comp_data$cohort_config
+  colnames(ts10_contingency_table) <- c("Successful Runs", "Failed Runs")
+  ts10_ft<-fisher.test(ts10_contingency_table)
+
+  # 100%-5%
+  comp_data <- filter(prog_solutions_evals_summary, problem==cur_problem & test_mode==cur_test_mode & (cohort_config==cfg100_name | cohort_config==cfg5_name))
+  ts5_contingency_table <- matrix(c(comp_data$successful_runs, comp_data$failed_runs), nrow <- length(comp_data$successful_runs))
+  rownames(ts5_contingency_table) <- comp_data$cohort_config
+  colnames(ts5_contingency_table) <- c("Successful Runs", "Failed Runs")
+  ts5_ft<-fisher.test(ts5_contingency_table)
+  
+  # Okay, now we correct for multiple comparisons:
+  adjusted <- p.adjust(p=c(ts50_ft$p.value, ts25_ft$p.value, ts10_ft$p.value, ts5_ft$p.value), method=correction_method)
+  ts50_ft.adjusted <- adjusted[1]
+  ts25_ft.adjusted <- adjusted[2]
+  ts10_ft.adjusted <- adjusted[3]
+  ts5_ft.adjusted <- adjusted[4]
+  
+  # Summarize significance
+  cat("**Results Summary**  \n")
+  cat("Significant (after correction) comparisions:  \n")
+  nosig <- TRUE
+  if (ts50_ft.adjusted < alpha) {
+    cat("- 100% training vs 50% training ( p = ", ts50_ft.adjusted, "); ")
+    cat("100%-training success < 50%-training success?", ts50_contingency_table[cfg100_name,"Successful Runs"] < ts50_contingency_table[cfg50_name,"Successful Runs"], "  \n")
+    nosig <- FALSE
+  }
+  if (ts25_ft.adjusted < alpha) {
+    cat("- 100% training vs 25% training ( p = ", ts25_ft.adjusted, "); ")
+    cat("100%-training success < 25%-training success?", ts25_contingency_table[cfg100_name,"Successful Runs"] < ts25_contingency_table[cfg25_name,"Successful Runs"], "  \n")
+    nosig <- FALSE
+  }
+  if (ts10_ft.adjusted < alpha) {
+    cat("- 100% training vs 10% training ( p = ", ts10_ft.adjusted, "); ")
+    cat("100%-training success < 10%-training success?", ts10_contingency_table[cfg100_name,"Successful Runs"] < ts10_contingency_table[cfg10_name,"Successful Runs"], "  \n")
+    nosig <- FALSE
+  }
+  if (ts5_ft.adjusted < alpha) {
+    cat("- 100% training vs 5% training ( p = ", ts5_ft.adjusted, "); ")
+    cat("100%-training success < 5%-training success?", ts5_contingency_table[cfg100_name,"Successful Runs"] < ts5_contingency_table[cfg5_name,"Successful Runs"], "  \n")
+    nosig <- FALSE
+  }
+  if (nosig) {
+    cat("- NONE  \n")
+  }
+  
+  # Print it all out...
+  cat("  \n**Comparing: 100%-training-set with 50%-training-set**  \n")
+  cat("```  \n")
+  print(ts50_contingency_table)
+  print(ts50_ft)
+  cat("p.adjusted (method =", correction_method, ") =", ts50_ft.adjusted, "  \n")
+  cat("```  \n")
+  
+  cat("  \n**Comparing: 100%-training-set with 25%-training-set**  \n")
+  cat("```  \n")
+  print(ts25_contingency_table)
+  print(ts25_ft)
+  cat("p.adjusted (method =", correction_method, ") =", ts25_ft.adjusted, "  \n")
+  cat("```  \n")
+  
+  cat("  \n**Comparing: 100%-training-set with 10%-training-set**  \n")
+  cat("```  \n")
+  print(ts10_contingency_table)
+  print(ts10_ft)
+  cat("p.adjusted (method =", correction_method, ") =", ts10_ft.adjusted, "  \n")
+  cat("```  \n")
+  
+  cat("  \n**Comparing: 100%-training-set with 5%-training-set**  \n")
+  cat("```\n")
+  print(ts5_contingency_table)
+  print(ts5_ft)
+  cat("p.adjusted (method =", correction_method, ") =", ts5_ft.adjusted, "  \n")
+  cat("```\n")
+}
+
+```
+
+## Problem solving success given a fixed generation budget
+
+
+```{r, echo=FALSE}
+
+ggplot(data = prog_solutions_gens_summary, mapping=aes(x=cohort_config, y=solutions_found, fill=test_mode)) +
+      geom_bar(stat="identity", position=position_dodge()) + xlab("% training each generation") + ylab("Successful Runs")  +  ylim(0, 105) +
+      scale_x_discrete(labels = c("100%","50%","25%","10%","5%"), limits = c("cn1:cs100","cn2:cs50","cn4:cs25","cn10:cs10","cn20:cs5")) +
+      # guides(fill=FALSE)+
+      geom_text(aes(label=solutions_found), position=position_dodge(0.9), hjust=0) +
+      theme(axis.title.x = element_text(size=14)) + 
+      coord_flip() + 
+      facet_wrap( ~ problem, labeller=as_labeller(problem_names), nrow=1) + 
+      theme(strip.text.x = element_text(size = 14)) + 
+      ggtitle("Success rates for each training set configuration\n(@300 generations)") + 
+      ggsave("together-g300.pdf", width=15, height=5)
+
+```
+
+## References
+
+Claus O. Wilke (2018). cowplot: Streamlined Plot Theme and Plot Annotations for 'ggplot2'. R package version 0.9.3.
+  https://CRAN.R-project.org/package=cowplot
+
+Helmuth, T., & Spector, L. (2015). General Program Synthesis Benchmark Suite. In Proceedings of the 2015 on Genetic and Evolutionary Computation Conference - GECCO ’15 (pp. 1039–1046). New York, New York, USA: ACM Press. https://doi.org/10.1145/2739480.2754769
+
+R Core Team (2016). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL
+  https://www.R-project.org/.
+
+H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2009.
+
+Hadley Wickham and Lionel Henry (2018). tidyr: Easily Tidy Data with 'spread()' and 'gather()'
+Functions. R package version 0.8.1. https://CRAN.R-project.org/package=tidyr
+
+Hadley Wickham (2011). The Split-Apply-Combine Strategy for Data Analysis. Journal of Statistical
+Software, 40(1), 1-29. URL http://www.jstatsoft.org/v40/i01/.
+
+Hadley Wickham, Romain François, Lionel Henry and Kirill Müller (2018). dplyr: A Grammar of Data
+Manipulation. R package version 0.7.5. https://CRAN.R-project.org/package=dplyr
+
+Salvatore Mangiafico (2019). rcompanion: Functions to Support Extension Education Program Evaluation. R package
+  version 2.0.10. https://CRAN.R-project.org/package=rcompanion
