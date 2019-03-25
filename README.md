@@ -76,5 +76,6 @@ Each of the _K_ candidate solution cohorts is then paired with a test case cohor
 
 - Description of the GP system used for this work, including instruction set information: [./docs/gp-system.md](./docs/gp-system.md)
 - Hand-coded solutions for (many of) the program synthesis problems used in this work: [./docs/ProgSynthHandWrittenSolutions.md](./docs/ProgSynthHandWrittenSolutions.md)
+- Program synthesis problem descriptions: [./docs/problem-descriptions.md](./docs/problem-descriptions.md)
 - Training and testing sets used for program synthesis problems can be found here: [./data/prog-synth-examples/](./data/prog-synth-examples/)
   - These test case sets were pulled from here: [https://github.com/thelmuth/Program-Synthesis-Benchmark-Data](https://github.com/thelmuth/Program-Synthesis-Benchmark-Data)
