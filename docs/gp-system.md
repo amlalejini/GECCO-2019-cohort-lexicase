@@ -15,6 +15,7 @@ Here, we provide a more detailed description of the linear GP system we used in 
 - [Instruction Set](#instruction-set)
   - [Default Instructions](#default-instructions)
   - [String-specific Instructions](#string-specific-instructions)
+  - [Problem-specific Instructions](#problem-specific-instructions)
     - [Problem - Number IO](#problem---number-io)
     - [Problem - For Loop Index](#problem---for-loop-index)
     - [Problem - Compare String Lengths](#problem---compare-string-lengths)
@@ -199,6 +200,8 @@ strings.
 | `StrLength` |  |  |
 | `StrConcat` |  |  |
 | `IsStr` |  |  |
+
+### Problem-specific Instructions
 
 #### Problem - Number IO
 
