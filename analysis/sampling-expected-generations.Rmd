@@ -45,17 +45,13 @@ cohort_configs <- c(1, 2, 4, 8, 16, 32, 64, 128, 256)
 # c("2 cohorts", "4 cohorts", "8 cohorts", "16 cohorts", "32 cohorts", "64 cohorts", "128 cohorts", "256 cohorts")
 
 ggplot(data=data.frame(x=c(0.0, 1.0)), mapping=aes(x=x)) +
-  stat_function(fun=expected_gens, n=1000, args=list(num_cohorts = 2), aes(colour="2 cohorts")) +
-  stat_function(fun=expected_gens, n=1000, args=list(num_cohorts = 4), aes(colour="4 cohorts")) +
-  stat_function(fun=expected_gens, n=1000, args=list(num_cohorts = 8), aes(colour="8 cohorts")) +
-  stat_function(fun=expected_gens, n=1000, args=list(num_cohorts = 16), aes(colour="16 cohorts")) +
-  stat_function(fun=expected_gens, n=1000, args=list(num_cohorts = 32), aes(colour="32 cohorts")) +
-  stat_function(fun=expected_gens, n=1000, args=list(num_cohorts = 64), aes(colour="64 cohorts")) +
-  stat_function(fun=expected_gens, n=1000, args=list(num_cohorts = 128), aes(colour="128 cohorts")) +
-  stat_function(fun=expected_gens, n=1000, args=list(num_cohorts = 256), aes(colour="256 cohorts")) +
+  stat_function(fun=expected_gens, n=1000, args=list(num_cohorts = 2), aes(colour="50% training")) +
+  stat_function(fun=expected_gens, n=1000, args=list(num_cohorts = 4), aes(colour="25% training")) +
+  stat_function(fun=expected_gens, n=1000, args=list(num_cohorts = 10), aes(colour="10% training")) +
+  stat_function(fun=expected_gens, n=1000, args=list(num_cohorts = 20), aes(colour="5% training")) +
   ylab("Expected Generations") + xlab("Proportion of tests encountered by a lineage") +
-  xlim(0.0, 1.0) + ylim(0, 300) +
-  scale_color_discrete("# Cohorts", limits= c("2 cohorts", "4 cohorts", "8 cohorts", "16 cohorts", "32 cohorts", "64 cohorts", "128 cohorts", "256 cohorts")) + 
+  xlim(0.0, 1.0) + ylim(0, 100) +
+  scale_color_discrete("Downsample Rate", limits= c("50% training", "25% training", "10% training", "5% training")) + 
   coord_flip() +
   ggsave("expected_generations.png", height=5,width=7,dpi=600)
 
