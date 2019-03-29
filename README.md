@@ -11,6 +11,7 @@ Selection (title not yet finalized).
 - [Project Overview](#project-overview)
   - [Down-sampled Lexicase](#down-sampled-lexicase)
   - [Cohort Lexicase](#cohort-lexicase)
+  - [Why use random subsampling instead of just reducing the total size of the test case set?](#why-use-random-subsampling-instead-of-just-reducing-the-total-size-of-the-test-case-set)
   - [Contribution Authors](#contribution-authors)
 - [Repository Guide](#repository-guide)
 - [Supplemental Material](#supplemental-material)
@@ -45,6 +46,23 @@ Every generation, cohort lexicase randomly partitions both the population of can
 Each of the _K_ candidate solution cohorts is then paired with a test case cohort, and each candidate solution in a cohort is evaluated against all test cases in the associated test case cohort.
 
 &mdash; excerpt from our paper
+
+### Why use random subsampling instead of just reducing the total size of the test case set?
+
+Down-sampling and cohort lexicase are distinct from permanently reducing the total
+number of test cases, which would also achieve per-generation evaluation savings,
+but at the cost of assessment quality; by reshuffling which tests are experienced
+every generation, **_lineages_** will eventually encounter all test cases, discouraging overfitting.
+Simply reducing the total number of tests, especially in scenarios where practitioners
+are not familiar with the problem domain, is more likely to result in prospective
+solutions overfitting to the reduced test case set.
+
+The figure below shows the expected number of generations for a lineage to encounter
+a given proportion of the test case set at 4 different subsampling rates: 50%,
+25%, 10%, and 5% of the test set (i.e., the fraction of the test set used when subsampling).
+The function is described in Equation 1 of our paper.
+
+![expected-gens](./analysis/expected_generations.png)
 
 ### Contribution Authors
 
